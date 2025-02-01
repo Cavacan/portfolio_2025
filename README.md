@@ -110,3 +110,6 @@
 - **店舗の特売情報の通知機能**
   Webスクレイピングで定期巡回して情報が更新されていた場合、店舗を設定しているユーザーに通知
   ※サイトの利用ポリシー（スクレイピング禁止）とサイトリニューアルによる追跡エラーに注意する。
+
+### 画面遷移図
+Figma：https://www.figma.com/proto/lcxnWqkwthKOrDbDOt9kKW/portfolio_2025?node-id=43-312&p=f&t=AxNXYTjxMBWTBp47-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=43%3A312&show-proto-sidebar=1
