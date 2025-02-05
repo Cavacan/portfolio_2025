@@ -115,7 +115,7 @@
 Figma：https://www.figma.com/proto/lcxnWqkwthKOrDbDOt9kKW/portfolio_2025?node-id=43-312&p=f&t=AxNXYTjxMBWTBp47-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=43%3A312&show-proto-sidebar=1
 
 ### ER図
-[![Image from Gyazo](https://i.gyazo.com/003033f6b361b55a83227b9ac9efc1eb.png)](https://gyazo.com/003033f6b361b55a83227b9ac9efc1eb)
+[![Image from Gyazo](https://i.gyazo.com/576cda3d8c24159a8457095a97ebbe57.png)](https://gyazo.com/576cda3d8c24159a8457095a97ebbe57)
 
 ### 本サービスの概要（700文字以内）
 定期購入品や購入予定品を登録し、購入タイミングが近づいた際にメールで通知するリマインドアプリです。
@@ -137,7 +137,7 @@ Figma：https://www.figma.com/proto/lcxnWqkwthKOrDbDOt9kKW/portfolio_2025?node-i
 - [x] メール通知機能
 - [x] 変更完了のメール通知機能
 - [x] 予定一覧表示機能（管理画面）
-- [x] 通知送信判定の設定機能（管理画面）
+- [x] 通知送信判定時刻の設定機能（管理画面）
 - [x] 通知送信ログの表示機能（管理画面）
 - [x] 予定編集機能（未ログインでも可能）
 - [x] 予定作成機能（未ログインでも可能）
