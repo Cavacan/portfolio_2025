@@ -115,7 +115,7 @@
 Figma：https://www.figma.com/proto/lcxnWqkwthKOrDbDOt9kKW/portfolio_2025?node-id=43-312&p=f&t=AxNXYTjxMBWTBp47-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=43%3A312&show-proto-sidebar=1
 
 ### ER図
-[![Image from Gyazo](https://i.gyazo.com/576cda3d8c24159a8457095a97ebbe57.png)](https://gyazo.com/576cda3d8c24159a8457095a97ebbe57)
+[![Image from Gyazo](https://i.gyazo.com/79ca5326ff0c501eed9aa2e7f86c19bb.png)](https://gyazo.com/79ca5326ff0c501eed9aa2e7f86c19bb)
 
 ### 本サービスの概要（700文字以内）
 定期購入品や購入予定品を登録し、購入タイミングが近づいた際にメールで通知するリマインドアプリです。
