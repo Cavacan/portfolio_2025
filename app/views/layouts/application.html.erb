@@ -7,10 +7,12 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag controller_name, media: "all", "data-turbo-track": "reload" if asset_exists?("#{controller_name}.css") %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
     <%= yield %>
+    <%= render 'shared/footer' %>
   </body>
 </html>
