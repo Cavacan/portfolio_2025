@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  need_check_done: false
+  skip_confirmation: false
+  skip_pre_notification: false
+  pre_notification_cycle_type: MyString
+  pre_notification_cycle_day: 1
+  notification_hour: 1
+  nofitication_minute: 1
+
+two:
+  user: two
+  need_check_done: false
+  skip_confirmation: false
+  skip_pre_notification: false
+  pre_notification_cycle_type: MyString
+  pre_notification_cycle_day: 1
+  notification_hour: 1
+  nofitication_minute: 1
