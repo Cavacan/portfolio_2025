@@ -11,13 +11,13 @@
 <p>メールアドレス</p>
 <%= form_with model:@user, url: registrations_path, local: true do |f| %>
   <%= f.label :email %>
-  <%= f.email_field :email, value: "tgenk0901@gmail.com" %>
-  <%= f.submit 'メール送信', id: "submit-button" %>
+  <%= f.email_field :email, value: "admin@gmail.com" %>
+  <%= f.submit 'メール送信', disabled: true, id: "submit-button" %>
 <% end %>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const chackbox = document.getElementById("agree-checkbox");
+    const checkbox = document.getElementById("agree-checkbox");
     const submitButton = document.getElementById("submit-button");
 
     checkbox.addEventListener("change", function() {

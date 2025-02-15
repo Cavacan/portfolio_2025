@@ -13,7 +13,8 @@ class RegistrationsController < ApplicationController
     else
       #  新規ユーザーの場合
       @user = User.new(user_params)
-      @user.generate_email_token_for_url
+      @user.email_change_token = SecureRandom.urlsafe_base64
+      @user.email_change_token_end_time = 1.hour.from_now
 
       if @user.save(validate: false) # 保存に成功したか
         @url = edit_registration_url(token: @user.email_change_token)

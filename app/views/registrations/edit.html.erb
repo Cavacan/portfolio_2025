@@ -11,6 +11,10 @@
     <%= f.text_field :password %>
   </div>
   <div class="form-item">
+    <%= f.label :password_confirmation, 'パスワード再入力' %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="form-item">
     <%= f.submit 'アカウント作成' %>
   </div>
 <% end %>
