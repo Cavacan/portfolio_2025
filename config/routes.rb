@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'schedules/index' => 'schedules#index'
   get 'temp' => 'temp#index'
   resources :registrations, only: [:new, :create]
   get 'registrations/edit' => 'registrations#edit', as: :edit_registration

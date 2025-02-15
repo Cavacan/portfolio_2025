@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_11_200016) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_15_150002) do
+  create_table "schedules", force: :cascade do |t|
+    t.string "creator_type", null: false
+    t.integer "creator_id", null: false
+    t.string "title", null: false
+    t.integer "notification_period"
+    t.datetime "next_notification"
+    t.datetime "after_next_notification"
+    t.integer "status", default: 1
+    t.boolean "check_done"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_type", "creator_id"], name: "index_schedules_on_creator"
+  end
+
   create_table "user_settings", force: :cascade do |t|
     t.integer "user_id", null: false
     t.boolean "need_check_done"

@@ -1,0 +1,25 @@
+<h1>Schedules</h1>
+<div class="schedule-container">
+  <table class="schedule-table">
+    <thead>
+      <tr>
+        <th>title</th>
+        <th>notification_period</th>
+        <th>next_notification</th>
+        <th>after_next_notification</th>
+        <th>staus</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @schedules.each do |schedule| %>
+        <tr>
+          <td><%= schedule.title %></td>
+          <td><%= schedule.notification_period %></td>
+          <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
+          <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
+          <td><%= schedule.status %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
