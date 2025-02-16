@@ -1,0 +1,33 @@
+<div class="schedule_edit_form">
+  <h2>予定編集</h2>
+  <%= form_with model: @schedule, local: true do |f| %>
+    <div class="form-item">
+      <%= f.label :title, "予定名" %>
+      <%= f.text_field :title %>
+    </div>
+  
+    <div class="form-item">
+      <%= f.label :notification_period, '周期' %>
+      <%= f.number_field :notification_period, min: 2, max: 31 %> 日毎
+    </div>
+    
+    <div class="form-item">
+      <%= f.label :next_notification, '次回予定日' %> :
+      <%= f.datetime_local_field :next_notification %>
+    </div>
+  
+    <div class="form-item">
+      <%= f.label :after_next_notification, '次々回予定日' %>:
+      <%= @schedule.after_next_notification.strftime("%Y/%-m/%-d") %>
+      <br>　※ 周期と次の通知予定日に合わせて自動で変更されます。
+    </div>
+    <br>
+    <div class="form-item">
+      <%= f.submit '更新' %>
+    </div>
+  <% end %>
+</div>
+
+<br>
+<%= link_to "キャンセル", schedules_path %>
+

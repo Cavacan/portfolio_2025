@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :schedules, only: [:index, :create]
+  resources :schedules, only: [:index, :create, :edit, :update]
 
   get 'temp' => 'temp#index'
 
