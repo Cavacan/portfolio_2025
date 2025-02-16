@@ -9,3 +9,15 @@
 .schedule-table tr:nth-child(odd) td {
   background-color: aqua;
 }
+
+.schedule-archived-table {
+  border: 1px solid;
+}
+
+.schedule-archived-table td, .schedule-archived-table th {
+  border: 1px solid;
+}
+
+.schedule-archived-table tr:nth-child(odd) td {
+  background-color: aqua;
+}

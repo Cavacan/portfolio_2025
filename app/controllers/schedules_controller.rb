@@ -1,6 +1,8 @@
 class SchedulesController < ApplicationController
   def index
-    @schedules = current_user.schedules
+    schedules = current_user.schedules
+    @schedules = schedules.where(status: [1, 2])
+    @schedules_archived = schedules.where(status: 0)
     @schedule = Schedule.new
   end
 
@@ -34,6 +36,24 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def archive
+    @schedule = Schedule.find(params[:id])
+  end
+
+  def archive_complete
+    @schedule = Schedule.find(params[:id])
+    if @schedule.update(
+      next_notification: @schedule.next_notification + 100.years,
+      after_next_notification: @schedule.after_next_notification + 100.years,
+      status: 0
+    )
+      flash[:notice] = '予定をアーカイブ化しました。'
+      redirect_to schedules_path
+    else
+      flash[:alert] = '予定のアーカイブ化に失敗しました。'
+      render :archive
+    end
+  end
 
   private
 
