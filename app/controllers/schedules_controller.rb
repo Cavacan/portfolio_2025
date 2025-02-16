@@ -26,6 +26,23 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def edit
+    @schedule = Schedule.find(params[:id])
+  end
+
+  def update
+    @schedule = Schedule.find(params[:id])
+    @schedule.after_next_notification = Time.zone.parse(schedule_params[:next_notification]) + schedule_params[:notification_period].to_i.days
+    if @schedule.update(schedule_params)
+      flash[:notice] = '予定を変更しました。'
+      redirect_to schedules_path
+    else
+      flash[:alert] = '編集に失敗しました。'
+      render :edit
+    end
+  end
+
+
   private
 
   def schedule_params
