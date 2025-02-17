@@ -1,7 +1,13 @@
 class UserMailer < ApplicationMailer
-  def send_mail(user, url)
+  def send_registration_mail(user, url)
     @user = user
     @url = url
     mail(to: @user.email, subject: "予定通知アプリ　アカウント作成")
+  end
+
+  def send_schedule_notifications(user, schedules)
+    @user = user
+    @schedules = schedules
+    mail(to: @user.email, subject: '予定通知')
   end
 end

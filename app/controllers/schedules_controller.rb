@@ -55,6 +55,14 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def notification
+    @schedule = current_user.schedules.find(params[:id])
+    if @schedule
+      UserMailer.send_schedule_notifications(current_user, [@schedule] ).deliver_now
+    else
+    end
+  end
+
   private
 
   def schedule_params

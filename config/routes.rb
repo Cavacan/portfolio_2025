@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :schedules, only: [:index, :create, :edit, :update]
   get 'schedule/:id/archive' => 'schedules#archive', as: :archive_schedule
   patch 'schedule/:id/archive' => 'schedules#archive_complete', as: :archive_complete_schedule
+  get 'schedules/:id/notification' => 'schedules#notification', as: :notification_schedule
 
   get 'temp' => 'temp#index'
 

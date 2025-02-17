@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_15_150002) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_16_175748) do
+  create_table "notification_logs", force: :cascade do |t|
+    t.integer "schedule_id", null: false
+    t.datetime "send_time"
+    t.boolean "is_snooze"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["schedule_id"], name: "index_notification_logs_on_schedule_id"
+  end
+
   create_table "schedules", force: :cascade do |t|
     t.string "creator_type", null: false
     t.integer "creator_id", null: false
@@ -57,5 +66,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_15_150002) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "notification_logs", "schedules"
   add_foreign_key "user_settings", "users"
 end

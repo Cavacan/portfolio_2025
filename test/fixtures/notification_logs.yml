@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  schedule: one
+  send_time: 2025-02-17 02:57:48
+  is_snooze: false
+
+two:
+  schedule: two
+  send_time: 2025-02-17 02:57:48
+  is_snooze: false
