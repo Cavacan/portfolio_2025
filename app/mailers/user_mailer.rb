@@ -10,4 +10,10 @@ class UserMailer < ApplicationMailer
     @schedules = schedules
     mail(to: @user.email, subject: '予定通知')
   end
+
+  def send_schedule_change_notification(user, schedule)
+    @user = user
+    @schedule = schedule
+    mail(to: @user.email, subject: '予定変更通知')
+  end
 end

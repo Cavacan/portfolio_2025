@@ -26,8 +26,9 @@ class SchedulesController < ApplicationController
 
   def update
     @schedule = Schedule.find(params[:id])
-    @schedule.after_next_notification = Time.zone.parse(schedule_params[:next_notification]) + schedule_params[:notification_period].to_i.days
     if @schedule.update(schedule_params)
+      @schedule.update_columns(after_next_notification: @schedule.next_notification + @schedule.notification_period.to_i.days)
+      UserMailer.send_schedule_change_notification(current_user, @schedule).deliver_now
       flash[:notice] = '予定を変更しました。'
       redirect_to schedules_path
     else
