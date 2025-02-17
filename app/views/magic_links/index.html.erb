@@ -1,7 +1,34 @@
 <h2>スケジュール一覧(未ログイン状態)</h2>
 <h2><%= @user.name.present? ? @user.name : @user.email %></h2>
 
+<div class="schedule_form">
+  <h2>予定作成</h2>
+  <%= form_with model: @schedule, url: magic_link_create_path, local: true do |f| %>
+    <div class="form-item">
+      <%= f.label :title, "予定名" %>
+      <%= f.text_field :title, value: "test created by magic_link's" %>
+    </div>
+  
+    <div class="form-item">
+      <%= f.label :notification_period, '周期' %>
+      <%= f.number_field :notification_period, value: 7 %> 日毎
+    </div>
+    
+    <div class="form-item">
+      <%= f.label :next_notification, '次回予定日' %>
+      <%= f.datetime_local_field :next_notification, value: (Time.current + 1.day ).strftime('%Y-%m-%dT%H:%M') %>
+    </div>
+  
+    <%= f.submit '作成' %>
+  <% end %>
+</div>
+
+<br>
+<hr>
+
+
 <table class="schedule-table">
+  <h2>予定一覧</h2>
   <thead>
     <tr>
       <th>title</th>
@@ -9,7 +36,6 @@
       <th>next_notification</th>
       <th>after_next_notification</th>
       <th>staus</th>
-      <th>command</th>
     </tr>
   </thead>
   <tbody>
@@ -20,10 +46,6 @@
         <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
         <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
         <td><%= schedule.status %></td>
-        <td>
-          <%= link_to '編集', edit_schedule_path(schedule), class: "btn btn-primary" %>
-          <%= link_to '削除', archive_schedule_path(schedule), class: "btn btn-danger" %>
-        </td>
       </tr>
     <% end %>
   </tbody>

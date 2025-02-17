@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post '/magic_link/generate' => 'magic_links#generate'
   get '/magic_link/authenticate' => 'magic_links#authenticate', as: :magic_link_authenticate
   get '/magic_link/index' => 'magic_links#index', as: :magic_links_index
+  post '/magic_link/create_schedule' => 'magic_links#create_schedule', as: :magic_link_create
 
   namespace :admin do
     get 'dashboard/index' => 'dashboard#index'

@@ -25,9 +25,33 @@ class MagicLinksController < ApplicationController
     @user = User.find(session[:user_id])
     if @user
       @schedules = @user.schedules
+      @schedule = Schedule.new
     else
       flash[:alert] = 'ログインが必要です。'
       redirect_to magic_link_portal_path
+    end
+  end
+
+  def create_schedule
+    @user = User.find(session[:user_id])
+    @schedule = Schedule.new(schedule_params)
+    @schedule.creator = @user
+    
+    if schedule_params[:next_notification].present?
+      @schedule.after_next_notification = Time.zone.parse(schedule_params[:next_notification]) + schedule_params[:notification_period].to_i.days rescue nil
+    end
+
+    if @schedule.save
+      UserMailer.send_schedule_magic_link(@user, @schedule).deliver_later
+      flash[:notice] = 'マジックリンクで新規予定を作成しました。'
+      redirect_to magic_links_index_path
+    else
+      @schedules = @user.schedules
+      flash[:alert] = '予定の作成に失敗しました。'
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("flash", partial: "shared/information") }
+        format.html { render :index }
+      end
     end
   end
 
@@ -62,5 +86,11 @@ class MagicLinksController < ApplicationController
       flash[:alert] = '指定されたアドレスのアカウントが存在しません。'
       redirect_to magic_link_portal_path
     end
+  end
+
+  private
+
+  def schedule_params
+    params.require(:schedule).permit(:title, :notification_period, :next_notification)
   end
 end
