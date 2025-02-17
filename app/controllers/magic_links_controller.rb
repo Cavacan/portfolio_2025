@@ -55,6 +55,31 @@ class MagicLinksController < ApplicationController
     end
   end
 
+  def edit_schedule
+    @user = User.find(session[:user_id])
+    @schedule = @user.schedules.find_by(id: params[:id])
+
+    if @schedule.nil?
+      flash[:alert] = '指定された予定が見つかりません。'
+      redirect_to magic_links_index_path
+    end
+  end
+
+  def update_schedule
+    @user = User.find(session[:user_id])
+    @schedule = @user.schedules.find_by(id: params[:id])
+
+    if @schedule.update(schedule_params)
+      @schedule.update_columns(after_next_notification:  @schedule.next_notification + @schedule.notification_period.to_i.days)
+      UserMailer.send_magic_link_schedule_change(@user, @schedule).deliver_later
+      flash[:notice] = 'マジックリンクで予定を変更しました。'
+      redirect_to magic_links_index_path
+    else
+      flash[:alert] = '編集に失敗しました。'
+      render :edit_schedule
+    end
+  end
+
   def authenticate
     user = User.find_by(magic_link_token: params[:token])
 

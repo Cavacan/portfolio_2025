@@ -1,0 +1,5 @@
+<h3>予定:<%= @schedule.title %>を変更しました。（未ログイン状態）</h3>
+
+周期　　　　：<%= @schedule.notification_period %>
+次回予定日　：<%= @schedule.next_notification.to_date.strftime('%Y/%-m/%-d') %>
+次々回予定日：<%= @schedule.after_next_notification.to_date.strftime('%Y/%-m/%-d') %>
