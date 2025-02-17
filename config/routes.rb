@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'dashboard/index' => 'dashboard#index'
+    get 'sessions/new' => 'sessions#new', as: :login
+    post 'sessions/create' => 'sessions#create'
+    delete 'sessions/destroy' => 'sessions#destroy', as: :logout
+  end
+  
   resources :schedules, only: [:index, :create, :edit, :update]
   get 'schedule/:id/archive' => 'schedules#archive', as: :archive_schedule
   patch 'schedule/:id/archive' => 'schedules#archive_complete', as: :archive_complete_schedule

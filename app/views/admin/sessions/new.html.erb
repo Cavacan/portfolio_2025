@@ -1,0 +1,19 @@
+<h1>予定通知アプリ</h1>
+<div class="admin_login_form">
+  <%= form_with url: admin_sessions_create_path, method: :post, local: true do |f| %>
+    <div>
+      <%= f.label :email, 'メールアドレス' %>
+      <%= f.text_field :email %>
+    </div>
+    
+    <div>
+      <%= f.label :password, 'パスワード' %>
+      <%= f.password_field :password %>
+    </div>
+    <div>
+      <%= f.submit 'ログイン' %>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to '一般ユーザー', root_path %>
