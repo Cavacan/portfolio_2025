@@ -42,7 +42,7 @@ class MagicLinksController < ApplicationController
     end
 
     if @schedule.save
-      UserMailer.send_schedule_magic_link(@user, @schedule).deliver_later
+      UserMailer.send_magic_link_schedule(@user, @schedule).deliver_later
       flash[:notice] = 'マジックリンクで新規予定を作成しました。'
       redirect_to magic_links_index_path
     else
