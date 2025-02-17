@@ -5,7 +5,7 @@ class MagicLinksController < ApplicationController
       @schedules = @user.schedules
     else
       @user = nil
-      @scheules = []
+      @schedules = []
     end
   end
 
@@ -13,7 +13,7 @@ class MagicLinksController < ApplicationController
     user = User.find_by(email: params[:email])
 
     if user
-      session[:id] = user.id
+      session[:user_id] = user.id
       flash[:notice] = 'ログインしました。'
     else
       flash[:alert] = '指定されたアドレスのアカウントが存在しません。'
@@ -78,6 +78,12 @@ class MagicLinksController < ApplicationController
       flash[:alert] = '編集に失敗しました。'
       render :edit_schedule
     end
+  end
+
+  def magic_link_logout
+    logout
+    flash[:notice] = 'ログアウトしました。'
+    redirect_to magic_link_portal_path
   end
 
   def authenticate

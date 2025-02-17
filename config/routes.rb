@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post '/magic_link/create_schedule' => 'magic_links#create_schedule', as: :magic_link_create
   get '/magic_link/edit_schedule/:id' => 'magic_links#edit_schedule', as: :edit_magic_link_schedule
   patch '/magic_link/update_schedule/:id' => 'magic_links#update_schedule', as: :update_magic_link_schedule
+  delete '/magic_link/magic_link_logout' => 'magic_links#magic_link_logout', as: :magic_link_logout
 
   namespace :admin do
     get 'dashboard/index' => 'dashboard#index'
