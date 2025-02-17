@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get '/magic_link/portal' => 'magic_links#portal', as: :magic_link_portal
+  post '/magic_link/login' => 'magic_links#login', as: :magic_link_login
+
+  post '/magic_link/generate' => 'magic_links#generate'
+  get '/magic_link/authenticate' => 'magic_links#authenticate', as: :magic_link_authenticate
+  get '/magic_link/index' => 'magic_links#index', as: :magic_links_index
+
   namespace :admin do
     get 'dashboard/index' => 'dashboard#index'
     get 'sessions/new' => 'sessions#new', as: :login

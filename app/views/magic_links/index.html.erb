@@ -1,0 +1,30 @@
+<h2>スケジュール一覧(未ログイン状態)</h2>
+<h2><%= @user.name.present? ? @user.name : @user.email %></h2>
+
+<table class="schedule-table">
+  <thead>
+    <tr>
+      <th>title</th>
+      <th>notification_period</th>
+      <th>next_notification</th>
+      <th>after_next_notification</th>
+      <th>staus</th>
+      <th>command</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @schedules.each do |schedule| %>
+      <tr>
+        <td><%= schedule.title %></td>
+        <td><%= schedule.notification_period %></td>
+        <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
+        <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
+        <td><%= schedule.status %></td>
+        <td>
+          <%= link_to '編集', edit_schedule_path(schedule), class: "btn btn-primary" %>
+          <%= link_to '削除', archive_schedule_path(schedule), class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

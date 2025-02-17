@@ -13,4 +13,14 @@ class User < ApplicationRecord
     self.email_change_token_end_time = nil
     save
   end
+
+  def generate_magic_link_token
+    self.magic_link_token = SecureRandom.urlsafe_base64
+    self.magic_link_token_end_time = Time.current + 2.days
+    save!
+  end
+
+  def restore_magic_link_token!
+    update!(magic_link_token: nil, magic_link_token_end_time: nil)
+  end
 end

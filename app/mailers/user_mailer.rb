@@ -16,4 +16,11 @@ class UserMailer < ApplicationMailer
     @schedule = schedule
     mail(to: @user.email, subject: '予定変更通知')
   end
+
+  def send_magic_link(user)
+    @user = user
+    @magic_link = magic_link_authenticate_url(token: user.magic_link_token)
+
+    mail(to: user.email, subject: 'ログイン用マジックリンク')
+  end
 end

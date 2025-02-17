@@ -1,0 +1,39 @@
+<h1>マジックリンク ポータル</h1>
+
+<% if session[:user_id].present? %>
+  <h3>ログイン済み：<%= @user.name.present? ? @user.name : @user.email %></h3>
+  <% if @user.magic_link_token.present? %>
+    スケジュール一覧へのマジックリンク
+    <a href="<%= magic_link_authenticate_url(token: @user.magic_link_token) %>">
+      <%= magic_link_authenticate_url(token: @user.magic_link_token) %>
+    </a>
+  <% else %>
+    <p>マジックリンクが未発行です。</p>
+    <%= link_to 'マジックリンクを発行する', magic_link_generate_path, method: :post %>
+  <% end %>
+
+<% else %>
+  <%= form_with url: magic_link_login_path,method: :poset, local: true do |f| %>
+    <%= f.label :email, 'メールアドレス' %>
+    <%= f.email_field :email %>
+
+    <%= f.label :password, 'パスワード' %>
+    <%= f.password_field :password %>
+
+    <%= f.submit '仮ログイン' %>
+  <% end %>
+<% end %>
+
+<br>
+<hr>
+
+<h3>メールでログインリンクを送信</h3>
+<%= form_with url: magic_link_generate_path, method: :post, local: true do |f| %>
+  <div>
+    <%= f.label :email, 'メールアドレス' %>
+    <%= f.email_field :email, required: true %>
+  </div>
+  <div>
+    <%= f.submit 'ログインリンクを送信' %>
+  </div>
+<% end %>
