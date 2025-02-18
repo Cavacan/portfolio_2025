@@ -1,0 +1,20 @@
+<h1>パスワード設定</h1>
+
+<%= form_with model: @user, url: registrations_path, method: :patch do |f| %>
+  <%= hidden_field_tag :token, params[:token] %>
+  <div class="form-item">
+    <%= f.label :name, 'ユーザー名' %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="form-item">
+    <%= f.label :password, 'パスワード' %>
+    <%= f.text_field :password %>
+  </div>
+  <div class="form-item">
+    <%= f.label :password_confirmation, 'パスワード再入力' %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="form-item">
+    <%= f.submit 'アカウント作成' %>
+  </div>
+<% end %>

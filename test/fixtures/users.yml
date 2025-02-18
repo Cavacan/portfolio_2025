@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  email: MyString
+  email_change_token: MyString
+  email_change_token_end_time: MyString
+  new_email: MyString
+  admin: false
+  magic_link_token: MyString
+  magic_link_token_end_time: 2025-02-12 04:52:23
+  old_magic_link_token: MyString
+  old_magic_link_token_end_time: 2025-02-12 04:52:23
+
+two:
+  name: MyString
+  email: MyString
+  email_change_token: MyString
+  email_change_token_end_time: MyString
+  new_email: MyString
+  admin: false
+  magic_link_token: MyString
+  magic_link_token_end_time: 2025-02-12 04:52:23
+  old_magic_link_token: MyString
+  old_magic_link_token_end_time: 2025-02-12 04:52:23
