@@ -14,7 +14,6 @@
  *= require_self
  */
 
-<<<<<<< Updated upstream
  footer {
   display: flex;
   position: fixed;
@@ -29,5 +28,3 @@
   display: flex;
   gap: 40px;
 }
-=======
->>>>>>> Stashed changes
