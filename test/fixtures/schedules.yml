@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  creator: one
+  creator_type: Creator
+  title: MyString
+  notification_period: 1
+  next_notification: 2025-02-16 00:00:02
+  after_next_notification: 2025-02-16 00:00:02
+  status: 1
+  check_done: false
+
+two:
+  creator: two
+  creator_type: Creator
+  title: MyString
+  notification_period: 1
+  next_notification: 2025-02-16 00:00:02
+  after_next_notification: 2025-02-16 00:00:02
+  status: 1
+  check_done: false
