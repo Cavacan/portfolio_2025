@@ -1,8 +1,19 @@
 <h1>予定通知アプリ</h1>
 <div class="login_form">
-  <p>メールアドレス</p>
-  <p>パスワード</p>
-  <%= link_to 'ログイン', "#" %>
+  <%= form_with url: login_path, local: true do |f| %>
+    <div>
+      <%= f.label :email, 'メールアドレス' %>
+      <%= f.text_field :email %>
+    </div>
+    
+    <div>
+      <%= f.label :password, 'パスワード' %>
+      <%= f.password_field :password %>
+    </div>
+    <div>
+      <%= f.submit 'ログイン' %>
+    </div>
+  <% end %>
 </div>
 
 <br>
