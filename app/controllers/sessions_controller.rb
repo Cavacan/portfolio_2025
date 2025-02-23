@@ -11,12 +11,11 @@ class SessionsController < ApplicationController
       return
     end
 
-    Rails.logger.debug "ユーザーが見つかりました: #{user.email}, crypted_password: #{user.crypted_password}"
     @user = login(params[:email], params[:password])
 
     if @user
       flash[:notice] = 'ログインに成功しました。'
-      redirect_to schedules_index_path
+      redirect_to schedules_path
     else
       flash[:alert] = 'ログインに失敗しました。'
       Rails.logger.debug "ログインに失敗しました: email=#{params[:email]}, password=#{params[:password]}"

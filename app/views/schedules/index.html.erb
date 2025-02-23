@@ -1,4 +1,9 @@
 <h1>Schedules</h1>
+
+<%= render 'shared/schedule_form' %>
+
+<br>
+
 <div class="schedule-container">
   <table class="schedule-table">
     <thead>
@@ -11,14 +16,16 @@
       </tr>
     </thead>
     <tbody>
-      <% @schedules.each do |schedule| %>
-        <tr>
-          <td><%= schedule.title %></td>
-          <td><%= schedule.notification_period %></td>
-          <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= schedule.status %></td>
-        </tr>
+      <% if @schedules.present? %>
+        <% @schedules.each do |schedule| %>
+          <tr>
+            <td><%= schedule.title %></td>
+            <td><%= schedule.notification_period %></td>
+            <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= schedule.status %></td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>

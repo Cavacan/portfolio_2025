@@ -1,0 +1,21 @@
+<div class="schedule_form">
+  <h2>予定作成</h2>
+  <%= form_with model: @schedule, url: schedules_path, local: true do |f| %>
+    <div class="form-item">
+      <%= f.label :title, "予定名" %>
+      <%= f.text_field :title, value: 'test' %>
+    </div>
+  
+    <div class="form-item">
+      <%= f.label :notification_period, '周期' %>
+      <%= f.number_field :notification_period, value: 7 %> 日毎
+    </div>
+    
+    <div class="form-item">
+      <%= f.label :next_notification %>
+      <%= f.datetime_local_field :next_notification %>
+    </div>
+  
+    <%= f.submit '作成' %>
+  <% end %>
+</div>
