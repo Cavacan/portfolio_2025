@@ -1,6 +1,24 @@
-user = User.find_or_create_by!(email: "admin@example.com") do |u|
-  u.password = "admin"
-  u.password_confirmation = "admin"
+admin = User.find_by(admin: true)
+if admin.nil?
+  user = User.find_by(email: "admin@example.com")
+  
+  if user
+    user.update!(admin: true)
+    puts "Admin arleady exist: #{admin.email},and add administrator."
+  else
+    user = User.create!(
+      email: "admin@example.com",
+      password: "admin",
+      admin: true
+    )
+    puts "Admin created: #{admin.email}"
+  end
+else
+  puts "Admin already exists: #{admin.email}"
+end
+
+user = User.find_or_create_by!(email: "guest@example.com") do |u|
+  u.password = "password"
 end
 
 puts "User created: #{user.email}"
