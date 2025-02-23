@@ -25,6 +25,9 @@
             <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
             <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
             <td><%= schedule.status %></td>
+            <td>
+              <%= link_to '編集', edit_schedule_path(schedule), class: "btn btn-primary" %>
+            </td>
           </tr>
         <% end %>
       <% end %>
