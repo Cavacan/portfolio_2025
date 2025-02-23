@@ -19,21 +19,23 @@
       </tr>
     </thead>
     <tbody>
-      <% @schedules.each do |schedule| %>
-        <tr>
-          <td><%= schedule.title %></td>
-          <td><%= schedule.notification_period %></td>
-          <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= schedule.status %></td>
-          <td>
-            <%= link_to '編集', edit_schedule_path(schedule), class: "btn btn-primary" %>
-            <%= link_to '削除', archive_schedule_path(schedule), class: "btn btn-danger" %>
-          </td>
-          <td>
+      <% if @schedules.present? %>
+        <% @schedules.each do |schedule| %>
+          <tr>
+            <td><%= schedule.title %></td>
+            <td><%= schedule.notification_period %></td>
+            <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= schedule.status %></td>
+            <td>
+              <%= link_to '編集', edit_schedule_path(schedule), class: "btn btn-primary" %>
+              <%= link_to '削除', archive_schedule_path(schedule), class: "btn btn-danger" %>
+            </td>
+            <td>
             <%= link_to "通知テスト", notification_schedule_path(schedule), class: "btn btn-info" %>
           </td>
         </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
