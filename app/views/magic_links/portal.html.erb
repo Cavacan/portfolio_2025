@@ -9,11 +9,14 @@
     </a>
   <% else %>
     <p>マジックリンクが未発行です。</p>
-    <%= link_to 'マジックリンクを発行する', magic_link_generate_path, method: :post %>
+    <%= form_with url: magic_link_generate_path, method: :post, local: true do |f| %>
+      <%= f.hidden_field :email, value: @user.email %>
+      <%= f.submit 'マジックリンクを発行する' %>
+    <% end %>
   <% end %>
 
 <% else %>
-  <%= form_with url: magic_link_login_path,method: :poset, local: true do |f| %>
+  <%= form_with url: magic_link_login_path,method: :post, local: true do |f| %>
     <%= f.label :email, 'メールアドレス' %>
     <%= f.email_field :email %>
 
