@@ -5,7 +5,7 @@ class MagicLinksController < ApplicationController
       @schedules = @user.schedules
     else
       @user = nil
-      @scheules = []
+      @schedules = []
     end
   end
 
@@ -13,7 +13,7 @@ class MagicLinksController < ApplicationController
     user = User.find_by(email: params[:email])
 
     if user
-      session[:id] = user.id
+      session[:user_id] = user.id
       flash[:notice] = 'ログインしました。'
     else
       flash[:alert] = '指定されたアドレスのアカウントが存在しません。'
@@ -42,7 +42,7 @@ class MagicLinksController < ApplicationController
     end
 
     if @schedule.save
-      UserMailer.send_schedule_magic_link(@user, @schedule).deliver_later
+      UserMailer.send_magic_link_schedule(@user, @schedule).deliver_later
       flash[:notice] = 'マジックリンクで新規予定を作成しました。'
       redirect_to magic_links_index_path
     else
@@ -53,6 +53,37 @@ class MagicLinksController < ApplicationController
         format.html { render :index }
       end
     end
+  end
+
+  def edit_schedule
+    @user = User.find(session[:user_id])
+    @schedule = @user.schedules.find_by(id: params[:id])
+
+    if @schedule.nil?
+      flash[:alert] = '指定された予定が見つかりません。'
+      redirect_to magic_links_index_path
+    end
+  end
+
+  def update_schedule
+    @user = User.find(session[:user_id])
+    @schedule = @user.schedules.find_by(id: params[:id])
+
+    if @schedule.update(schedule_params)
+      @schedule.update_columns(after_next_notification:  @schedule.next_notification + @schedule.notification_period.to_i.days)
+      UserMailer.send_magic_link_schedule_change(@user, @schedule).deliver_later
+      flash[:notice] = 'マジックリンクで予定を変更しました。'
+      redirect_to magic_links_index_path
+    else
+      flash[:alert] = '編集に失敗しました。'
+      render :edit_schedule
+    end
+  end
+
+  def magic_link_logout
+    logout
+    flash[:notice] = 'ログアウトしました。'
+    redirect_to magic_link_portal_path
   end
 
   def authenticate

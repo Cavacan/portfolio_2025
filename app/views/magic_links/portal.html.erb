@@ -1,4 +1,4 @@
-<h1>マジックリンク ポータル</h1>
+<h1>マジックリンク 動作確認用ポータル</h1>
 <p>※このページはマジックリンクの動作確認用ページです。</p>
 <p>実際の運用ではマジックリンクを予定の通知メールに埋め込み、</p>
 <p>未ログイン状態から認証を行って予定の確認・変更・追加を可能にします。</p>
@@ -21,16 +21,20 @@
       <%= f.submit 'マジックリンクを発行する' %>
     <% end %>
   <% end %>
-
+  <br>
+  <%= button_to '仮ログイン解除', magic_link_logout_path, method: :delete, class: "btn btn-danger" %>
 <% else %>
   <p>ログインされていません。</p>
-  <p>データ表示・操作の動作確認のため、ログイン（ユーザーを指定）する必要があります。</p>
-  <%= form_with url: magic_link_login_path,method: :post, local: true do |f| %>
+  <p>マジックリンクは作成済みユーザーのメールアドレスに対して送られるため、動作確認のために仮のログインが必要です。</p>
+  <p>以下の仮ログインボタンからログインして下さい。</p>
+  <p>仮ログイン後の画面でメールに添付されるマジックリンクが表示されます。</p>
+  <br>
+  <%= form_with url: magic_link_login_path, method: :post, local: true do |f| %>
     <%= f.label :email, 'メールアドレス' %>
-    <%= f.email_field :email %>
+    <%= f.email_field :email, value: "user@example.com"  %>
 
     <%= f.label :password, 'パスワード' %>
-    <%= f.password_field :password %>
+    <%= f.password_field :password, value: "password" %>
 
     <%= f.submit '仮ログイン' %>
   <% end %>
@@ -44,7 +48,7 @@
 <%= form_with url: magic_link_generate_path, method: :post, local: true do |f| %>
   <div>
     <%= f.label :email, 'メールアドレス' %>
-    <%= f.email_field :email, required: true %>
+    <%= f.email_field :email, required: true , value: 'admin@example.com' %>
   </div>
   <div>
     <%= f.submit 'ログインリンクを送信' %>

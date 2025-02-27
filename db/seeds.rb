@@ -18,7 +18,7 @@ else
   puts "Admin already exists: #{admin.email}"
 end
 
-user = User.find_or_create_by!(email: "guest@example.com") do |u|
+user = User.find_or_create_by!(email: "user@example.com") do |u|
   u.password = "password"
   u.password_confirmation = "password"
 end

@@ -1,0 +1,25 @@
+<h2>スケジュール編集(未ログイン状態)</h2>
+<div class="schedule_form">
+  <%= form_with model: @schedule, url: update_magic_link_schedule_path(@schedule.id), local: true do |f| %>
+    <div class="form-item">
+      <%= f.label :title, "予定名" %>
+      <%= f.text_field :title %>
+    </div>
+  
+    <div class="form-item">
+      <%= f.label :notification_period, '周期' %>
+      <%= f.number_field :notification_period %> 日毎
+    </div>
+    
+    <div class="form-item">
+      <%= f.label :next_notification, '次回予定日' %>
+      <%= f.datetime_local_field :next_notification %>
+    </div>
+  
+    <%= f.submit '編集' %>
+  <% end %>
+</div>
+
+<hr>
+
+<%= link_to 'キャンセル', magic_links_index_path %>
