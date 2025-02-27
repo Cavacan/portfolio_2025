@@ -8,6 +8,13 @@ class UserMailer < ApplicationMailer
   def send_schedule_notifications(user, schedules)
     @user = user
     @schedules = schedules
+    schedule_id = schedules.size == 1 ? schedules.first.id : nil
+    @magic_link = if schedule_id
+                    magic_link_authenticate_url(token: user.magic_link_token, schedule_id: schedule_id)
+                  else
+                    magic_link_authenticate_url(token: user.magic_link_token)
+                  end
+
     mail(to: @user.email, subject: '予定通知')
   end
 

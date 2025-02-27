@@ -36,7 +36,7 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.find(params[:id])
     if @schedule.update(schedule_params)
       @schedule.update_columns(after_next_notification: @schedule.next_notification + @schedule.notification_period.to_i.days)
-      UserMailer.send_schedule_change_notification(current_user, @schedule).deliver_now
+      UserMailer.send_schedule_change_notification(current_user, @schedule).deliver_later
       flash[:notice] = '予定を変更しました。'
       redirect_to schedules_path
     else
@@ -67,7 +67,7 @@ class SchedulesController < ApplicationController
   def notification
     @schedule = current_user.schedules.find(params[:id])
     if @schedule
-      UserMailer.send_schedule_notifications(current_user, [@schedule] ).deliver_now
+      UserMailer.send_schedule_notifications(current_user, [@schedule] ).deliver_later
     else
     end
   end
