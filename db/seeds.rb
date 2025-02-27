@@ -9,9 +9,10 @@ if admin.nil?
     user = User.create!(
       email: "admin@example.com",
       password: "admin",
+      password_confirmation: "admin",
       admin: true
     )
-    puts "Admin created: #{admin.email}"
+    puts "Admin created: #{user.email}"
   end
 else
   puts "Admin already exists: #{admin.email}"
@@ -19,6 +20,7 @@ end
 
 user = User.find_or_create_by!(email: "guest@example.com") do |u|
   u.password = "password"
+  u.password_confirmation = "password"
 end
 
 puts "User created: #{user.email}"

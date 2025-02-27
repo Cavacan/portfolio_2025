@@ -6,7 +6,7 @@ class RegistrationsController < ApplicationController
   def create #  パスワード入力用ページへのURLメール送信用（トークン付）
     @user = User.find_by(email: user_params[:email])
 
-    if @user
+    if @user # 既存ユーザーの場合
       @user.update(email_change_token: SecureRandom.urlsafe_base64, email_change_token_end_time: 1.hour.from_now)
       @url = edit_registration_url(token: @user.email_change_token)
       UserMailer.send_registration_mail(@user, @url).deliver_later
@@ -44,7 +44,7 @@ class RegistrationsController < ApplicationController
       return
     end
 
-    if @user.complete_registration!(params[:user][:password])
+    if @user.complete_registration!(params[:user][:password], params[:user][:password_confirmation])
       flash[:notice] = "パスワードが設定されました"
       # redirect_to login_path
       redirect_to root_path
@@ -57,6 +57,6 @@ class RegistrationsController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email)
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end

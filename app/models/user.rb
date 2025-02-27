@@ -7,8 +7,9 @@ class User < ApplicationRecord
   validates :password, confirmation: true
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password].present? }
 
-  def complete_registration!(new_password)
+  def complete_registration!(new_password, password_confirmation)
     self.password = new_password
+    self.password_confirmation = password_confirmation
     self.email_change_token = nil
     self.email_change_token_end_time = nil
     save
