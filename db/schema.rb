@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_16_175748) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_27_181000) do
   create_table "notification_logs", force: :cascade do |t|
     t.integer "schedule_id", null: false
     t.datetime "send_time"
@@ -52,7 +52,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_16_175748) do
     t.string "name"
     t.string "email", null: false
     t.string "email_change_token"
-    t.string "email_change_token_end_time"
+    t.datetime "email_change_token_end_time"
     t.string "new_email"
     t.boolean "admin"
     t.string "magic_link_token"

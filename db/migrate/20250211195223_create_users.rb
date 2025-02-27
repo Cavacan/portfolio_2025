@@ -4,7 +4,7 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.string :name
       t.string :email,            null: false, index: { unique: true }
       t.string :email_change_token
-      t.datetime :email_change_token_end_time
+      t.string :email_change_token_end_time
       t.string :new_email
       t.boolean :admin
       t.string :magic_link_token
