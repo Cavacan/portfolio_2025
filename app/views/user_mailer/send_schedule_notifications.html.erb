@@ -2,6 +2,7 @@
 
 <ul>
   <% @schedules.each do |schedule| %>
+    <li>予定名　　：<%= schedule.title %></li>
     <li>予定日　　：<%= schedule.next_notification.to_date.strftime('%Y/%-m/%-d') %></li>
     <li>次回予定日：<%= schedule.after_next_notification.to_date.strftime('%Y/%-m/%-d') %></li>
   <% end %>
