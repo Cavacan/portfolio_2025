@@ -23,5 +23,5 @@ set :output, "#{path}/log/cron.log"
 env :PATH, ENV['PATH']
 
 every 1.day, at: '0:00' do
-  rake 'mailer:send_schedule_notifications'
+  rake 'mailer:send_schedule_notifications', environment: 'production'
 end

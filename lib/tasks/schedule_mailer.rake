@@ -7,10 +7,10 @@ namespace :mailer do
                 .distinct
     
     users.find_each do |user| # user毎に実行
-      schedules = user.schedules.where("DATE(next_notification) = ?", today)
+      schedules = user.schedules.where(next_notification: today.beginning_of_day..today.end_of_day)
 
       if schedules.any?
-        UserMailer.send_schedule_notifications(user, schedules).deliver_now
+        UserMailer.send_schedule_notifications(user, schedules).deliver_later
         puts "送信完了： #{user.email}"
 
         schedules.each do |schedule|
