@@ -3,12 +3,12 @@
   <%= form_with url: login_path, local: true do |f| %>
     <div>
       <%= f.label :email, 'メールアドレス' %>
-      <%= f.text_field :email %>
+      <%= f.text_field :email, value: "user@example.com" %>
     </div>
     
     <div>
       <%= f.label :password, 'パスワード' %>
-      <%= f.password_field :password %>
+      <%= f.password_field :password, value: "password" %>
     </div>
     <div>
       <%= f.submit 'ログイン' %>
