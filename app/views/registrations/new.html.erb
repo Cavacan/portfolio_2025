@@ -1,20 +1,21 @@
 <h1>アカウント作成</h1>
 
-<div class="agree-terms">
-  <div class="terms-container">
-    <h3>利用規約・プライバシーポリシー</h3>
-    <%= render "shared/terms" %>
-  </div>
-  <div class="agree-checkbox">
-    <label for="agree-checkbox">
-      利用規約に同意して作成用メールを受け取る。
-      <%= check_box_tag "user[:agree]", "1", false, id: "agree-checkbox", required: true %>
-    </label>
-  </div>
-</div>
-
-<p>メールアドレス</p>
 <%= form_with model:@user, url: registrations_path, local: true do |f| %>
+  <div class="agree-terms">
+    <div class="terms-container">
+      <h3>利用規約・プライバシーポリシー</h3>
+      <%= render "shared/terms" %>
+    </div>
+
+    <div class="agree-checkbox">
+      <%= f.label :agree, class: "agree-label" do %>
+        利用規約に同意して作成用メールを受け取る。
+        <%= f.check_box :agree, required: true %>
+      <% end %>
+    </div>
+  </div>
+
+  <p>メールアドレス</p>
   <%= f.label :email %>
   <%= f.email_field :email %>
   <%= f.submit 'メール送信', id: "submit-button" %>
