@@ -13,7 +13,7 @@
     
     <div class="form-item">
       <%= f.label :next_notification, '次回予定日' %>
-      <%= f.datetime_local_field :next_notification %>
+      <%= f.datetime_local_field :next_notification, value: Time.zone.today.since(7.days) %>
     </div>
   
     <%= f.submit '作成' %>
