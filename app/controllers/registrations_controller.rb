@@ -5,13 +5,13 @@ class RegistrationsController < ApplicationController
 
   def create #  パスワード入力用ページへのURLメール送信用（トークン付）
     # 規約同意チェック
-    if user_params[:agree] != 1
+    unless user_params[:agree] == "1"
       flash[:alert] = "利用規約の同意が必要です。"
       session[:email] = user_params[:email]
       return redirect_to new_registration_path
     end
 
-    session.delete[:email]
+    session.delete(:email)
 
     @user = User.find_by(email: user_params[:email])
 
