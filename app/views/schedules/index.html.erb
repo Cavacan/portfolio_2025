@@ -1,4 +1,4 @@
-<h1>Schedules</h1>
+<h1>予定通知アプリ</h1>
 
 <%= render 'shared/schedule_form' %>
 
@@ -9,13 +9,13 @@
   <table class="schedule-table">
     <thead>
       <tr>
-        <th>title</th>
-        <th>notification_period</th>
-        <th>next_notification</th>
-        <th>after_next_notification</th>
-        <th>staus</th>
-        <th>command</th>
-        <th>test</th>
+        <th>予定名</th>
+        <th>周期</th>
+        <th>次回予定日</th>
+        <th>次々回予定日</th>
+        <th>状態</th>
+        <th>操作</th>
+        <th>テスト</th>
       </tr>
     </thead>
     <tbody>
@@ -26,7 +26,7 @@
             <td><%= schedule.notification_period %></td>
             <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
             <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
-            <td><%= schedule.status %></td>
+            <td><%= schedule.status_enabled? ? "有効" : "無効" %></td>
             <td>
               <%= link_to '編集', edit_schedule_path(schedule), class: "btn btn-primary" %>
               <%= link_to '削除', archive_schedule_path(schedule), class: "btn btn-danger" %>
@@ -61,7 +61,7 @@
           <td><%= schedule.notification_period %></td>
           <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
           <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= schedule.status %></td>
+          <td><%= schedule.status_enabled? ? "有効" : "無効" %></td>
         </tr>
       <% end %>
     </tbody>

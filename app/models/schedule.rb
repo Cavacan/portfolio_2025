@@ -6,6 +6,8 @@ class Schedule < ApplicationRecord
   validates :next_notification, presence: true
   validate :next_notification_must_be_future
   
+  enum status: { disabled: 0, enabled: 1 }, _prefix: true
+
   private
 
   def next_notification_must_be_future
