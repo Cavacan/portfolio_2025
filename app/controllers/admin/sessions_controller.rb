@@ -4,19 +4,20 @@ class Admin::SessionsController < ApplicationController
 
   def create
     user = login(params[:email], params[:password])
-    if user 
+
+    if user&.admin?
       flash[:notice] = 'ログインしました。'
-      redirect_to admin_dashboard_index_path
+      redirect_to admin_dashboard_path
     else
       logout
-      flash[:alert] = '管理者権限がありません。'
+      flash[:alert] = user.nil? ? 'メールアドレスまたはパスワードが間違っています。' : '管理者権限がありません。'
       render :new, status: :unprocessable_entity
     end
   end
 
   def destroy
     logout
-    falsh[:notice] = 'ログアウトしました。'
+    flash[:notice] = 'ログアウトしました。'
     redirect_to admin_login_path
   end
 end

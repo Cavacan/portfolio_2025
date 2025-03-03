@@ -11,10 +11,10 @@ Rails.application.routes.draw do
   delete '/magic_link/magic_link_logout' => 'magic_links#magic_link_logout', as: :magic_link_logout
 
   namespace :admin do
-    get 'dashboard/index' => 'dashboard#index'
+    get 'dashboard' => 'dashboard#index'
     get 'sessions/new' => 'sessions#new', as: :login
-    post 'sessions/create' => 'sessions#create'
-    delete 'sessions/destroy' => 'sessions#destroy', as: :logout
+    post 'sessions' => 'sessions#create'
+    delete 'sessions' => 'sessions#destroy', as: :logout
   end
   
   resources :schedules, only: [:index, :create, :edit, :update]
