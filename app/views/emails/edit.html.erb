@@ -1,0 +1,6 @@
+<h1>メールアドレスの変更</h1>
+<%= form_with url: email_path, method: :patch, local: true do |f| %>
+  <%= label_tag :new_email, "新しいメールアドレス" %>
+  <%= text_field_tag "user[new_email]" %>
+  <%= submit_tag "変更手続きメールを送信" %>
+<% end %>

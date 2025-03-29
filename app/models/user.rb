@@ -26,4 +26,22 @@ class User < ApplicationRecord
   def restore_magic_link_token!
     update!(magic_link_token: nil, magic_link_token_end_time: nil)
   end
+
+  def generate_email_change_token!(new_email)
+    self.new_email = new_email
+    self.email_change_token = SecureRandom.urlsafe_base64
+    self.email_change_token_end_time = Time.current + 1.day
+    save!
+  end
+
+  def confirm_email_change!(token)
+    return false if token != email_change_token
+    return false if email_change_token_end_time < Time.current
+
+    self.email = new_email
+    self.new_email = nil
+    self.email_change_token = nil
+    self.email_change_token_end_time = nil
+    save!
+  end
 end

@@ -41,4 +41,15 @@ class UserMailer < ApplicationMailer
     @url = edit_password_reset_url(@user.reset_password_token)
     mail(to: user.email, subject: "パスワード再設定")
   end
+
+  def email_change_confirmation(user)
+    @user = user
+    @url = email_confirm_url(@user.email_change_token)
+    mail(to: user.email, subject: "【確認】メールアドレス変更手続き" )
+  end
+  
+  def email_change_completed(user)
+    @user = user
+    mail(to: @user.email, subject: "【通知】メールアドレスの変更が完了しました。")
+  end
 end
