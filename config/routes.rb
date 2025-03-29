@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :password_resets, only: [:new, :create, :edit, :update]
+  
   get '/magic_link/portal' => 'magic_links#portal', as: :magic_link_portal
   post '/magic_link/login' => 'magic_links#login', as: :magic_link_login
 

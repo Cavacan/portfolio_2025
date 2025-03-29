@@ -7,6 +7,7 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 3 }, if: -> { new_record? || changes[:crypted_password].present? }, allow_nil: true
   validates :password, confirmation: true
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password].present? }
+  validates :reset_password_token, uniqueness: true, allow_nil: true
 
   def complete_registration!(new_password, password_confirmation)
     self.password = new_password

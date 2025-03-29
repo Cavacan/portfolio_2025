@@ -35,4 +35,10 @@ class UserMailer < ApplicationMailer
     @schedule = schedule
     mail(to: user.email, subject: '予定を更新しました。（未ログイン状態）')
   end
+
+  def reset_password_email(user)
+    @user = user
+    @url = edit_password_reset_url(@user.reset_password_token)
+    mail(to: user.email, subject: "パスワード再設定")
+  end
 end
