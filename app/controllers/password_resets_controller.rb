@@ -21,6 +21,7 @@ class PasswordResetsController < ApplicationController
       @user.password_confirmation = params[:user][:password_confirmation]
 
       if @user.save
+        UserMailer.reset_password_completed(@user).deliver_later
         flash[:notice] = "パスワードを更新しました。"
         redirect_to root_path
       else
