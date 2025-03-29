@@ -3,9 +3,9 @@ namespace :mailer do
   task send_schedule_notifications: :environment do
     today = Date.today
     users = User.joins(:schedules)
-                .where("DATE(schedules.next_notification) = ?", today)
+                .where('DATE(schedules.next_notification) = ?', today)
                 .distinct
-    
+
     users.find_each do |user| # user毎に実行
       schedules = user.schedules.where(next_notification: today.beginning_of_day..today.end_of_day)
 
@@ -29,7 +29,7 @@ namespace :mailer do
           )
         end
       else
-        puts "送信が必要な当日予定なし。"
+        puts '送信が必要な当日予定なし。'
       end
     end
   end

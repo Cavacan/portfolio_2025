@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   get 'emails/edit'
   get 'emails/update'
-  resources :password_resets, only: [:new, :create, :edit, :update]
-  resource :email, only: [:edit, :update]
+  resources :password_resets, only: %i[new create edit update]
+  resource :email, only: %i[edit update]
   get 'email/confirm' => 'emails#confirm', as: :email_confirm
-  
+
   get '/magic_link/portal' => 'magic_links#portal', as: :magic_link_portal
   post '/magic_link/login' => 'magic_links#login', as: :magic_link_login
 
@@ -22,15 +22,15 @@ Rails.application.routes.draw do
     post 'sessions' => 'sessions#create'
     delete 'sessions' => 'sessions#destroy', as: :logout
   end
-  
-  resources :schedules, only: [:index, :create, :edit, :update]
+
+  resources :schedules, only: %i[index create edit update]
   get 'schedule/:id/archive' => 'schedules#archive', as: :archive_schedule
   patch 'schedule/:id/archive' => 'schedules#archive_complete', as: :archive_complete_schedule
   get 'schedules/:id/notification' => 'schedules#notification', as: :notification_schedule
 
   get 'temp' => 'temp#index'
 
-  resources :registrations, only: [:new, :create]
+  resources :registrations, only: %i[new create]
   get 'registrations/edit' => 'registrations#edit', as: :edit_registration
   patch 'registrations' => 'registrations#update'
 

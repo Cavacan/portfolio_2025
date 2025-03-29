@@ -9,15 +9,14 @@ class Admin::DashboardController < ApplicationController
   private
 
   def not_authenticated
-    flash[:alert] = "ログインして下さい。"
+    flash[:alert] = 'ログインして下さい。'
     redirect_to admin_login_path
   end
 
   def check_admin
-    unless current_user.admin?
-      flash[:alert] = '管理者権限がありません。'
-      redirect_to admin_login_path
-    end
-  end
+    return if current_user.admin?
 
+    flash[:alert] = '管理者権限がありません。'
+    redirect_to admin_login_path
+  end
 end

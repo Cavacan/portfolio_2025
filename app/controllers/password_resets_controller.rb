@@ -1,6 +1,5 @@
 class PasswordResetsController < ApplicationController
-  def new
-  end
+  def new; end
 
   def create
     @user = User.find_by(email: params[:email])
@@ -16,19 +15,19 @@ class PasswordResetsController < ApplicationController
 
   def update
     @user = User.load_from_reset_password_token(params[:id])
-    if @user 
+    if @user
       @user.password = params[:user][:password]
       @user.password_confirmation = params[:user][:password_confirmation]
 
       if @user.save
         UserMailer.reset_password_completed(@user).deliver_later
-        flash[:notice] = "パスワードを更新しました。"
+        flash[:notice] = 'パスワードを更新しました。'
         redirect_to root_path
       else
         render :edit
       end
     else
-      flash[:alert] = "無効なトークンです。再度メール送信からやり直して下さい。"
+      flash[:alert] = '無効なトークンです。再度メール送信からやり直して下さい。'
       render :new
     end
   end

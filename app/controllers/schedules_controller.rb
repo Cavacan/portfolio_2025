@@ -17,7 +17,7 @@ class SchedulesController < ApplicationController
     elsif schedule_params[:next_notification].present?
       @schedule.after_next_notification = Time.zone.parse(schedule_params[:next_notification]) + schedule_params[:notification_period].to_i.days
     end
-    
+
     if @schedule.save
       flash[:notice] = '予定を作成しました。'
       redirect_to schedules_path
@@ -66,10 +66,9 @@ class SchedulesController < ApplicationController
 
   def notification
     @schedule = current_user.schedules.find(params[:id])
-    if @schedule
-      UserMailer.send_schedule_notifications(current_user, [@schedule] ).deliver_now
-    else
-    end
+    return unless @schedule
+
+    UserMailer.send_schedule_notifications(current_user, [@schedule]).deliver_now
   end
 
   private

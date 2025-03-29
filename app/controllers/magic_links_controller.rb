@@ -20,7 +20,7 @@ class MagicLinksController < ApplicationController
     end
     redirect_to magic_link_portal_path
   end
-  
+
   def index
     @user = User.find(session[:user_id])
     if @user
@@ -36,9 +36,13 @@ class MagicLinksController < ApplicationController
     @user = User.find(session[:user_id])
     @schedule = Schedule.new(schedule_params)
     @schedule.creator = @user
-    
+
     if schedule_params[:next_notification].present?
-      @schedule.after_next_notification = Time.zone.parse(schedule_params[:next_notification]) + schedule_params[:notification_period].to_i.days rescue nil
+      @schedule.after_next_notification = begin
+        Time.zone.parse(schedule_params[:next_notification]) + schedule_params[:notification_period].to_i.days
+      rescue StandardError
+        nil
+      end
     end
 
     if @schedule.save
@@ -49,7 +53,7 @@ class MagicLinksController < ApplicationController
       @schedules = @user.schedules
       flash[:alert] = '予定の作成に失敗しました。'
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("flash", partial: "shared/information") }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace('flash', partial: 'shared/information') }
         format.html { render :index }
       end
     end
@@ -59,10 +63,10 @@ class MagicLinksController < ApplicationController
     @user = User.find(session[:user_id])
     @schedule = @user.schedules.find_by(id: params[:id])
 
-    if @schedule.nil?
-      flash[:alert] = '指定された予定が見つかりません。'
-      redirect_to magic_links_index_path
-    end
+    return unless @schedule.nil?
+
+    flash[:alert] = '指定された予定が見つかりません。'
+    redirect_to magic_links_index_path
   end
 
   def update_schedule
@@ -70,7 +74,7 @@ class MagicLinksController < ApplicationController
     @schedule = @user.schedules.find_by(id: params[:id])
 
     if @schedule.update(schedule_params)
-      @schedule.update_columns(after_next_notification:  @schedule.next_notification + @schedule.notification_period.to_i.days)
+      @schedule.update_columns(after_next_notification: @schedule.next_notification + @schedule.notification_period.to_i.days)
       UserMailer.send_magic_link_schedule_change(@user, @schedule).deliver_later
       flash[:notice] = 'マジックリンクで予定を変更しました。'
       redirect_to magic_links_index_path

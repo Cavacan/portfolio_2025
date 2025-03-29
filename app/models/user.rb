@@ -4,7 +4,9 @@ class User < ApplicationRecord
   attr_accessor :agree
 
   validates :email, presence: true, uniqueness: true
-  validates :password, length: { minimum: 3 }, if: -> { new_record? || changes[:crypted_password].present? }, allow_nil: true
+  validates :password, length: { minimum: 3 }, if: lambda {
+    new_record? || changes[:crypted_password].present?
+  }, allow_nil: true
   validates :password, confirmation: true
   validates :password_confirmation, presence: true, if: -> { new_record? || changes[:crypted_password].present? }
   validates :reset_password_token, uniqueness: true, allow_nil: true

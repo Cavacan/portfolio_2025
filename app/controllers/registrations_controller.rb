@@ -5,8 +5,8 @@ class RegistrationsController < ApplicationController
 
   def create #  パスワード入力用ページへのURLメール送信用（トークン付）
     # 規約同意チェック
-    unless user_params[:agree] == "1"
-      flash[:alert] = "利用規約の同意が必要です。"
+    unless user_params[:agree] == '1'
+      flash[:alert] = '利用規約の同意が必要です。'
       session[:email] = user_params[:email]
       return redirect_to new_registration_path
     end
@@ -31,30 +31,30 @@ class RegistrationsController < ApplicationController
       end
     end
     # セキュリティ
-    flash[:notice] = "アカウント作成用のメールを送信しました。"
+    flash[:notice] = 'アカウント作成用のメールを送信しました。'
     redirect_to new_registration_path
   end
 
   def edit
     @user = User.find_by(email_change_token: params[:token])
 
-    if @user.nil? || @user.email_change_token_end_time < Time.current
-      flash[:error] = "このリンクは無効です"
-      redirect_to root_path
-    end
+    return unless @user.nil? || @user.email_change_token_end_time < Time.current
+
+    flash[:error] = 'このリンクは無効です'
+    redirect_to root_path
   end
 
   def update
     @user = User.find_by(email_change_token: params[:token])
 
     if @user.nil? || @user.email_change_token_end_time < Time.current
-      flash[:error] = "このリンクは無効です"
+      flash[:error] = 'このリンクは無効です'
       redirect_to root_path
       return
     end
 
     if @user.complete_registration!(params[:user][:password], params[:user][:password_confirmation])
-      flash[:notice] = "パスワードが設定されました"
+      flash[:notice] = 'パスワードが設定されました'
       # redirect_to login_path
       redirect_to root_path
     else
