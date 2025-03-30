@@ -1,0 +1,49 @@
+<h1>予定送信ログ一覧</h1>
+<%= search_form_for @q, url: admin_logs_path, method: :get do |f| %>
+  <div>
+    <label>スケジュールID</label>
+    <%= f.text_field :schedule_id_eq, placeholder: 'スケジュールIDを入力' %> 
+  </div>
+
+  <div>
+    <label>送信日</label>
+    <%= f.date_field :send_time_gteq, placeholder: '開始日' %> 〜
+    <%= f.date_field :send_time_lteq, placeholder: '終了日' %>
+  </div>
+
+  <div>
+    <%= f.submit '検索' %>
+    <%= link_to 'リセット', admin_logs_path, class: 'reset_button' %>
+  </div>
+<% end %>
+
+<br>
+<hr>
+<table class="schedule-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>スケジュールID</th>
+      <th>スケジュール名</th>
+      <th>周期</th>
+      <th>送信時間</th>
+      <th>作成日時</th>
+      <th>更新日時</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @logs.each do |log| %>
+      <tr>
+        <td><%= log.id %></td>
+        <td><%= log.schedule_id %></td>
+        <td><%= log.schedule.title %></td>
+        <td><%= log.schedule.notification_period  %></td>
+        <td><%= log.send_time.strftime("%y/%m/%d") %></td>
+        <td><%= log.created_at.strftime("%y/%m/%d") %></td>
+        <td><%= log.updated_at.strftime("%y/%m/%d") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @logs %>

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     get 'sessions/new' => 'sessions#new', as: :login
     post 'sessions' => 'sessions#create'
     delete 'sessions' => 'sessions#destroy', as: :logout
+    resources 'logs', only: [:index]
   end
 
   resources :schedules, only: %i[index create edit update]
