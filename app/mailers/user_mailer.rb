@@ -57,4 +57,10 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(to: @user.email, subject: '【通知】メールアドレスの変更が完了しました。')
   end
+
+  def send_schedule_pre_notifications(user, schedules)
+    @user = user
+    @schedules = schedules
+    mail(to: @user.email, subject: '【事前予定通知】')
+  end
 end

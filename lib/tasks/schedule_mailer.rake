@@ -33,4 +33,35 @@ namespace :mailer do
       end
     end
   end
+
+  desc 'send prenotification email to users'
+  task send_schedule_pre_notifications: :environment do
+    today = Date.today
+
+    users = User.joins(:user_setting, :schedules)
+                .where(user_settings: { pre_notification: today })
+                .distinct
+
+    users.find_each do |user|
+      start_date = today + 1.day
+      end_date = today + 7.days
+
+      schedules = user.schedules
+                      .where(next_notification: start_date.beginning_of_day..end_date.end_of_day)
+                      .order(:next_notification)
+
+      if schedules.any?
+        hour = user.user_setting.notification_hour || 0
+        min = user.user_setting.notification_minute || 0
+        
+        send_time = Time.zone.now.change(hour: hour, min: min, sec: 0)
+        send_time += 1.hour if send_time < Time.zone.now
+
+        UserMailer.send_schedule_pre_notifications(user, schedules).deliver_later(wait_until: send_time)
+        puts "送信予約完了：#{user.email}（#{schedules.count}件）"
+      else
+        puts "予定なし：#{user.email}"
+      end
+    end
+  end
 end

@@ -1,0 +1,5 @@
+1週間以内の予定をお知らせします。
+
+<% @schedules.each do |schedule| %>
+・<%= schedule.title %>（予定日: <%= schedule.next_notification.strftime("%Y/%m/%d") %>）
+<% end %>

@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
   has_many :schedules, as: :creator, dependent: :destroy
+  has_one :user_setting, dependent: :destroy
+
   attr_accessor :agree
 
   validates :email, presence: true, uniqueness: true
