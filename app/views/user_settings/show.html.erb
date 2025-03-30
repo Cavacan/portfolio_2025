@@ -1,4 +1,6 @@
 <h1>環境設定　ユーザー：<%= current_user.name.presence || current_user.email %></h1>
+<%= link_to '予定一覧', schedules_path %>
+<hr>
 
 <%= form_with model: @settings, url: user_setting_path, scope: :user_setting, method: :patch, local: true do |f| %>
   <div>
