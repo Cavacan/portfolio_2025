@@ -18,6 +18,8 @@
 <% end %>
 
 <br>
+<%= link_to 'CSVダウンロード', admin_logs_path(request.query_parameters.merge(format: :csv)), class: 'btn btn-primary' %>
+<br>
 <hr>
 <table class="schedule-table">
   <thead>
@@ -38,9 +40,9 @@
         <td><%= log.schedule_id %></td>
         <td><%= log.schedule.title %></td>
         <td><%= log.schedule.notification_period  %></td>
-        <td><%= log.send_time.strftime("%y/%m/%d") %></td>
-        <td><%= log.created_at.strftime("%y/%m/%d") %></td>
-        <td><%= log.updated_at.strftime("%y/%m/%d") %></td>
+        <td><%= log.send_time.strftime("%Y/%m/%d %H:%M") %></td>
+        <td><%= log.created_at.strftime("%Y/%m/%d %H:%M") %></td>
+        <td><%= log.updated_at.strftime("%Y/%m/%d %H:%M") %></td>
       </tr>
     <% end %>
   </tbody>
