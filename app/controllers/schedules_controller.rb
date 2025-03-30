@@ -30,6 +30,15 @@ class SchedulesController < ApplicationController
 
   def edit
     @schedule = Schedule.find(params[:id])
+    logs = @schedule.notification_logs.order(:send_time)
+    if logs.size > 2
+      total_days = (logs.last.send_time.to_date - logs.first.send_time.to_date).to_i
+      suggested = (total_days / (logs.size - 1)).to_i
+
+      if suggested != @schedule.notification_period && suggested >= 2
+        @suggested_period = suggested
+      end
+    end
   end
 
   def update

@@ -9,6 +9,9 @@
     <div class="form-item">
       <%= f.label :notification_period, '周期' %>
       <%= f.number_field :notification_period, min: 2, max: 31 %> 日毎
+      <% if @suggested_period.present? %>
+        <%= "※履歴から推奨される周期は#{@suggested_period}です。" %>
+      <% end %>
     </div>
     
     <div class="form-item">

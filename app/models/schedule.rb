@@ -1,5 +1,6 @@
 class Schedule < ApplicationRecord
   belongs_to :creator, polymorphic: true
+  has_many :notification_logs, dependent: :destroy
 
   validates :title, presence: true
   validates :notification_period, presence: true, numericality: { only_integer: true, greater_than: 0 }
