@@ -1,0 +1,29 @@
+<h1>環境設定　ユーザー：<%= current_user.name.presence || current_user.email %></h1>
+<%= link_to '予定一覧', schedules_path %>
+<hr>
+
+<%= form_with model: @settings, url: user_setting_path, scope: :user_setting, method: :patch, local: true do |f| %>
+  <div>
+    <%= f.label :need_check_done, '要予定完了チェック ' %>
+    <%= f.check_box :need_check_done %>
+  </div>
+
+  <div>
+    <%= f.label :notification_hour, '通知予定 時：' %>
+    <%= f.number_field :notification_hour, min: 0, max: 23 %>
+  </div>
+
+  <div>
+    <%= f.label :notification_minute, '通知予定 分：' %>
+    <%= f.number_field :notification_minute, min: 0, max: 59 %>
+  </div>
+
+  <div>
+    <%= f.label :pre_notification, '事前予定通知：' %>
+    <%= f.datetime_field :pre_notification %>
+  </div>
+
+  <div>
+    <%= f.submit '更新' %>
+  </div>
+<% end %>

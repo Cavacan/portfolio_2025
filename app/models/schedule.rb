@@ -1,5 +1,7 @@
 class Schedule < ApplicationRecord
+  before_create :generate_token
   belongs_to :creator, polymorphic: true
+  has_many :notification_logs, dependent: :destroy
 
   validates :title, presence: true
   validates :notification_period, presence: true, numericality: { only_integer: true, greater_than: 0 }
@@ -16,5 +18,15 @@ class Schedule < ApplicationRecord
     return unless next_notification <= Time.current
 
     errors.add(:next_notification, 'は明日以降の日付を指定してください。')
+  end
+
+  def generate_token
+    loop do
+      token = SecureRandom.hex(10)
+      unless Schedule.exists?(done_token: token)
+        self.done_token = token
+        break
+      end
+    end
   end
 end

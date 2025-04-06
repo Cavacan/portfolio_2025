@@ -30,6 +30,15 @@ class SchedulesController < ApplicationController
 
   def edit
     @schedule = Schedule.find(params[:id])
+    logs = @schedule.notification_logs.order(:send_time)
+    if logs.size > 2
+      total_days = (logs.last.send_time.to_date - logs.first.send_time.to_date).to_i
+      suggested = (total_days / (logs.size - 1)).to_i
+
+      if suggested != @schedule.notification_period && suggested >= 2
+        @suggested_period = suggested
+      end
+    end
   end
 
   def update
@@ -69,6 +78,28 @@ class SchedulesController < ApplicationController
     return unless @schedule
 
     UserMailer.send_schedule_notifications(current_user, [@schedule]).deliver_now
+  end
+
+  def complete
+    schedule = Schedule.find_by(id: params[:id], done_token: params[:token])
+    unless schedule
+      flash[:alert] = 'この完了リンクは無効です。'
+      return redirect_to root_path
+    end
+
+    schedule.update!(
+      next_notification: Date.today + schedule.notification_period.days,
+      after_next_notification: Date.today + 2 * schedule.notification_period.days
+    )
+
+    NotificationLog.create!(
+      schedule_id: schedule.id,
+      send_time: Date.today,
+      is_snooze: false
+    )
+
+    flash[:notice] = "予定「#{schedule.title}」を完了しました。次回の予定日は#{schedule.next_notification.strftime("%Y/%m/%d")}です。"
+    redirect_to root_path
   end
 
   private
