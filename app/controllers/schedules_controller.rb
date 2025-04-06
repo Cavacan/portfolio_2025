@@ -47,7 +47,11 @@ class SchedulesController < ApplicationController
       @schedule.update_columns(after_next_notification: @schedule.next_notification + @schedule.notification_period.to_i.days)
       UserMailer.send_schedule_change_notification(current_user, @schedule).deliver_now
       flash[:notice] = '予定を変更しました。'
-      redirect_to schedules_path
+      if current_user.admin?
+        redirect_to admin_dashboard_path
+      else
+        redirect_to schedules_path
+      end
     else
       flash[:alert] = '編集に失敗しました。'
       render :edit
@@ -66,7 +70,11 @@ class SchedulesController < ApplicationController
       status: 0
     )
       flash[:notice] = '予定をアーカイブ化しました。'
-      redirect_to schedules_path
+      if current_user.admin?
+        redirect_to admin_dashboard_path
+      else
+        redirect_to schedules_path
+      end
     else
       flash[:alert] = '予定のアーカイブ化に失敗しました。'
       render :archive
