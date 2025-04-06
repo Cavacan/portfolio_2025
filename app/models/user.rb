@@ -2,6 +2,7 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
   has_many :schedules, as: :creator, dependent: :destroy
   has_one :user_setting, dependent: :destroy
+  has_many :shared_lists
 
   attr_accessor :agree
 

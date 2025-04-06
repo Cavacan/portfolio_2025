@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :shared_lists, only:[:index, :new, :create]
+
   get 'emails/edit'
   get 'emails/update'
   resources :password_resets, only: %i[new create edit update]

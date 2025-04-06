@@ -1,0 +1,10 @@
+<h1>共有リスト作成</h1>
+
+<%= form_with model: @shared_list, local: true do |f| %>
+  <div>
+    <%= f.label :list_title, '共有リスト名' %>
+    <%= f.text_field :list_title %>
+  </div>
+
+  <%= f.submit '作成' %>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_30_152407) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_06_162849) do
   create_table "notification_logs", force: :cascade do |t|
     t.integer "schedule_id", null: false
     t.datetime "send_time"
@@ -33,6 +33,23 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_30_152407) do
     t.datetime "updated_at", null: false
     t.string "done_token"
     t.index ["creator_type", "creator_id"], name: "index_schedules_on_creator"
+  end
+
+  create_table "shared_lists", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "list_title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_shared_lists_on_user_id"
+  end
+
+  create_table "shared_lists_schedules", force: :cascade do |t|
+    t.integer "shared_list_id", null: false
+    t.integer "schedule_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["schedule_id"], name: "index_shared_lists_schedules_on_schedule_id"
+    t.index ["shared_list_id"], name: "index_shared_lists_schedules_on_shared_list_id"
   end
 
   create_table "user_settings", force: :cascade do |t|
@@ -74,5 +91,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_30_152407) do
   end
 
   add_foreign_key "notification_logs", "schedules"
+  add_foreign_key "shared_lists", "users"
+  add_foreign_key "shared_lists_schedules", "schedules"
+  add_foreign_key "shared_lists_schedules", "shared_lists"
   add_foreign_key "user_settings", "users"
 end

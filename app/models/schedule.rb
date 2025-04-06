@@ -2,6 +2,8 @@ class Schedule < ApplicationRecord
   before_create :generate_token
   belongs_to :creator, polymorphic: true
   has_many :notification_logs, dependent: :destroy
+  has_many :shared_lists_schedules
+  has_many :shared_lists, through: :shared_lists_schedules
 
   validates :title, presence: true
   validates :notification_period, presence: true, numericality: { only_integer: true, greater_than: 0 }
