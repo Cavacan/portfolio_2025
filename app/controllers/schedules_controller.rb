@@ -80,6 +80,28 @@ class SchedulesController < ApplicationController
     UserMailer.send_schedule_notifications(current_user, [@schedule]).deliver_now
   end
 
+  def complete
+    schedule = Schedule.find_by(id: params[:id], done_token: params[:token])
+    unless schedule
+      flash[:alert] = 'この完了リンクは無効です。'
+      return redirect_to root_path
+    end
+
+    schedule.update!(
+      next_notification: Date.today + schedule.notification_period.days,
+      after_next_notification: Date.today + 2 * schedule.notification_period.days
+    )
+
+    NotificationLog.create!(
+      schedule_id: schedule.id,
+      send_time: Date.today,
+      is_snooze: false
+    )
+
+    flash[:notice] = "予定「#{schedule.title}」を完了しました。次回の予定日は#{schedule.next_notification.strftime("%Y/%m/%d")}です。"
+    redirect_to root_path
+  end
+
   private
 
   def schedule_params

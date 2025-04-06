@@ -26,7 +26,9 @@ Rails.application.routes.draw do
 
   resource :user_setting, only: %i[show update]
 
-  resources :schedules, only: %i[index create edit update]
+  resources :schedules, only: %i[index create edit update] do
+    post :complete, on: :member
+  end
   get 'schedule/:id/archive' => 'schedules#archive', as: :archive_schedule
   patch 'schedule/:id/archive' => 'schedules#archive_complete', as: :archive_complete_schedule
   get 'schedules/:id/notification' => 'schedules#notification', as: :notification_schedule

@@ -14,19 +14,29 @@ namespace :mailer do
         puts "送信完了： #{user.email}"
 
         schedules.each do |schedule|
-          NotificationLog.create!(
-            schedule_id: schedule.id,
-            send_time: schedule.next_notification,
-            is_snooze: false
-          )
+          if user.user_settings.need_check_done
+            NotificationLog.create!(
+              schedule_id: schedule.id,
+              send_time: schedule.next_notification,
+              is_snooze: true
+            )
+  
+            schedule.update!(
+              next_notification: Date.tomorrow,
+              after_next_notification: Date.tomorrow + 1.day
+            )
+          else
+            NotificationLog.create!(
+              schedule_id: schedule.id,
+              send_time: schedule.next_notification,
+              is_snooze: false
+            )
 
-          next_date = schedule.next_notification + schedule.notification_period.days
-          after_next_date = schedule.after_next_notification + schedule.notification_period.days
-
-          schedule.update!(
-            next_notification: next_date,
-            after_next_notification: after_next_date
-          )
+            schedule.update!(
+              next_notification: schedule.next_notification + schedule.notification_period.days,
+              after_next_notification: schedule.after_next_notification + schedule.notification_period.days
+            )
+          end
         end
       else
         puts '送信が必要な当日予定なし。'
