@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :shared_lists, only:[:index, :new, :create]
+  resources :shared_lists, only:[:index, :new, :create, :edit, :update]
 
   get 'emails/edit'
   get 'emails/update'

@@ -1,6 +1,6 @@
 <h1>共有リスト一覧</h1>
 
-<%= link_to 'New List', new_shared_list_path %>
+<%= link_to '新規作成', new_shared_list_path %>
 
 <% if @shared_lists.present? %>
   <% @shared_lists.each do |shared_list| %>
@@ -20,12 +20,15 @@
           <tr>
             <td><%= schedule.title %></td>
             <td><%= schedule.notification_period %></td>
-            <td><%= schedule.next_notification %></td>
-            <td><%= schedule.after_next_notification %></td>
+            <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
+
+    <%= link_to '編集', edit_shared_list_path(shared_list) %>
+
     <hr>
   <% end %>
 <% else %>

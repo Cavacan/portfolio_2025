@@ -6,5 +6,30 @@
     <%= f.text_field :list_title %>
   </div>
 
+  <h3>追加するスケジュールを選択して下さい。</h3>
+
+  <table class="schedule-table">
+    <thead>
+      <tr>
+        <th>予定名</th>
+        <th>周期</th>
+        <th>次回予定日</th>
+        <th>次々回予定日</th>
+        <th>リストに追加</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @user_schedules.each do |schedule| %>
+        <tr>
+          <td><%= schedule.title %></td>
+          <td><%= schedule.notification_period %></td>
+          <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
+          <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
+          <td><%= check_box_tag 'schedule_ids[]', schedule.id, params[:schedule_ids]&.include?(schedule.id.to_s)  %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
   <%= f.submit '作成' %>
 <% end %>
