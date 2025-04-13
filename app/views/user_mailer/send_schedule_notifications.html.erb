@@ -5,7 +5,7 @@
     <li>予定名　　：<%= schedule.title %></li>
     <li>予定日　　：<%= schedule.next_notification.to_date.strftime('%Y/%-m/%-d') %></li>
     <li>次回予定日：<%= schedule.after_next_notification.to_date.strftime('%Y/%-m/%-d') %></li>
-    <% if @user.user_settings.need_check_done %>
+    <% if @user.user_setting.need_check_done %>
       <li><%= link_to '完了する', complete_schedule_url(schedule, token: schedule.done_token), method: :post %></li>
     <% end %>
   <% end %>
