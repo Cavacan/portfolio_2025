@@ -43,6 +43,7 @@ Rails.application.routes.draw do
 
   get 'terms' => 'terms#show'
   get 'terms/embed' => 'terms#embed'
+  get 'policy' => 'terms#policy'
 
   get 'login' => 'sessions#new', as: :login
   post 'login' => 'sessions#create'

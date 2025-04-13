@@ -10,4 +10,7 @@ class TermsController < ApplicationController
   def embed
     render partial: 'shared/terms', layout: false
   end
+
+  def policy
+  end
 end
