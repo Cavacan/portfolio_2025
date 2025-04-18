@@ -16,6 +16,11 @@
       <%= f.datetime_local_field :next_notification, value: Time.zone.today.since(7.days) %>
     </div>
   
+    <div class="form-item">
+      <%= f.label :price, '予算（価格）' %>
+      <%= f.number_field :price %>
+    </div>
+
     <%= f.submit '作成' %>
   <% end %>
 </div>

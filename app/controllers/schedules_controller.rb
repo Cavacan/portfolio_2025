@@ -113,6 +113,6 @@ class SchedulesController < ApplicationController
   private
 
   def schedule_params
-    params.require(:schedule).permit(:title, :notification_period, :next_notification)
+    params.require(:schedule).permit(:title, :notification_period, :next_notification, :price)
   end
 end

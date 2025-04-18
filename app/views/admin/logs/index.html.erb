@@ -31,6 +31,7 @@
       <th>送信時間</th>
       <th>作成日時</th>
       <th>更新日時</th>
+      <th>予算（価格）</th>
     </tr>
   </thead>
   <tbody>
@@ -43,6 +44,7 @@
         <td><%= log.send_time.strftime("%Y/%m/%d %H:%M") %></td>
         <td><%= log.created_at.strftime("%Y/%m/%d %H:%M") %></td>
         <td><%= log.updated_at.strftime("%Y/%m/%d %H:%M") %></td>
+        <td><%= log.price.nil? ? 'なし': log.price %></td>
       </tr>
     <% end %>
   </tbody>

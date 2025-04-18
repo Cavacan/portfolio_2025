@@ -8,6 +8,7 @@ class Schedule < ApplicationRecord
   validates :title, presence: true
   validates :notification_period, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :next_notification, presence: true
+  validates :price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validate :next_notification_must_be_future
 
   enum status: { disabled: 0, enabled: 1 }, _prefix: true

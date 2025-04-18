@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_06_162849) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_18_044152) do
   create_table "notification_logs", force: :cascade do |t|
     t.integer "schedule_id", null: false
     t.datetime "send_time"
     t.boolean "is_snooze"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "price"
     t.index ["schedule_id"], name: "index_notification_logs_on_schedule_id"
   end
 
@@ -32,6 +33,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_06_162849) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "done_token"
+    t.integer "price"
     t.index ["creator_type", "creator_id"], name: "index_schedules_on_creator"
   end
 

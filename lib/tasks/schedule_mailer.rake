@@ -18,6 +18,7 @@ namespace :mailer do
             NotificationLog.create!(
               schedule_id: schedule.id,
               send_time: schedule.next_notification,
+              price: schedule.price,
               is_snooze: true
             )
   
@@ -29,6 +30,7 @@ namespace :mailer do
             NotificationLog.create!(
               schedule_id: schedule.id,
               send_time: schedule.next_notification,
+              price: schedule.price,
               is_snooze: false
             )
 
