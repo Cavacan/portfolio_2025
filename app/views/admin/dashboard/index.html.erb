@@ -20,6 +20,7 @@
           <td><%= schedule.notification_period %></td>
           <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
           <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
+          <td><%= schedule.price.nil? ? "無し" : schedule.price %></td>
           <td><%= schedule.status_enabled? ? "有効" : "無効" %></td>
           <td>
             <%= link_to '編集', edit_schedule_path(schedule), class: "btn btn-primary" %>

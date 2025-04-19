@@ -4,3 +4,7 @@
 周期　　　　：<%= @schedule.notification_period %>
 次回予定日　：<%= @schedule.next_notification.to_date.strftime('%Y/%-m/%-d') %>
 次々回予定日：<%= @schedule.after_next_notification.to_date.strftime('%Y/%-m/%-d') %>
+<% unless @schedule.price.nil? %>
+  予算（価格）：<%= @schedule.price %>円
+<% end %>
+

@@ -14,6 +14,7 @@ RSpec.describe "一般ユーザーによる予定管理", type: :system do
     fill_in "予定名", with: "新しい予定"
     fill_in "周期", with: 3
     fill_in "次回予定日", with: Date.today + 1
+    fill_in "予算（価格）", with: 100
     click_button "作成"
 
     expect(page).to have_content("予定を作成しました。")
