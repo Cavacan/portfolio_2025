@@ -1,0 +1,15 @@
+<%= form_with model: @shared_user, url: shared_users_path, local: true do |f| %>
+  <%= f.hidden_field :shared_list_id, value: @shared_list_id %>
+
+  <div>
+    <%= f.label :email, '共有ユーザーメールアドレス' %>
+    <%= f.email_field :email %>
+  </div>
+
+  <div>
+    <%= f.label :named_by_host_user, '共有ユーザー名（リスト表示用です。相手には表示されません）' %>
+    <%= f.text_field :named_by_host_user %>
+  </div>
+
+  <%= f.submit '共有メールを送る' %>
+<% end %>

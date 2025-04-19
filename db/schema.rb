@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_18_044152) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_19_092506) do
   create_table "notification_logs", force: :cascade do |t|
     t.integer "schedule_id", null: false
     t.datetime "send_time"
@@ -52,6 +52,24 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_18_044152) do
     t.datetime "updated_at", null: false
     t.index ["schedule_id"], name: "index_shared_lists_schedules_on_schedule_id"
     t.index ["shared_list_id"], name: "index_shared_lists_schedules_on_shared_list_id"
+  end
+
+  create_table "shared_users", force: :cascade do |t|
+    t.integer "host_user_id", null: false
+    t.integer "shared_list_id", null: false
+    t.string "email"
+    t.string "initial_password_digest"
+    t.integer "status", null: false
+    t.string "named_by_shared_user"
+    t.string "named_by_host_user"
+    t.string "magic_link_token", null: false
+    t.datetime "magic_link_token_end_time", null: false
+    t.string "old_magic_link_token"
+    t.datetime "old_magic_link_token_end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["host_user_id"], name: "index_shared_users_on_host_user_id"
+    t.index ["shared_list_id"], name: "index_shared_users_on_shared_list_id"
   end
 
   create_table "user_settings", force: :cascade do |t|
@@ -96,5 +114,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_18_044152) do
   add_foreign_key "shared_lists", "users"
   add_foreign_key "shared_lists_schedules", "schedules"
   add_foreign_key "shared_lists_schedules", "shared_lists"
+  add_foreign_key "shared_users", "shared_lists"
+  add_foreign_key "shared_users", "users", column: "host_user_id"
   add_foreign_key "user_settings", "users"
 end

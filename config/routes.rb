@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
-  resources :shared_lists, only:[:index, :new, :create, :edit, :update]
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+  
+  resources :shared_lists, only: [:index, :new, :create, :edit, :update]
+
+  resources :shared_users, only: [:create, :destroy]
+  get '/shared_user_session/:id', to: 'shared_user_sessions#show', as: :shared_user_session
+
+  resources :shared_user_sessions, only: [:show]
 
   get 'emails/edit'
   get 'emails/update'

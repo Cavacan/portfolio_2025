@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :schedules, as: :creator, dependent: :destroy
   has_one :user_setting, dependent: :destroy
   has_many :shared_lists
+  has_many :shared_users_as_host, class_name: 'SharedUser', foreign_key: 'host_user_id'
 
   attr_accessor :agree
 

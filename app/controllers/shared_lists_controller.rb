@@ -26,6 +26,7 @@ class SharedListsController < ApplicationController
 
   def edit
     @shared_list = SharedList.find(params[:id])
+    @shared_user = SharedUser.new(email: 'shared_user@example.com')
     @user_schedules = current_user.schedules.where.not(id: @shared_list.schedule_ids)
   end
 
