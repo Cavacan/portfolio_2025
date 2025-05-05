@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_19_092506) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_27_061507) do
+  create_table "application_settings", force: :cascade do |t|
+    t.integer "base_notification_hour"
+    t.integer "base_notification_minute"
+    t.integer "base_pre_notification_hour"
+    t.integer "base_pre_notification_minute"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "notification_logs", force: :cascade do |t|
     t.integer "schedule_id", null: false
     t.datetime "send_time"

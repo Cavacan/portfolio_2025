@@ -1,0 +1,30 @@
+<h1>アプリケーション設定</h1>
+
+<%= form_with model: @setting, url: admin_application_setting_path, local: true do |f| %>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>項目</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>通知時間</td>
+        <td>
+          <%= f.number_field :base_notification_hour %>：
+          <%= f.number_field :base_notification_minute %>
+        </td>
+      </tr>
+      <tr>
+        <td>事前通知</td>
+        <td>
+          <%= f.number_field :base_pre_notification_hour %>：
+          <%= f.number_field :base_pre_notification_minute %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <%= f.submit '更新' %>
+<% end %>

@@ -1,5 +1,7 @@
 <h1>管理画面　予定一覧</h1>
 
+<%= link_to '環境設定', edit_admin_application_setting_path %>
+
 <% @users.each do |user| %>
   <h2><%= user.email %> ( <%= user.name.present? ? user.name : "no_name" %> )</h2>
   <table class="schedule-table">

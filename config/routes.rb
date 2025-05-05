@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     post 'sessions' => 'sessions#create'
     delete 'sessions' => 'sessions#destroy', as: :logout
     resources 'logs', only: [:index]
+    resource :application_setting, only: [:edit, :update]
   end
 
   resource :user_setting, only: %i[show update]
