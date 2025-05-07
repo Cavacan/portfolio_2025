@@ -1,80 +1,35 @@
 <h1>予定通知アプリ</h1>
-<%= link_to "メールアドレス変更", edit_email_path %>
-<%= link_to '環境設定', user_setting_path %>
+<div class="container">
+  <div class="fs-5">
+    <%= link_to "メールアドレス変更", edit_email_path %> | 
+    <%= link_to '環境設定', user_setting_path %>
+  </div>
+</div>
 
 <hr>
-<%= link_to '共有リスト', shared_lists_path %>
+<div class="container">
+  <div class="row">
+    <div class="d-flex">
+      <%= link_to '共有リスト', shared_lists_path, class: 'btn btn-primary mt-4' %>
+    </div>
+  </div>
+</div>
+
 <hr>
-<%= render 'shared/schedule_form' %>
+<div class="container">
+  <div class="border">
+    <%= render 'shared/schedule_form' %>
+  </div>
+</div>
 
 <br>
 
-<div class="schedule-container">
-  <h2>予定一覧</h2>
-  <table class="schedule-table">
-    <thead>
-      <tr>
-        <th>予定名</th>
-        <th>周期</th>
-        <th>次回予定日</th>
-        <th>次々回予定日</th>
-        <th>予算（価格）</th>
-        <th>状態</th>
-        <th>操作</th>
-        <th>テスト</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if @schedules.present? %>
-        <% @schedules.each do |schedule| %>
-          <tr>
-            <td><%= schedule.title %></td>
-            <td><%= schedule.notification_period %></td>
-            <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
-            <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
-            <td><%= schedule.price.nil? ? "無し" : schedule.price %></td>
-            <td><%= schedule.status_enabled? ? "有効" : "無効" %></td>
-            <td>
-              <%= link_to '編集', edit_schedule_path(schedule), class: "btn btn-primary" %>
-              <%= link_to '削除', archive_schedule_path(schedule), class: "btn btn-danger" %>
-            </td>
-            <td>
-            <%= link_to "通知テスト", notification_schedule_path(schedule), class: "btn btn-info" %>
-          </td>
-        </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
+<%= render partial: 'shared/schedule_table', locals: {schedules: @schedules, type: :normal} %>
 
-  <br>
+<br>
 
-  <% if @schedules_archived.present? %>
-  <h2>アーカイブ済み予定</h2>
-  <table class="schedule-archived-table">
-    <thead>
-      <tr>
-        <th>予定名</th>
-        <th>周期</th>
-        <th>次回予定日</th>
-        <th>次々回予定日</th>
-        <th>状態</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @schedules_archived.each do |schedule| %>
-        <tr>
-          <td><%= schedule.title %></td>
-          <td><%= schedule.notification_period %></td>
-          <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= schedule.price.nil? ? "無し" : schedule.price %></td>
-          <td><%= schedule.status_enabled? ? "有効" : "無効" %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <% end %>
-</div>
+<% if @schedules_archived.present? %>
+  <%= render partial: 'shared/schedule_table', locals: {schedules: @schedules_archived, type: :archived} %>
+<% end %>
 
 <br><br><br><br><br>

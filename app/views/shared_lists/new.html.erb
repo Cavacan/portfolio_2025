@@ -1,35 +1,46 @@
 <h1>共有リスト作成</h1>
 
-<%= form_with model: @shared_list, local: true do |f| %>
-  <div>
-    <%= f.label :list_title, '共有リスト名' %>
-    <%= f.text_field :list_title %>
-  </div>
+<div class="container">
+  <%= form_with model: @shared_list, local: true do |f| %>
+    <div class="fs-3 mb-3">
+      <%= f.label :list_title, '共有リスト名:' %>
+      <%= f.text_field :list_title, size: "50" %>
+    </div>
 
-  <h3>追加するスケジュールを選択して下さい。</h3>
+    <div class="conatianer">
+      <h4>追加するスケジュールを選択して下さい。</h4>
+    </div>
 
-  <table class="schedule-table">
-    <thead>
-      <tr>
-        <th>予定名</th>
-        <th>周期</th>
-        <th>次回予定日</th>
-        <th>次々回予定日</th>
-        <th>リストに追加</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @user_schedules.each do |schedule| %>
+    <table class="table">
+      <thead>
         <tr>
-          <td><%= schedule.title %></td>
-          <td><%= schedule.notification_period %></td>
-          <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= check_box_tag 'schedule_ids[]', schedule.id, params[:schedule_ids]&.include?(schedule.id.to_s)  %></td>
+          <th>予定名</th>
+          <th>周期</th>
+          <th>次回予定日</th>
+          <th>次々回予定日</th>
+          <th>リストに追加</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @user_schedules.each do |schedule| %>
+          <tr>
+            <td><%= schedule.title %></td>
+            <td><%= schedule.notification_period %></td>
+            <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= check_box_tag 'schedule_ids[]', schedule.id, params[:schedule_ids]&.include?(schedule.id.to_s)  %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-  <%= f.submit '作成' %>
-<% end %>
+    <div class="d-flex justify-content-end">
+      <div class="mt-2 me-2">
+        <%= f.submit '作成', class: 'btn btn-success', style: 'width: 150px;' %>
+      </div>
+      <div class="mt-2">
+        <%= link_to 'キャンセル', shared_lists_path, class: "btn btn-danger" %>
+      </div>
+    </div>
+  <% end %>
+</div>

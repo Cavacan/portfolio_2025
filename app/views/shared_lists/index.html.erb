@@ -1,33 +1,28 @@
 <h1>共有リスト一覧</h1>
 
-<%= link_to '新規作成', new_shared_list_path %>
+<div class="container">
+  <div class="d-flex">
+    <div class="mt-3 me-3">
+      <%= link_to '新規作成', new_shared_list_path, class: 'btn btn-success' %>
+    </div>
+    <div class="mt-3">
+      <%= link_to 'トップページへ戻る', schedules_path, class: 'btn btn-danger' %>
+    </div>
+  </div>
+</div>
 
 <% if @shared_lists.present? %>
   <% @shared_lists.each do |shared_list| %>
-    <h3><%= shared_list.list_title %></h3>
+    <div class="container">
+      <div class="d-flex justify-content-between">
+        <div class="mt-4">
+          <h3><%= shared_list.list_title %></h3>
+        </div>
+        <%= link_to '編集', edit_shared_list_path(shared_list), class: 'btn btn-primary mt-4' %>
+      </div>
+    </div>
 
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th>予定名</th>
-          <th>周期</th>
-          <th>次回予定日</th>
-          <th>次々回予定日</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% shared_list.schedules.each do |schedule| %>
-          <tr>
-            <td><%= schedule.title %></td>
-            <td><%= schedule.notification_period %></td>
-            <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
-            <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
-    <%= link_to '編集', edit_shared_list_path(shared_list) %>
+    <%= render partial: 'shared/schedule_table', locals: {schedules: shared_list.schedules, type: :shared} %>
 
     <hr>
   <% end %>

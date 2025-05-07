@@ -1,22 +1,23 @@
 <h1>パスワード設定</h1>
-
-<%= form_with model: @user, url: registrations_path, method: :patch do |f| %>
-  <%= hidden_field_tag :token, params[:token] %>
-  <div class="form-item">
-    <%= f.label :name, 'ユーザー名' %>
-    <%= f.text_field :name %>
-  </div>
-  <div class="form-item">
-    <%= f.label :password, 'パスワード' %>
-    <%= f.password_field :password %>
-  </div>
-  <div class="form-item">
-    <%= f.label :password_confirmation, 'パスワード再入力' %>
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <div class="form-item">
-    <%= f.submit 'アカウント作成' %>
-  </div>
-<% end %>
+<div class="container">
+  <%= form_with model: @user, url: registrations_path, method: :patch do |f| %>
+    <%= hidden_field_tag :token, params[:token] %>
+    <div class="form-item mt-2">
+      <%= f.label :name, 'ユーザー名' %>
+      <%= f.text_field :name, size:20 %>
+    </div>
+    <div class="form-item mt-2">
+      <%= f.label :password, 'パスワード' %>
+      <%= f.password_field :password %>
+    </div>
+    <div class="form-item mt-2">
+      <%= f.label :password_confirmation, 'パスワード再入力' %>
+      <%= f.password_field :password_confirmation %>
+    </div>
+    <div class="form-item mt-2">
+      <%= f.submit 'アカウント作成', class: 'btn btn-success' %>
+    </div>
+  <% end %>
+</div>
 
 <br><br><br><br><br>
