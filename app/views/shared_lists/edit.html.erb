@@ -1,80 +1,96 @@
 <h1>共有リスト編集画面</h1>
-<%= link_to '共有リスト一覧ページへ戻る', shared_lists_path %>
 
-<hr>
-<%= form_with model: @shared_user, url: shared_users_path, local: true do |f| %>
-  <%= f.hidden_field :shared_list_id, value: @shared_list.id %>
+<div class="container">
+  <%= link_to 'キャンセル', shared_lists_path, class: 'm-3 btn btn-danger' %>
+</div>
 
-  <div>
-    <%= f.label :email, '共有ユーザーメールアドレス' %>
-    <%= f.email_field :email %>
-  </div>
-
-  <div>
-    <%= f.label :named_by_host_user, '共有ユーザー名（リスト表示用です。相手には表示されません）' %>
-    <%= f.text_field :named_by_host_user %>
-  </div>
-
-  <%= f.submit '共有メールを送る' %>
-<% end %>
+<div class="container border mt-2 p-4">
+  <%= form_with model: @shared_user, url: shared_users_path, local: true do |f| %>
+    <%= f.hidden_field :shared_list_id, value: @shared_list.id %>
+  
+    <div class="mb-3">
+      <%= f.label :email, '共有ユーザーメールアドレス:' %>
+      <%= f.email_field :email, size: "40" %>
+    </div>
+  
+    <div class="mb-3">
+      <div class="d-flex">
+        <%= f.label :named_by_host_user, '共有ユーザー名　　　　　　:' %>
+        <%= f.text_field :named_by_host_user, size: "40" %>
+        <%= f.label :named_by_host_user, '（リスト表示用です。相手には表示されません）' %>
+      </div>
+    </div>
+  
+    <div class="d-grid col-4">
+      <%= f.submit '共有メールを送る', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
 
 <hr>
 
 <%= form_with url:shared_list_path(@shared_list), method: :patch, local: true do %>
-  <h2>＜リストへ追加＞</h2>
+  <div class="container">
+    <h2><%= @shared_list.list_title %>へ追加</h2>
 
-  <h3>予定一覧</h3>
-  <table class="schedule-table">
-    <thead>
-      <tr>
-        <th>予定名</th>
-        <th>周期</th>
-        <th>次回予定日</th>
-        <th>次々回予定日</th>
-        <th>リストに追加</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @user_schedules.each do |schedule| %>
+    <table class="table">
+      <thead>
         <tr>
-          <td><%= schedule.title %></td>
-          <td><%= schedule.notification_period %></td>
-          <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= check_box_tag 'add_schedule_ids[]', schedule.id, params[:add_schedule_ids]&.include?(schedule.id.to_s) %></td>
+          <th>予定名</th>
+          <th>周期</th>
+          <th>次回予定日</th>
+          <th>次々回予定日</th>
+          <th>リストに追加</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @user_schedules.each do |schedule| %>
+          <tr>
+            <td><%= schedule.title %></td>
+            <td><%= schedule.notification_period %></td>
+            <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= check_box_tag 'add_schedule_ids[]', schedule.id, params[:add_schedule_ids]&.include?(schedule.id.to_s) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-  <hr>
+  <div class="m-5"></div>
 
-  <h3><%= @shared_list.list_title %>：追加済み</h3>
-  <table class="schedule-table">
-    <thead>
-      <tr>
-        <th>予定名</th>
-        <th>周期</th>
-        <th>次回予定日</th>
-        <th>次々回予定日</th>
-        <th>リストから削除</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @shared_list.schedules.each do |schedule| %>
+  <div class="container">
+    <h3>追加済み</h3>
+    <table class="table">
+      <thead>
         <tr>
-          <td><%= schedule.title %></td>
-          <td><%= schedule.notification_period %></td>
-          <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
-          <td><%= check_box_tag 'remove_schedule_ids[]', schedule.id %></td>
+          <th>予定名</th>
+          <th>周期</th>
+          <th>次回予定日</th>
+          <th>次々回予定日</th>
+          <th>リストから削除</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @shared_list.schedules.each do |schedule| %>
+          <tr>
+            <td><%= schedule.title %></td>
+            <td><%= schedule.notification_period %></td>
+            <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= check_box_tag 'remove_schedule_ids[]', schedule.id %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
   <br>
 
-  <%= submit_tag '更新' %>
+  <div class="container">
+    <div class="d-flex justify-content-end">
+      <%= submit_tag '更新', class: 'btn btn-success' %>
+    </div>
+  </div>
 <% end %>
 
 <br><br><br><br><br><br>

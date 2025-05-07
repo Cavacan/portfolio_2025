@@ -1,6 +1,17 @@
 <h1>メールアドレスの変更</h1>
-<%= form_with url: email_path, method: :patch, local: true do |f| %>
-  <%= label_tag :new_email, "新しいメールアドレス" %>
-  <%= text_field_tag "user[new_email]" %>
-  <%= submit_tag "変更手続きメールを送信" %>
-<% end %>
+<div class="container">
+  <%= form_with url: email_path, method: :patch, local: true do |f| %>
+    <div class="mt-2">
+      <%= label_tag :new_email, "新しいメールアドレス" %>
+      <%= text_field_tag "user[new_email]", "", size: "30" %>
+    </div>
+    <div class="d-flex">
+      <div class="mt-2 me-2">
+        <%= submit_tag "変更手続きメールを送信", class: 'btn btn-success' %>
+      </div>
+      <div class="mt-2">
+        <%= link_to "キャンセル", schedules_path, class: 'btn btn-danger' %>
+      </div>
+    </div>
+  <% end %>
+</div>

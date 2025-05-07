@@ -1,35 +1,41 @@
-<div class="schedule_archive_form">
-  <h2>予定削除（アーカイブ）</h2>
+<h2>予定削除（アーカイブ）</h2>
+<div class="container">
   <%= form_with model: @schedule, url: archive_complete_schedule_path(@schedule), method: :patch, local: true do |f| %>
-    <div class="form-item">
-      <%= f.label :title, "予定名" %>:
-      <%= @schedule.title %>
-    </div>
-  
-    <div class="form-item">
-      <%= f.label :notification_period, '周期' %>:
-      <%= @schedule.notification_period %> 日毎
-    </div>
+    <div class="fs-5">
+
+      <div class="form-item mt-3">
+        <%= f.label :title, "予定名" %>:
+        <%= @schedule.title %>
+      </div>
     
-    <div class="form-item">
-      <%= f.label :next_notification, '次回予定日' %> :
-      <%= @schedule.next_notification.strftime("%Y/%-m/%-d") %>
+      <div class="form-item mt-3">
+        <%= f.label :notification_period, '周期' %>:
+        <%= @schedule.notification_period %> 日毎
+      </div>
+      
+      <div class="form-item mt-3">
+        <%= f.label :next_notification, '次回予定日' %> :
+        <%= @schedule.next_notification.strftime("%Y/%-m/%-d") %>
+      </div>
+    
+      <div class="form-item mt-3">
+        <%= f.label :after_next_notification, '次々回予定日' %>:
+        <%= @schedule.after_next_notification.strftime("%Y/%-m/%-d") %>
+      </div>
     </div>
-  
-    <div class="form-item">
-      <%= f.label :after_next_notification, '次々回予定日' %>:
-      <%= @schedule.after_next_notification.strftime("%Y/%-m/%-d") %>
-    </div>
-    <br>
     <hr>
-    <div class="form-item">
+    <div class="mt-3">
       予定をアーカイブ化します。以降はこの予定は通知されません。
-      <%= f.submit 'アーカイブ化する', class: 'btn btn-danger' %>
+    </div>
+    <div class="d-flex">
+      <div class="form-item mt-3 me-3">
+        <%= f.submit 'アーカイブ化する', class: 'btn btn-success' %>
+      </div>
+      <div class="form-item mt-3 me-3">
+        <%= link_to "キャンセル", schedules_path, class: 'btn btn-danger' %>
+      </div>
     </div>
   <% end %>
 </div>
 
-<hr>
-<br>
-<%= link_to "キャンセル", schedules_path %>
 

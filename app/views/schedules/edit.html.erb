@@ -1,12 +1,12 @@
-<div class="schedule_edit_form">
-  <h2>予定編集</h2>
+<h2>予定編集</h2>
+<div class="container">
   <%= form_with model: @schedule, local: true do |f| %>
-    <div class="form-item">
+    <div class="form-item mt-3">
       <%= f.label :title, "予定名" %>
-      <%= f.text_field :title %>
+      <%= f.text_field :title, size: "30" %>
     </div>
   
-    <div class="form-item">
+    <div class="form-item mt-3">
       <%= f.label :notification_period, '周期' %>
       <%= f.number_field :notification_period, min: 2, max: 31 %> 日毎
       <% if @suggested_period.present? %>
@@ -14,23 +14,27 @@
       <% end %>
     </div>
     
-    <div class="form-item">
+    <div class="form-item mt-3">
       <%= f.label :next_notification, '次回予定日' %> :
       <%= f.datetime_local_field :next_notification %>
     </div>
   
-    <div class="form-item">
+    <div class="form-item mt-3">
       <%= f.label :after_next_notification, '次々回予定日' %>:
       <%= @schedule.after_next_notification.strftime("%Y/%-m/%-d") %>
       <br>　※ 周期と次回予定日に合わせて自動で変更されます。
     </div>
     <br>
-    <div class="form-item">
-      <%= f.submit '更新' %>
+    <div class="d-flex">
+      <div class="form-item mt-3 me-3">
+        <%= f.submit '更新', class: 'btn btn-success' %>
+      </div>
+      <div class="mt-3">
+        <%= link_to "キャンセル", schedules_path, class: 'btn btn-danger' %>
+      </div>
     </div>
   <% end %>
 </div>
 
 <br>
-<%= link_to "キャンセル", schedules_path %>
 
