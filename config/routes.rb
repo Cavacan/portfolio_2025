@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
-  
+
+  get 'logs' => 'logs#index'
+
   resources :shared_lists, only: [:index, :new, :create, :edit, :update]
 
   resources :shared_users, only: [:create, :destroy]
