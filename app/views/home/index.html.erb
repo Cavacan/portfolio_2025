@@ -1,6 +1,9 @@
 <div class="container mt-5">
   <h1 class="text-center mb-4">予定通知アプリ</h1>
   <div class="row justify-content-center">
+
+    <%= render 'shared/loading' %>
+
     <div  class="form-control col-m-6">
       <%= form_with url: login_path, local: true do |f| %>
         <div class="m-3">
@@ -13,13 +16,16 @@
           <%= f.password_field :password, value: "password" %>
         </div>
         <div class="m-3">
-          <%= f.submit 'ログイン', class: 'btn btn-success' %>
+          <%= f.submit 'ログイン', class: 'btn btn-success show-loading' %>
         </div>
-      <% end %>
+        <% end %>
+      </div>
+      <%= link_to 'パスワード再設定', new_password_reset_path %>
     </div>
-    <%= link_to 'パスワード再設定', new_password_reset_path %>
+    
+  <div class="m-3">
+    <button class="show-loading">test loading</button>
   </div>
-
   <br><br>
 
   <p>登録がまだの方はこちら</p>
