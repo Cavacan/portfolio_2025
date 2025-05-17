@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
+  get 'unshared' => 'shared_users#unshared'
   get 'logs' => 'logs#index'
 
   resources :shared_lists, only: [:index, :new, :create, :edit, :update]

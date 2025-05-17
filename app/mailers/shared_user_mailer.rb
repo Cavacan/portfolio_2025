@@ -49,4 +49,23 @@ class SharedUserMailer < ApplicationMailer
       subject: '更新通知【予約通知アプリ】'
     )
   end
+
+  def unshared_to_host(shared_user)
+    @shared_user = shared_user
+    @shared_list = @shared_user.shared_list
+    @host_user = @shared_user.host_user
+    mail(
+      to: @host_user.email,
+      subject: '共有解除通知【予約通知アプリ】'
+    )
+  end
+
+  def unshared_to_shared_user(shared_user)
+    @shared_user = shared_user
+    @shared_list = @shared_user.shared_list
+    mail(
+      to: @shared_user.email,
+      subject: '共有解除通知【予約通知アプリ】'
+    )
+  end
 end

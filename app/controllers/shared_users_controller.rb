@@ -4,6 +4,9 @@ class SharedUsersController < ApplicationController
     if @shared_user.nil? || @shared_user.magic_link_token != params[:token]
       redirect_to root_path, alert: '認証に失敗しました。'
       return
+    elsif @shared_user.revoked?
+      flash[:alert] = '共有が解除されているためリストにアクセスできません。'
+      redirect_to unshared_path
     end
     session[:shared_user_id] = @shared_user.id unless session[:shared_user_id] == @shared_user.id
 
@@ -47,6 +50,22 @@ class SharedUsersController < ApplicationController
     )
     flash[:notice] = '予定を完了させ、次回予定日を設定しました。'
     redirect_to shared_user_path(shared_user, token: shared_user.magic_link_token)
+  end
+
+  def destroy
+    shared_user = SharedUser.find(params[:id])
+    if shared_user.update(status: :revoked)
+      SharedUserMailer.unshared_to_host(shared_user).deliver_later
+      SharedUserMailer.unshared_to_shared_user(shared_user).deliver_later
+      flash[:notice] = '共有を解除しました。ご利用ありがとうございました。'
+      redirect_to unshared_path
+    else
+      flash[:alert] = '共有の解除に失敗しました。'
+      redirect_to shared_user_path(shared_user, token: shared_user.magic_link_token)
+    end
+  end
+
+  def unshared
   end
 
   private

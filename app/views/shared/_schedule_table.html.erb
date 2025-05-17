@@ -88,7 +88,6 @@
     </table>
   </div>
 <% elsif type == :shared_user %>
- <p>shared_userのリスト</p>
   <div class="container">
     <table class="table">
       <thead>
@@ -111,7 +110,7 @@
               <%= button_to '完了',
                   complete_schedule_shared_user_path(shared_user.id, schedule_id: schedule.id),
                   method: :patch,
-                  data: { confirm: "本当に完了にしますか？" },
+                  data: { confirm: "完了にしますか？ 次の予定日が自動で設定されます。", turbo: false },
                   class: "btn btn-primary" %>
             </td>
           </tr>
