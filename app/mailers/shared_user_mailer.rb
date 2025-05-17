@@ -16,4 +16,14 @@ class SharedUserMailer < ApplicationMailer
       subject: "共有リスト:#{@shared_list_title} 【予定通知アプリ】"
     )
   end
+
+  def activated(shared_user)
+    @shared_user = shared_user
+    @shared_list_title = @shared_user.shared_list.list_title
+    @url = shared_user_url(id: @shared_user.id, token: @shared_user.magic_link_token)
+    mail(
+      to: @shared_user.email,
+      subject: "認証成功 【予定通知アプリ】"
+    )
+  end
 end

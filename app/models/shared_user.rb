@@ -12,8 +12,13 @@ class SharedUser < ApplicationRecord
     self.magic_link_token == token && magic_link_token_end_time.future?
   end
 
-  def generate_magic_link_token
+  def generate_first_magic_link_token
     self.magic_link_token = SecureRandom.urlsafe_base64(32)
     self.magic_link_token_end_time = 1.day.from_now
+  end
+
+  def generate_magic_link_token
+    self.magic_link_token = SecureRandom.urlsafe_base64(32)
+    self.magic_link_token_end_time = 14.days.from_now
   end
 end
