@@ -1,6 +1,6 @@
 class SharedUsersController < ApplicationController
   def show
-    @shared_user = SharedUser.find_by(id: params[:id])
+    @shared_user = SharedUser.find(params[:id])
     if @shared_user.nil? || @shared_user.magic_link_token != params[:token]
       redirect_to root_path, alert: '認証に失敗しました。'
       return
@@ -26,6 +26,27 @@ class SharedUsersController < ApplicationController
       flash[:alert] = '追加に失敗しました。'
       redirect_to edit_shared_list_path(shared_list)
     end
+  end
+
+  def complete_schedule
+    shared_user = SharedUser.find(params[:id])
+    shared_list = shared_user.shared_list
+    schedule =  shared_list.schedules.find_by(id: params[:schedule_id])
+
+    schedule.update!(
+      next_notification: Date.today + schedule.notification_period.days,
+      after_next_notification: Date.today + 2 * schedule.notification_period.days
+    )
+
+    SharedUserMailer.complete_schedule(shared_user, schedule).deliver_later
+    SharedUserMailer.complete_schedule_self(shared_user, schedule).deliver_later
+    NotificationLog.create!(
+      schedule_id: schedule.id,
+      send_time: Date.today,
+      is_snooze: false
+    )
+    flash[:notice] = '予定を完了させ、次回予定日を設定しました。'
+    redirect_to shared_user_path(shared_user, token: shared_user.magic_link_token)
   end
 
   private

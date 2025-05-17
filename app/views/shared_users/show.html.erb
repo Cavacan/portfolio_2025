@@ -1,3 +1,3 @@
 <h2><%= @shared_list.list_title %></h2>
 
-<%= render partial: 'shared/schedule_table', locals: { schedules: @schedules, type: :shared } %>
+<%= render partial: 'shared/schedule_table', locals: { schedules: @schedules, type: :shared_user, shared_user: @shared_user } %>

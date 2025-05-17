@@ -1,6 +1,6 @@
 class SharedUserSessionsController < ApplicationController
   def show
-    shared_user = SharedUser.find_by(id: params[:id])
+    shared_user = SharedUser.find(params[:id])
 
     if shared_user.nil?
       render plain: "リンクが無効です。", status: :not_found

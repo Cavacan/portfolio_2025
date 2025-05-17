@@ -7,10 +7,13 @@ Rails.application.routes.draw do
 
   resources :shared_lists, only: [:index, :new, :create, :edit, :update]
 
-  resources :shared_users, only: [:show, :create, :destroy]
+  resources :shared_users, only: [:show, :create, :destroy] do
+    member do
+      get 'edit_schedule/:schedule_id' => 'shared_users#edit', as: :edit_schedule
+      patch 'complete_schedule/:schedule_id' => 'shared_users#complete_schedule', as: :complete_schedule
+    end
+  end
   get '/shared_user_session/:id', to: 'shared_user_sessions#show', as: :shared_user_session
-
-  resources :shared_user_sessions, only: [:show]
 
   get 'emails/edit'
   get 'emails/update'

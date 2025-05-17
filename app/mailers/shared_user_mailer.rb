@@ -26,4 +26,27 @@ class SharedUserMailer < ApplicationMailer
       subject: "認証成功 【予定通知アプリ】"
     )
   end
+
+  def complete_schedule(shared_user, schedule)
+    @shared_user = shared_user
+    @schedule = schedule
+  
+    @shared_list = @shared_user.shared_list
+    @host_user = @shared_list.user
+    mail(
+      to: @host_user.email,
+      subject: '更新通知【予約通知アプリ】'
+    )
+  end
+
+  def complete_schedule_self(shared_user, schedule)
+    @shared_user = shared_user
+    @schedule = schedule
+  
+    @shared_list = @shared_user.shared_list
+    mail(
+      to: @shared_user.email,
+      subject: '更新通知【予約通知アプリ】'
+    )
+  end
 end
