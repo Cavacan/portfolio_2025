@@ -16,4 +16,56 @@ class SharedUserMailer < ApplicationMailer
       subject: "共有リスト:#{@shared_list_title} 【予定通知アプリ】"
     )
   end
+
+  def activated(shared_user)
+    @shared_user = shared_user
+    @shared_list_title = @shared_user.shared_list.list_title
+    @url = shared_user_url(id: @shared_user.id, token: @shared_user.magic_link_token)
+    mail(
+      to: @shared_user.email,
+      subject: "認証成功 【予定通知アプリ】"
+    )
+  end
+
+  def complete_schedule(shared_user, schedule)
+    @shared_user = shared_user
+    @schedule = schedule
+  
+    @shared_list = @shared_user.shared_list
+    @host_user = @shared_list.user
+    mail(
+      to: @host_user.email,
+      subject: '更新通知【予約通知アプリ】'
+    )
+  end
+
+  def complete_schedule_self(shared_user, schedule)
+    @shared_user = shared_user
+    @schedule = schedule
+  
+    @shared_list = @shared_user.shared_list
+    mail(
+      to: @shared_user.email,
+      subject: '更新通知【予約通知アプリ】'
+    )
+  end
+
+  def unshared_to_host(shared_user)
+    @shared_user = shared_user
+    @shared_list = @shared_user.shared_list
+    @host_user = @shared_user.host_user
+    mail(
+      to: @host_user.email,
+      subject: '共有解除通知【予約通知アプリ】'
+    )
+  end
+
+  def unshared_to_shared_user(shared_user)
+    @shared_user = shared_user
+    @shared_list = @shared_user.shared_list
+    mail(
+      to: @shared_user.email,
+      subject: '共有解除通知【予約通知アプリ】'
+    )
+  end
 end

@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <span class="m-4">
+      <h2><%= @shared_list.list_title %></h2>
+    </span>
+    <span class="m-4">
+      <%= button_to '共有解除', shared_user_path(@shared_user), method: :delete, data: { confirm: '共有を解除します。解除するとこのリストは見ることができなくなります。' , turbo: false }, class: 'btn btn-danger' %>
+    </span>
+  </div>
+  
+  <%= render partial: 'shared/schedule_table', locals: { schedules: @schedules, type: :shared_user, shared_user: @shared_user } %>
+
+</div>

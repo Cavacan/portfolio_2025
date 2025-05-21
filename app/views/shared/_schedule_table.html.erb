@@ -87,4 +87,37 @@
       </tbody>
     </table>
   </div>
+<% elsif type == :shared_user %>
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>予定名</th>
+          <th>周期</th>
+          <th>次回予定日</th>
+          <th>次々回予定日</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% schedules.each do |schedule| %>
+          <tr>
+            <td><%= schedule.title %></td>
+            <td><%= schedule.notification_period %></td>
+            <td><%= schedule.next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td><%= schedule.after_next_notification.strftime("%Y/%-m/%-d") %></td>
+            <td>
+              <%= button_to '完了',
+                  complete_schedule_shared_user_path(shared_user.id, schedule_id: schedule.id),
+                  method: :patch,
+                  data: { confirm: "完了にしますか？ 次の予定日が自動で設定されます。", turbo: false },
+                  class: "btn btn-primary" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p>テンプレートに該当なし</p>
 <% end %>

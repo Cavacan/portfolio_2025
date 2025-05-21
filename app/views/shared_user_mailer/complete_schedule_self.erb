@@ -1,0 +1,12 @@
+<h2>予定通知アプリ</h2>
+
+<p><%= @shared_list.list_title %>の</p>
+<p><%= @schedule.title %>を完了させました。</p>
+<br>
+<ul>
+  <li>次回予定日：<%= @schedule.next_notification.to_date.strftime('%Y/%-m/%-d') %></li>
+  <li>次々回予定日：<%= @schedule.after_next_notification.to_date.strftime('%Y/%-m/%-d') %></li>
+  <% unless @schedule.price.nil? %>
+    <li>予算（価格）：<%= @schedule.price %>円</li>
+  <% end %>
+</ul>
