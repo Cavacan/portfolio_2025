@@ -13,8 +13,19 @@
   </head>
 
   <body>
-    <%= render 'shared/information' %>
-    <%= yield %>
-    <%= render 'shared/footer' %>
+    <% if show_sidebar? %>
+      <div class="main-content">
+        <%= render 'shared/information' %>
+        <%= yield %>
+      </div>
+      <div class="sidebar-fixed">
+        <%= render 'shared/sidebar' %>
+      </div>
+      <%= render 'shared/footer' %>
+    <% else %>
+      <%= render 'shared/information' %>
+      <%= yield %>
+      <%= render 'shared/footer' %>
+    <% end %>
   </body>
 </html>

@@ -6,4 +6,11 @@ module ApplicationHelper
       Rails.application.assets_manifest.files.key?(asset_path)
     end
   end
+
+  def show_sidebar?
+    return false if controller_name == 'sessions'
+    return false if controller_name == 'home' && action_name = 'index'
+    
+    true
+  end
 end

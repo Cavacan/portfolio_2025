@@ -24,6 +24,7 @@
   color: white;
   padding: 20px;
   text-align: center;
+  z-index: 999;
  }
 .footer_content {
   display: flex;

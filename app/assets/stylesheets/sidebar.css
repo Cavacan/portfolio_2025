@@ -1,0 +1,17 @@
+.sidebar-fixed {
+  width: 300px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: bisque;
+  overflow: auto;
+  z-index: 990;
+}
+
+.main-content {
+  margin-right: 300px;
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto;
+}
