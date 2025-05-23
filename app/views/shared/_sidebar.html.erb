@@ -14,4 +14,6 @@
   <%= current_user.name.present? || current_user.email %>
 </div>
 
-<%= button_to 'ログアウト', logout_path, method: :delete, class: 'btn btn-white nav-item' %>
+<div class="nav-item-logout">
+  <%= button_to 'ログアウト', logout_path, method: :delete, class: 'btn btn-light ms-3' %>
+</div>
