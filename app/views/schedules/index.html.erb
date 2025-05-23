@@ -1,20 +1,3 @@
-<h1>予定通知アプリ</h1>
-<div class="container">
-  <div class="fs-5">
-    <%= link_to "メールアドレス変更", edit_email_path %> | 
-    <%= link_to '環境設定', user_setting_path %> | 
-  </div>
-</div>
-
-<hr>
-<div class="container">
-  <div class="mr-3">
-    <%= link_to '共有リスト', shared_lists_path, class: 'btn btn-primary mt-4' %>
-    <%= link_to '履歴', logs_path, class: 'btn btn-primary mt-4' %>
-  </div>
-</div>
-
-<hr>
 <div class="container">
   <div class="border">
     <%= render 'shared/schedule_form' %>

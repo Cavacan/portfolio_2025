@@ -1,35 +1,30 @@
-<h1>共有リスト一覧</h1>
 
 <div class="container">
-  <div class="d-flex">
-    <div class="mt-3 me-3">
+  <div class="d-flex align-items-center gap-3">
+    <h1>共有リスト一覧</h1>
+    <div class="mt-1 ms-3">
       <%= link_to '新規作成', new_shared_list_path, class: 'btn btn-success' %>
-    </div>
-    <div class="mt-3">
-      <%= link_to 'トップページへ戻る', schedules_path, class: 'btn btn-danger' %>
     </div>
   </div>
 </div>
 
 <% if @shared_lists.present? %>
   <% @shared_lists.each do |shared_list| %>
-    <div class="container">
+    <div class="container mb-3">
       <div class="d-flex justify-content-between">
         <div class="mt-4">
           <h3><%= shared_list.list_title %></h3>
         </div>
         <%= link_to '編集', edit_shared_list_path(shared_list), class: 'btn btn-primary mt-4' %>
       </div>
+      <div class="border-bottom w-100 mt-1 mb-1"></div>
     </div>
 
     <%= render partial: 'shared/schedule_table', locals: {schedules: shared_list.schedules, type: :shared} %>
 
-    <hr>
   <% end %>
 <% else %>
   <div class="container mt-3">
     <h3>共有リストがありません。</h3>
   </div>
 <% end %>
-
-<br><br><br><br><br><br>

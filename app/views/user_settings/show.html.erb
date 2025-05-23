@@ -1,7 +1,16 @@
-<h1>環境設定　ユーザー：<%= current_user.name.presence || current_user.email %></h1>
+<div class="border-bottom mt-3 mb-3">
+  <h2>設定項目</h2>
+</div>
+
 <div class="container">
-  <div class="fs-5">
-    <%= link_to 'トップページへ戻る', schedules_path, class: 'btn btn-primary' %>
+  <div class="d-flex align-items-center">
+    <div class="d-flex flex-column" >
+      <h3>メールアドレスを変更する。</h3>
+      <p>- 登録メールアドレスに変更リンクが送信されます。</p>
+    </div>
+    <div class="ms-4">
+      <%= button_to "変更", edit_email_path, class: 'btn btn-light ms-3' %> 
+    </div>
   </div>
 </div>
 
