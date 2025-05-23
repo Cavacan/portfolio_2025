@@ -14,14 +14,28 @@
 
   <body>
     <% if show_sidebar? %>
-      <div class="main-content">
-        <%= render 'shared/information' %>
-        <%= yield %>
-      </div>
-      <div class="sidebar-fixed">
-        <%= render 'shared/sidebar' %>
-      </div>
+      <% if admin_namespace? %>
+        <div class="navbar-admin">
+          <%= render 'admin/shared/navbar' %>
+        </div>
+
+        <div class="main-content-admin">
+          <%= render 'shared/information' %>
+          <%= yield %>
+        </div>
+
+      <% else %>
+        <div class="main-content">
+          <%= render 'shared/information' %>
+          <%= yield %>
+        </div>
+        <div class="sidebar">
+          <%= render 'shared/sidebar' %>
+        </div>
+      <% end %>
+
       <%= render 'shared/footer' %>
+
     <% else %>
       <%= render 'shared/information' %>
       <%= yield %>

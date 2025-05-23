@@ -7,10 +7,20 @@ module ApplicationHelper
     end
   end
 
+  def admin_namespace?
+    controller_path.start_with?('admin/')
+  end
+
   def show_sidebar?
     return false if controller_name == 'sessions'
     return false if controller_name == 'home' && action_name = 'index'
     
     true
+  end
+
+  def sidebar_class
+    if show_sidebar?
+      admin_namespace? ? 'with-admin-sidebar' : 'with-sidebar'
+    end
   end
 end

@@ -1,25 +1,17 @@
-<div class="p-3">
-  <div class="nav flex-column">
-    <li class="nav-item bg-light rounded-3 mt-3">
-      <%= link_to '予定一覧', schedules_path, class: 'nav-link' %>
-    </li>
-    <li class="nav-item bg-light rounded-3 mt-3">
-      <%= link_to '共有リスト', shared_lists_path, class: 'nav-link' %>
-    </li>
-    <li class="nav-item bg-light rounded-3 mt-3">
-      <%= link_to '履歴', logs_path, class: 'nav-link' %>
-    </li>
-    <li class="nav-item bg-light rounded-3 mt-3">
-      <%= link_to '設定', user_setting_path, class: 'nav-link' %>
-    </li>
+<div class="nav flex-column">
+    <%= link_to '予定一覧', schedules_path, class: "nav-item #{'active' if current_page?(schedules_path)}" %>
+
+    <%= link_to '共有リスト', shared_lists_path, class: "nav-item #{'active' if current_page?(shared_lists_path)}" %>
+
+    <%= link_to '履歴', logs_path, class: "nav-item #{'active' if current_page?(logs_path)}" %>
+
+    <%= link_to '設定', user_setting_path, class: "nav-item #{'active' if current_page?(user_setting_path)}" %>
+
   </div>
 
-  <div class="border-end border-bottom border-secondary mt-3"></div>
-  <div class="user_name mt-3">
-    <%= current_user.name.present? || current_user.email %>
-  </div>
-
-  <div class="nav-item bg-light rounded-3 mt-3">
-    <%= button_to 'ログアウト', logout_path, method: :delete, class: 'btn btn-white' %>
-  </div>
+<div class="border-end border-bottom border-secondary mt-3"></div>
+<div class="user_name mt-3">
+  <%= current_user.name.present? || current_user.email %>
 </div>
+
+<%= button_to 'ログアウト', logout_path, method: :delete, class: 'btn btn-white nav-item' %>

@@ -15,22 +15,6 @@
  *= require loading
  */
 
- footer {
-  display: flex;
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  background-color: #aaaaaa;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  z-index: 999;
- }
-.footer_content {
-  display: flex;
-  gap: 40px;
-}
-
 .terms-container {
   overflow-y: auto;
   border: 1px solid;
