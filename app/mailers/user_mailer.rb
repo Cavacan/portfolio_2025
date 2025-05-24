@@ -39,7 +39,7 @@ class UserMailer < ApplicationMailer
   def reset_password_email(user)
     @user = user
     @url = edit_password_reset_url(@user.reset_password_token)
-    mail(to: user.email, subject: 'パスワード再設定')
+    mail(to: user.email, subject: 'パスワード再設定 【予定通知アプリ】')
   end
 
   def reset_password_completed(user)
@@ -49,13 +49,13 @@ class UserMailer < ApplicationMailer
 
   def email_change_confirmation(user)
     @user = user
-    @url = email_confirm_url(@user.email_change_token)
-    mail(to: user.email, subject: '【確認】メールアドレス変更手続き')
+    @url = email_confirm_url(token: user.email_change_token)
+    mail(to: user.email, subject: '【確認】メールアドレス変更手続き 【予定通知アプリ】')
   end
 
   def email_change_completed(user)
     @user = user
-    mail(to: @user.email, subject: '【通知】メールアドレスの変更が完了しました。')
+    mail(to: @user.email, subject: '【通知】メールアドレスの変更が完了しました。 【予定通知アプリ】')
   end
 
   def send_schedule_pre_notifications(user, schedules)

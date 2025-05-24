@@ -13,6 +13,9 @@ module ApplicationHelper
 
   def show_sidebar?
     return false if controller_name == 'sessions'
+    return false if controller_name == 'registrations'
+    return false if controller_name == 'password_resets'
+    return false if controller_name == 'magic_links'
     return false if controller_name == 'home' && action_name = 'index'
     
     true
