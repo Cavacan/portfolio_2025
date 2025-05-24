@@ -24,6 +24,7 @@ class PasswordResetsController < ApplicationController
         flash[:notice] = 'パスワードを更新しました。'
         redirect_to root_path
       else
+        flash.now[:alert] = '再入力のパスワードが一致しません。'
         render :edit
       end
     else
