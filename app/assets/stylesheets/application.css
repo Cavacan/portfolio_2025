@@ -14,20 +14,10 @@
  *= require_self
  *= require loading
  */
-
- footer {
-  display: flex;
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  background-color: #aaaaaa;
-  color: white;
-  padding: 20px;
-  text-align: center;
- }
-.footer_content {
-  display: flex;
-  gap: 40px;
+ html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .terms-container {

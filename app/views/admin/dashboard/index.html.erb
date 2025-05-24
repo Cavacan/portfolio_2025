@@ -1,7 +1,5 @@
 <h1>管理画面　予定一覧</h1>
 
-<%= link_to '環境設定', edit_admin_application_setting_path %>
-
 <% @users.each do |user| %>
   <h2><%= user.email %> ( <%= user.name.present? ? user.name : "no_name" %> )</h2>
   <table class="schedule-table">
@@ -11,6 +9,7 @@
         <th>周期</th>
         <th>次回予定日</th>
         <th>次々回予定日</th>
+        <th>価格</th>
         <th>状態</th>
         <th>操作</th>
       </tr>
@@ -36,6 +35,3 @@
   <hr>
 <% end %>
 
-<%= button_to 'ログアウト', admin_logout_path, method: :delete, class: "btn btn-danger" %>
-
-<br><br><br><br><br><br>
