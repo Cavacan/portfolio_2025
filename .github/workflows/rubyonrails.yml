@@ -44,7 +44,7 @@ jobs:
         with:
           bundler-cache: true
       - name: Generate binstubs
-        run: bundle binstubs bundler-audit brakeman rubocop
+        run: bundle rubocop
       # Add or replace any other lints here
       - name: Lint Ruby files
         run: bin/rubocop --parallel
