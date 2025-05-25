@@ -20,8 +20,7 @@ jobs:
         uses: ruby/setup-ruby@78c01b705fd9d5ad960d432d3a0cfa341d50e410 # v1.179.1
         with:
           bundler-cache: true
-      - name: Generate binstubs
-        run: bundle binstubs rubocop
+          bundler-without: ""
       # Add or replace any other lints here
       - name: Lint Ruby files
-        run: bin/rubocop --parallel
+        run: bundle exec rubocop --parallel
