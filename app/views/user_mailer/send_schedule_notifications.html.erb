@@ -9,7 +9,7 @@
       <li>予算（価格）：<%= schedule.price %>円</li>
     <% end %>
     <% if @user.user_setting.need_check_done %>
-      <li><%= link_to '完了する', complete_schedule_url(schedule, token: schedule.done_token), method: :post %></li>
+      <%= link_to '完了する', complete_schedule_url(schedule, token: schedule.done_token) %>
     <% end %>
   <% end %>
 </ul>

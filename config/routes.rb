@@ -46,10 +46,13 @@ Rails.application.routes.draw do
     resource :application_setting, only: [:edit, :update]
   end
 
-  resource :user_setting, only: %i[show update]
+  resource :user_setting, only: %i[show] do
+    patch :check_done
+    patch :notification_time
+  end
 
   resources :schedules, only: %i[index create edit update] do
-    post :complete, on: :member
+    get :complete, on: :member
   end
   get 'schedule/:id/archive' => 'schedules#archive', as: :archive_schedule
   patch 'schedule/:id/archive' => 'schedules#archive_complete', as: :archive_complete_schedule

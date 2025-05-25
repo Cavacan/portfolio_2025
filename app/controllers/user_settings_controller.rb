@@ -5,9 +5,20 @@ class UserSettingsController < ApplicationController
     @settings = @user.user_setting
   end
 
-  def update
+  def check_done
     @settings = current_user.user_setting || current_user.build_user_setting
-    if @settings.update(settings_params)
+    if @settings.update(check_done_params)
+      flash[:notice] = '設定を変更しました。'
+      redirect_to user_setting_path
+    else
+      flash[:alert] = '設定を変更できませんでした。'
+      render :show, status: :unprocessable_entity
+    end
+  end
+
+  def notification_time
+    @settings = current_user.user_setting || current_user.build_user_setting
+    if @settings.update(time_params)
       flash[:notice] = '設定を変更しました。'
       redirect_to user_setting_path
     else
@@ -18,7 +29,11 @@ class UserSettingsController < ApplicationController
 
   private
 
-  def settings_params
-    params.require(:user_setting).permit(:need_check_done, :notification_hour, :notification_minute, :pre_notification)
+  def check_done_params
+    params.require(:user_setting).permit(:need_check_done)
+  end
+
+  def time_params
+    params.require(:user_setting).permit(:notification_hour, :notification_minute, :pre_notification)
   end
 end
