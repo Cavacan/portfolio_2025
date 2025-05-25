@@ -25,9 +25,9 @@ jobs:
           bundler-cache: true
       # Add or replace database setup steps here
       - name: Set up database schema
-        run: 
+        run: |
           sudo apt-get update
-          sudo apt-get install -y libslite3-dev
+          sudo apt-get install -y libsqlite3-dev
           bin/rails db:schema:load
           bin/rails db:seed
       # Add or replace test runners here
