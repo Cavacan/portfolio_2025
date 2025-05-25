@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SharedListsController < ApplicationController
   def index
     @shared_lists = current_user.shared_lists
@@ -6,6 +8,12 @@ class SharedListsController < ApplicationController
   def new
     @shared_list = current_user.shared_lists.new
     @user_schedules = current_user.schedules
+  end
+
+  def edit
+    @shared_list = SharedList.find(params[:id])
+    @shared_user = SharedUser.new(email: 'shared_user@example.com')
+    @user_schedules = current_user.schedules.where.not(id: @shared_list.schedule_ids)
   end
 
   def create
@@ -22,12 +30,6 @@ class SharedListsController < ApplicationController
       flash[:alert] = '共有リストの作成に失敗しました。'
       render :new, status: :unprocessable_entity
     end
-  end
-
-  def edit
-    @shared_list = SharedList.find(params[:id])
-    @shared_user = SharedUser.new(email: 'shared_user@example.com')
-    @user_schedules = current_user.schedules.where.not(id: @shared_list.schedule_ids)
   end
 
   def update

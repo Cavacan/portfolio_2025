@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class SchedulesPdf < Prawn::Document
   def initialize(schedules)
     super()
-    font_path = Rails.root.join('public/fonts/ipaexg.ttf')
+    font_path = Rails.public_path.join('fonts/ipaexg.ttf')
     font_families.update('IPAexGothic' => {
                            normal: font_path
                          })

@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 namespace :mailer do
   desc 'Check schedules and send notification email to users'
   task send_schedule_notifications: :environment do
-    today = Date.today
+    today = Time.zone.today
     users = User.joins(:schedules)
                 .where('DATE(schedules.next_notification) = ?', today)
                 .distinct
 
     users.find_each do |user| # user毎に実行
-      schedules = user.schedules.where(next_notification: today.beginning_of_day..today.end_of_day)
+      schedules = user.schedules.where(next_notification: today.all_day)
 
       if schedules.any?
         UserMailer.send_schedule_notifications(user, schedules).deliver_later
@@ -48,7 +50,7 @@ namespace :mailer do
 
   desc 'send prenotification email to users'
   task send_schedule_pre_notifications: :environment do
-    today = Date.today
+    today = Time.zone.today
 
     users = User.joins(:user_setting, :schedules)
                 .where(user_settings: { pre_notification: today })

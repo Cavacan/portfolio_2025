@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SharedUserSessionsController < ApplicationController
   def show
     shared_user = SharedUser.find(params[:id])

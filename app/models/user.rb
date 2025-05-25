@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   authenticates_with_sorcery!
   has_many :schedules, as: :creator, dependent: :destroy
@@ -25,7 +27,7 @@ class User < ApplicationRecord
 
   def generate_magic_link_token
     self.magic_link_token = SecureRandom.urlsafe_base64
-    self.magic_link_token_end_time = Time.current + 2.days
+    self.magic_link_token_end_time = 2.days.from_now
     save!
   end
 
@@ -36,7 +38,7 @@ class User < ApplicationRecord
   def generate_email_change_token!(new_email)
     self.new_email = new_email
     self.email_change_token = SecureRandom.urlsafe_base64
-    self.email_change_token_end_time = Time.current + 1.day
+    self.email_change_token_end_time = 1.day.from_now
     save!
   end
 

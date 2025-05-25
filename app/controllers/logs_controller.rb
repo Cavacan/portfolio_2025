@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LogsController < ApplicationController
   def index
     @logs = NotificationLog.joins(:schedule)

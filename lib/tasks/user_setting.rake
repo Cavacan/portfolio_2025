@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :user_setting do
   desc '既存ユーザーに user_setting を作成する'
   task backfill: :environment do

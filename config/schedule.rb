@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require File.expand_path('../config/environment', __dir__)
 
 set :output, "#{path}/log/cron.log"
-env :PATH, ENV['PATH']
+env :PATH, ENV.fetch('PATH', nil)
 
 setting = ApplicationSetting.first
 

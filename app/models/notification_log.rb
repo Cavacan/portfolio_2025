@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NotificationLog < ApplicationRecord
   belongs_to :schedule
 

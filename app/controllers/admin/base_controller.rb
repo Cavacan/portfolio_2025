@@ -1,18 +1,22 @@
-class Admin::BaseController < ApplicationController
-  before_action :require_login
-  before_action :check_admin
+# frozen_string_literal: true
 
-  private
+module Admin
+  class BaseController < ApplicationController
+    before_action :require_login
+    before_action :check_admin
 
-  def not_authenticated
-    flash[:alert] = 'ログインして下さい。'
-    redirect_to admin_login_path
-  end
+    private
 
-  def check_admin
-    return if current_user.admin?
+    def not_authenticated
+      flash[:alert] = 'ログインして下さい。'
+      redirect_to admin_login_path
+    end
 
-    flash[:alert] = '管理者権限がありません。'
-    redirect_to admin_login_path
+    def check_admin
+      return if current_user.admin?
+
+      flash[:alert] = '管理者権限がありません。'
+      redirect_to admin_login_path
+    end
   end
 end

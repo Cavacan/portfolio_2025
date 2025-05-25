@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
@@ -52,8 +54,8 @@ Rails.application.configure do
   config.force_ssl = true
 
   # Log to STDOUT by default
-  config.logger = ActiveSupport::Logger.new(STDOUT)
-                                       .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
+  config.logger = ActiveSupport::Logger.new($stdout)
+                                       .tap  { |logger| logger.formatter = Logger::Formatter.new }
                                        .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 
   # Prepend all log lines with the following tags.
@@ -84,8 +86,8 @@ Rails.application.configure do
     domain: 'gmail.com',
     authentication: 'plain',
     enable_starttls_auto: true,
-    user_name: ENV['GMAIL_USERNAME'],
-    password: ENV['GMAIL_PASSWORD']
+    user_name: ENV.fetch('GMAIL_USERNAME', nil),
+    password: ENV.fetch('GMAIL_PASSWORD', nil)
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

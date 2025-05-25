@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MagicLinksController < ApplicationController
   def portal
     if session[:user_id].present?
@@ -116,11 +118,10 @@ class MagicLinksController < ApplicationController
       UserMailer.send_magic_link(user).deliver_later
       flash[:notice] = 'ログインリンクを送信しました。'
 
-      redirect_to magic_link_portal_path
     else
       flash[:alert] = '指定されたアドレスのアカウントが存在しません。'
-      redirect_to magic_link_portal_path
     end
+    redirect_to magic_link_portal_path
   end
 
   private

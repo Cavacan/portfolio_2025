@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def asset_exists?(asset_path)
     if Rails.application.config.assets.compile

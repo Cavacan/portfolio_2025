@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe '一般ユーザーによる予定管理', type: :system do
@@ -13,7 +15,7 @@ RSpec.describe '一般ユーザーによる予定管理', type: :system do
   it 'ログイン後に予定を新規作成し、一覧に表示される' do
     fill_in '予定名', with: '新しい予定'
     fill_in '周期', with: 3
-    fill_in '次回予定日', with: Date.today + 1
+    fill_in '次回予定日', with: Time.zone.today + 1
     fill_in '予算（価格）', with: 100
     click_button '作成'
 
@@ -22,12 +24,13 @@ RSpec.describe '一般ユーザーによる予定管理', type: :system do
   end
 
   it '既存の予定を編集できる' do
-    schedule = create(:schedule, creator: user, title: '旧予定', notification_period: 3, next_notification: Date.today + 1)
+    schedule = create(:schedule, creator: user, title: '旧予定', notification_period: 3,
+                                 next_notification: Time.zone.today + 1)
 
     visit edit_schedule_path(schedule)
     fill_in '予定名', with: '編集済み予定'
     fill_in '周期', with: 5
-    fill_in '次回予定日', with: Date.today + 2
+    fill_in '次回予定日', with: Time.zone.today + 2
     click_button '更新'
 
     expect(page).to have_content('予定を変更しました。')
@@ -39,8 +42,8 @@ RSpec.describe '一般ユーザーによる予定管理', type: :system do
                       creator: user,
                       title: '削除予定',
                       notification_period: 3,
-                      next_notification: Date.today + 1,
-                      after_next_notification: Date.today + 4)
+                      next_notification: Time.zone.today + 1,
+                      after_next_notification: Time.zone.today + 4)
 
     visit schedules_path
 
@@ -65,6 +68,6 @@ RSpec.describe '一般ユーザーによる予定管理', type: :system do
     end
 
     # ✅ モデル上でもステータス確認
-    expect(schedule.reload.status_enabled?).to be_falsey
+    expect(schedule.reload).not_to be_status_enabled
   end
 end

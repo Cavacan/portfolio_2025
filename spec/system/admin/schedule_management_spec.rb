@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe '管理者による予定管理', type: :system do
@@ -18,7 +20,7 @@ RSpec.describe '管理者による予定管理', type: :system do
     visit edit_schedule_path(schedule)
     fill_in '予定名', with: '管理者による編集'
     fill_in '周期', with: 5
-    fill_in '次回予定日', with: Date.today + 3.days
+    fill_in '次回予定日', with: Time.zone.today + 3.days
     click_button '更新'
 
     expect(page).to have_content('予定を変更しました。')
@@ -41,6 +43,6 @@ RSpec.describe '管理者による予定管理', type: :system do
     expect(current_path).to eq(admin_dashboard_path)
 
     # モデルの状態も確認
-    expect(schedule.reload.status_enabled?).to be_falsey
+    expect(schedule.reload).not_to be_status_enabled
   end
 end

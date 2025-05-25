@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EmailsController < ApplicationController
   before_action :require_login
 
@@ -17,10 +19,9 @@ class EmailsController < ApplicationController
     if user&.confirm_email_change!(params[:token])
       UserMailer.email_change_completed(user).deliver_later
       flash[:notice] = 'メールアドレスが変更されました。'
-      redirect_to root_path
     else
       flash[:alert] = 'トークンが無効または期限切れです。'
-      redirect_to root_path
     end
+    redirect_to root_path
   end
 end
