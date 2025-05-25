@@ -6,3 +6,4 @@ import "Chart.bundle"
 import "./loading.js"
 import Rails from "@rails/ujs"
 Rails.start()
+import "preset"
