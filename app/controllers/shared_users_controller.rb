@@ -65,8 +65,7 @@ class SharedUsersController < ApplicationController
     end
   end
 
-  def unshared
-  end
+  def unshared; end
 
   private
 

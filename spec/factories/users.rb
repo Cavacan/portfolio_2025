@@ -7,7 +7,7 @@ FactoryBot.define do
   end
 
   factory :admin_user, class: 'User' do
-    email { 'rspec_admin@example.com'}
+    email { 'rspec_admin@example.com' }
     password { 'adminpass' }
     password_confirmation { 'adminpass' }
     admin { true }

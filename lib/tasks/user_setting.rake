@@ -1,5 +1,5 @@
 namespace :user_setting do
-  desc "既存ユーザーに user_setting を作成する"
+  desc '既存ユーザーに user_setting を作成する'
   task backfill: :environment do
     User.includes(:user_setting).find_each do |user|
       unless user.user_setting

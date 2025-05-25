@@ -1,0 +1,21 @@
+AllCops:
+  TargetRubyVersion: 3.3
+  NewCops: enable
+  Exclude:
+    - 'db/schema.rb'
+  SuggestExtensions: false
+
+require: []
+
+plugins:
+  - rubocop-rails
+  - rubocop-rspec
+
+Layout/LineLength:
+  Max: 120
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true

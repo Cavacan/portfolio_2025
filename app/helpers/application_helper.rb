@@ -16,14 +16,14 @@ module ApplicationHelper
     return false if controller_name == 'registrations'
     return false if controller_name == 'password_resets'
     return false if controller_name == 'magic_links'
-    return false if controller_name == 'home' && action_name = 'index'
-    
+    return false if controller_name == 'home' && 'index'
+
     true
   end
 
   def sidebar_class
-    if show_sidebar?
-      admin_namespace? ? 'with-admin-sidebar' : 'with-sidebar'
-    end
+    return unless show_sidebar?
+
+    admin_namespace? ? 'with-admin-sidebar' : 'with-sidebar'
   end
 end

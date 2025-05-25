@@ -6,7 +6,7 @@ class Admin::ApplicationSettingsController < ApplicationController
   def update
     @setting = ApplicationSetting.instance
     if @setting.update(setting_params)
-      system("bundle exec whenever --update-crontab --set environment=production")
+      system('bundle exec whenever --update-crontab --set environment=production')
       flash[:notice] = '設定を変更しました。'
       redirect_to edit_admin_application_setting_path
     else
@@ -18,6 +18,7 @@ class Admin::ApplicationSettingsController < ApplicationController
   private
 
   def setting_params
-    params.require(:application_setting).permit(:base_notification_hour, :base_notification_minute, :base_pre_notification_hour, :base_pre_notification_minute)
+    params.require(:application_setting).permit(:base_notification_hour, :base_notification_minute,
+                                                :base_pre_notification_hour, :base_pre_notification_minute)
   end
 end

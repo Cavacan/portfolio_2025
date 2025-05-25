@@ -52,9 +52,9 @@ class SharedListsController < ApplicationController
     pdf = SharedListsPdf.new(shared_list.schedules.order(:next_notification), shared_list.list_title)
 
     send_data pdf.render,
-              filename: "shared_list-#{shared_list.list_title}_#{Time.current.strftime("%Y%m%d")}.pdf",
-              type: "application/pdf",
-              disposition: "attachment"
+              filename: "shared_list-#{shared_list.list_title}_#{Time.current.strftime('%Y%m%d')}.pdf",
+              type: 'application/pdf',
+              disposition: 'attachment'
   end
 
   private

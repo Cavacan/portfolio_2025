@@ -10,9 +10,9 @@ class SchedulesController < ApplicationController
       format.pdf do
         pdf = SchedulesPdf.new(@schedules.order(:next_notification))
         send_data pdf.render,
-                    filename: "schedules_#{Time.current.strftime('%Y%m%d%H%M%S')}.pdf",
-                    type: 'application/pdf',
-                    disposition: 'attachment'
+                  filename: "schedules_#{Time.current.strftime('%Y%m%d%H%M%S')}.pdf",
+                  type: 'application/pdf',
+                  disposition: 'attachment'
       end
     end
   end
@@ -42,14 +42,14 @@ class SchedulesController < ApplicationController
   def edit
     @schedule = Schedule.find(params[:id])
     logs = @schedule.notification_logs.order(:send_time)
-    if logs.size > 2
-      total_days = (logs.last.send_time.to_date - logs.first.send_time.to_date).to_i
-      suggested = (total_days / (logs.size - 1)).to_i
+    return unless logs.size > 2
 
-      if suggested != @schedule.notification_period && suggested >= 2
-        @suggested_period = suggested
-      end
-    end
+    total_days = (logs.last.send_time.to_date - logs.first.send_time.to_date).to_i
+    suggested = (total_days / (logs.size - 1)).to_i
+
+    return unless suggested != @schedule.notification_period && suggested >= 2
+
+    @suggested_period = suggested
   end
 
   def update
@@ -117,7 +117,7 @@ class SchedulesController < ApplicationController
       is_snooze: false
     )
 
-    flash[:notice] = "予定「#{schedule.title}」を完了しました。次回の予定日は#{schedule.next_notification.strftime("%Y/%m/%d")}です。"
+    flash[:notice] = "予定「#{schedule.title}」を完了しました。次回の予定日は#{schedule.next_notification.strftime('%Y/%m/%d')}です。"
     redirect_to root_path
   end
 

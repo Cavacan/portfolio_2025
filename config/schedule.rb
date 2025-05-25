@@ -1,4 +1,4 @@
-require File.expand_path("../config/environment", __dir__)
+require File.expand_path('../config/environment', __dir__)
 
 set :output, "#{path}/log/cron.log"
 env :PATH, ENV['PATH']

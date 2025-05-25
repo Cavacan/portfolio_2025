@@ -21,7 +21,7 @@ namespace :mailer do
               price: schedule.price,
               is_snooze: true
             )
-  
+
             schedule.update!(
               next_notification: Date.tomorrow,
               after_next_notification: Date.tomorrow + 1.day
@@ -65,7 +65,7 @@ namespace :mailer do
       if schedules.any?
         hour = user.user_setting.notification_hour || 0
         min = user.user_setting.notification_minute || 0
-        
+
         send_time = Time.zone.now.change(hour: hour, min: min, sec: 0)
         send_time += 1.hour if send_time < Time.zone.now
 

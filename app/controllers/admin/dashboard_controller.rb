@@ -1,5 +1,5 @@
 class Admin::DashboardController < Admin::BaseController
- def index
+  def index
     @users = User.all.includes(:schedules)
   end
 end

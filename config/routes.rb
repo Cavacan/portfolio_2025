@@ -1,18 +1,16 @@
 Rails.application.routes.draw do
-  if Rails.env.development?
-    mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  end
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   get 'unshared' => 'shared_users#unshared'
   get 'logs' => 'logs#index'
 
-  resources :shared_lists, only: [:index, :new, :create, :edit, :update] do
+  resources :shared_lists, only: %i[index new create edit update] do
     member do
       get 'pdf'
     end
   end
 
-  resources :shared_users, only: [:show, :create, :destroy] do
+  resources :shared_users, only: %i[show create destroy] do
     member do
       get 'edit_schedule/:schedule_id' => 'shared_users#edit', as: :edit_schedule
       patch 'complete_schedule/:schedule_id' => 'shared_users#complete_schedule', as: :complete_schedule
@@ -43,7 +41,7 @@ Rails.application.routes.draw do
     post 'sessions' => 'sessions#create'
     delete 'sessions' => 'sessions#destroy', as: :logout
     resources 'logs', only: [:index]
-    resource :application_setting, only: [:edit, :update]
+    resource :application_setting, only: %i[edit update]
   end
 
   resource :user_setting, only: %i[show] do
