@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   get 'unshared' => 'shared_users#unshared'
   get 'logs' => 'logs#index'
 
-  resources :shared_lists, only: [:index, :new, :create, :edit, :update]
+  resources :shared_lists, only: [:index, :new, :create, :edit, :update] do
+    member do
+      get 'pdf'
+    end
+  end
 
   resources :shared_users, only: [:show, :create, :destroy] do
     member do

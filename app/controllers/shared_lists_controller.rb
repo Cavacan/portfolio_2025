@@ -47,6 +47,16 @@ class SharedListsController < ApplicationController
     redirect_to edit_shared_list_path(@shared_list)
   end
 
+  def pdf
+    shared_list = current_user.shared_lists.find(params[:id])
+    pdf = SharedListsPdf.new(shared_list.schedules.order(:next_notification), shared_list.list_title)
+
+    send_data pdf.render,
+              filename: "shared_list-#{shared_list.list_title}_#{Time.current.strftime("%Y%m%d")}.pdf",
+              type: "application/pdf",
+              disposition: "attachment"
+  end
+
   private
 
   def shared_list_params

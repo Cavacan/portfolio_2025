@@ -4,6 +4,17 @@ class SchedulesController < ApplicationController
     @schedules = schedules.where(status: [1, 2])
     @schedules_archived = schedules.where(status: 0)
     @schedule = Schedule.new
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = SchedulesPdf.new(@schedules.order(:next_notification))
+        send_data pdf.render,
+                    filename: "schedules_#{Time.current.strftime('%Y%m%d%H%M%S')}.pdf",
+                    type: 'application/pdf',
+                    disposition: 'attachment'
+      end
+    end
   end
 
   def create
