@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include MetaTags::ControllerHelper
   private
 
   def not_authenticated
