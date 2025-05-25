@@ -10,9 +10,9 @@ class SchedulesController < ApplicationController
       format.pdf do
         pdf = SchedulesPdf.new(@schedules.order(:next_notification))
         send_data pdf.render,
-                    filename: "schedules_#{Time.current.strftime('%Y%m%d%H%M%S')}",
+                    filename: "schedules_#{Time.current.strftime('%Y%m%d%H%M%S')}.pdf",
                     type: 'application/pdf',
-                    disposition: 'inline'
+                    disposition: 'attachment'
       end
     end
   end
