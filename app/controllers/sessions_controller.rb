@@ -3,9 +3,10 @@ class SessionsController < ApplicationController
     set_meta_tags(
       title: 'ログイン | 予定通知アプリ',
       description: 'スケジュールを管理するにはログインして下さい。',
+      keyword: '予定管理,スケジュール管理,メール通知',
       og: {
-        title: 'ログイン | 予定通知アプリ',
-        description: 'スケジュールを管理するにはログインして下さい。',
+        title: :title,
+        description: :description,
         type: 'website',
         url: request.original_url,
         image: view_context.image_url('ogp/ogp_default.png')
@@ -14,7 +15,7 @@ class SessionsController < ApplicationController
         card: 'summary_large_image',
         title: 'ログイン | 予定通知アプリ',
         description: 'スケジュールを管理するにはログインして下さい。',
-        image: view_context.image_url('ogp/ogp_default.png')
+        image: view_context.image_url('ogp/ogp_twitter.png')
       }
     )
   end
