@@ -1,50 +1,60 @@
 <div class="container">
   <h2>設定項目</h2>
   <div class="border-bottom mt-3 mb-3"></div>
-</div>
 
-<div class="container mb-4">
-  <div class="d-flex align-items-center">
-    <div class="d-flex flex-column" >
-      <h3>メールアドレスを変更する。</h3>
-      <p>- 登録メールアドレスに変更リンクが送信されます。</p>
-    </div>
-    <div class="ms-4">
-      <%= link_to "変更", edit_email_path, class: 'btn btn-light ms-3' %> 
+  <div class="container mb-4">
+    <div class="d-flex align-items-center">
+      <div class="d-flex flex-column" >
+        <h3>メールアドレスを変更する。</h3>
+        <p class="ms-3">- 登録メールアドレスに変更リンクが送信されます。</p>
+      </div>
+      <div class="ms-4">
+        <%= link_to "変更", edit_email_path, class: 'btn btn-success ms-3' %> 
+      </div>
     </div>
   </div>
-</div>
 
 
-<div class="container mb-4">
-  <div class="border-bottom mt-3 mb-3"></div>
-  <h3>通知</h3>
-  <%= form_with model: @settings, url: user_setting_path, scope: :user_setting, method: :patch, local: true do |f| %>
-  <div class="d-flex align-items-end">
-    <div class="d-flex flex-column" >
-      <div class="mt-2">
-        <%= f.label :need_check_done, '要予定完了チェック ' %>
-        <%= f.check_box :need_check_done %>
+  <div class="container mt-4 mb-4">
+    <h3 class="mt-4">予定通知</h3>
+    <%= form_with model: @settings, url: check_done_user_setting_path, scope: :user_setting, method: :patch, local: true do |f| %>
+      <div class="d-flex ms-3">
+        <div class="d-flex align-items-center " >
+          <div class="mt-2">
+            <%= f.label :need_check_done, '要完了チェック '  %>
+            <%= f.check_box :need_check_done  %>
+          </div>
+          <div class="d-flex ms-4 mt-2">
+            <%= f.submit 'チェック設定を更新', class: 'btn btn-success' %>
+          </div>
+        </div>
       </div>
-    
-      <div class="mt-2">
-        <%= f.label :notification_hour, '通知予定 時：' %>
-        <%= f.number_field :notification_hour, min: 0, max: 23 %>
+      <p class="d-flex ms-4 mb-0" >※通知メールに完了リンクを追加します。</p>
+      <p class="d-flex ms-4 mb-0" >　リンクにアクセスして完了しない限り、通知を繰り返します。</p>
+    <% end %>
+
+    <h3 class="mt-4">通知時刻</h3>
+    <%= form_with model: @settings, url: notification_time_user_setting_path, scope: :user_setting, method: :patch, local: true do |f| %>
+      <div class="d-flex align-items-end ms-3">
+        <div class="d-flex flex-column" >
+          <div class="mt-2">
+            <%= f.label :notification_hour, '通知予定 時：' %>
+            <%= f.number_field :notification_hour, min: 0, max: 23 %>
+
+            <%= f.label :notification_minute, '：' %>
+            <%= f.number_field :notification_minute, min: 0, max: 59 %>
+          </div>
+        
+          <div class="mt-2">
+            <%= f.label :pre_notification, '事前予定通知：' %>
+            <%= f.datetime_field :pre_notification %>
+          </div>
+        
+        </div>
+        <div class="d-flex ms-4 mt-2">
+          <%= f.submit '通知時刻を更新', class: 'btn btn-success' %>
+        </div>
       </div>
-    
-      <div class="mt-2">
-        <%= f.label :notification_minute, '通知予定 分：' %>
-        <%= f.number_field :notification_minute, min: 0, max: 59 %>
-      </div>
-    
-      <div class="mt-2">
-        <%= f.label :pre_notification, '事前予定通知：' %>
-        <%= f.datetime_field :pre_notification %>
-      </div>
-    
-    </div>
-    <div class="d-flex ms-4 mt-2">
-      <%= f.submit '更新', class: 'btn btn-success' %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
