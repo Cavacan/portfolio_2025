@@ -1,6 +1,24 @@
 class RegistrationsController < ApplicationController
   def new
     @user = User.new(email: session[:email])
+    set_meta_tags(
+      title: 'サインイン | 予定通知アプリ',
+      description: 'サインインをするとスケジュール通知が使えるようになります。',
+      keyword: '予定管理,スケジュール管理,メール通知',
+      og: {
+        title: :title,
+        description: :description,
+        type: 'website',
+        url: request.original_url,
+        image: view_context.image_url('ogp/ogp_default.png')
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'サインイン | 予定通知アプリ',
+        description: 'サインインをするとスケジュール通知が使えるようになります。',
+        image: view_context.image_url('ogp/ogp_twitter.png')
+      }
+    )
   end
 
   def create #  パスワード入力用ページへのURLメール送信用（トークン付）
