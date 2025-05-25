@@ -1,31 +1,39 @@
 <div class="container">
   <div class="schedule_form">
     <h2>予定作成</h2>
+
+    <div class="row m-2">
+      <div class="d-flex justify-content-around align-items-center gap-3">
+        <label for="presetSelect" style="width: 10%;">プリセット</label>
+        <select id="presetSelect" class="form-select">
+        </select>
+      </div>
+    </div>
     <%= form_with model: @schedule, url: schedules_path, local: true do |f| %>
       <div class="row m-2">
-        <div class="form-item col-5">
+        <div class="form-item col-6">
           <%= f.label :title, "予定名" %>
-          <%= f.text_field :title, size: "40", value: 'test' %>
+          <%= f.text_field :title, size: "40", value: 'test', id: 'schedule_title' %>
         </div>
       
         <div class="form-item col-5">
           <%= f.label :notification_period, '周期' %>
-          <%= f.number_field :notification_period, size: "20", value: 7 %> 日毎
+          <%= f.number_field :notification_period, size: "20", value: 7, id: 'schedule_period' %> 日毎
         </div>
       </div>
       
       <div class="row m-2">
-        <div class="col-5">
+        <div class="col-6">
           <div class="form-item">
             <%= f.label :next_notification, '次回予定日' %>
-            <%= f.datetime_local_field :next_notification, value: Time.zone.today.since(7.days) %>
+            <%= f.datetime_local_field :next_notification, value: Time.zone.today.since(7.days), id: 'schedule_next_notification' %>
           </div>
         </div>
         
         <div class="col-5">
           <div class="form-item">
             <%= f.label :price, '予算（価格）' %>
-            <%= f.number_field :price %>
+            <%= f.number_field :price, id: 'schedule_price'  %>
           </div>
         </div>
       </div>
