@@ -1,8 +1,12 @@
-require "test_helper"
+# frozen_string_literal: true
 
-class Admin::LogsControllerTest < ActionDispatch::IntegrationTest
-  test "should get index" do
-    get admin_logs_index_url
-    assert_response :success
+require 'test_helper'
+
+module Admin
+  class LogsControllerTest < ActionDispatch::IntegrationTest
+    test 'should get index' do
+      get admin_logs_index_url
+      assert_response :success
+    end
   end
 end

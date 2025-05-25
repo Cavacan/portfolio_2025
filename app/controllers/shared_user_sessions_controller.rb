@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 class SharedUserSessionsController < ApplicationController
   def show
     shared_user = SharedUser.find(params[:id])
 
     if shared_user.nil?
-      render plain: "リンクが無効です。", status: :not_found
+      render plain: 'リンクが無効です。', status: :not_found
       return
     end
 
     if shared_user.revoked?
-      render plain: "共有は許可されていません。", status: :forbidden
+      render plain: '共有は許可されていません。', status: :forbidden
       return
     end
 
@@ -29,7 +31,7 @@ class SharedUserSessionsController < ApplicationController
       shared_user.generate_first_magic_link_token
       shared_user.save!
       SharedUserMailer.access_link(shared_user).deliver_now
-      render plain: "リンクの有効期限が切れています。新しいリンクを送信しました。"
+      render plain: 'リンクの有効期限が切れています。新しいリンクを送信しました。'
     end
   end
 end

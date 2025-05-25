@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SharedList < ApplicationRecord
   belongs_to :user
   has_many :shared_lists_schedules

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SharedUserMailer < ApplicationMailer
   include Rails.application.routes.url_helpers
 
@@ -23,14 +25,14 @@ class SharedUserMailer < ApplicationMailer
     @url = shared_user_url(id: @shared_user.id, token: @shared_user.magic_link_token)
     mail(
       to: @shared_user.email,
-      subject: "認証成功 【予定通知アプリ】"
+      subject: '認証成功 【予定通知アプリ】'
     )
   end
 
   def complete_schedule(shared_user, schedule)
     @shared_user = shared_user
     @schedule = schedule
-  
+
     @shared_list = @shared_user.shared_list
     @host_user = @shared_list.user
     mail(
@@ -42,7 +44,7 @@ class SharedUserMailer < ApplicationMailer
   def complete_schedule_self(shared_user, schedule)
     @shared_user = shared_user
     @schedule = schedule
-  
+
     @shared_list = @shared_user.shared_list
     mail(
       to: @shared_user.email,

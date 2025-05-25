@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user do
     email { 'rspec_test@example.com' }
@@ -7,7 +9,7 @@ FactoryBot.define do
   end
 
   factory :admin_user, class: 'User' do
-    email { 'rspec_admin@example.com'}
+    email { 'rspec_admin@example.com' }
     password { 'adminpass' }
     password_confirmation { 'adminpass' }
     admin { true }

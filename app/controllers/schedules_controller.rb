@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SchedulesController < ApplicationController
   def index
     schedules = current_user.schedules
@@ -10,18 +12,31 @@ class SchedulesController < ApplicationController
       format.pdf do
         pdf = SchedulesPdf.new(@schedules.order(:next_notification))
         send_data pdf.render,
-                    filename: "schedules_#{Time.current.strftime('%Y%m%d%H%M%S')}.pdf",
-                    type: 'application/pdf',
-                    disposition: 'attachment'
+                  filename: "schedules_#{Time.current.strftime('%Y%m%d%H%M%S')}.pdf",
+                  type: 'application/pdf',
+                  disposition: 'attachment'
       end
     end
+  end
+
+  def edit
+    @schedule = Schedule.find(params[:id])
+    logs = @schedule.notification_logs.order(:send_time)
+    return unless logs.size > 2
+
+    total_days = (logs.last.send_time.to_date - logs.first.send_time.to_date).to_i
+    suggested = (total_days / (logs.size - 1)).to_i
+
+    return unless suggested != @schedule.notification_period && suggested >= 2
+
+    @suggested_period = suggested
   end
 
   def create
     @schedule = Schedule.new(schedule_params)
     @schedule.creator = current_user
     if schedule_params[:title].blank? || schedule_params[:notification_period].blank? || schedule_params[:next_notification].blank?
-      flash[:alert] = '入力されていない項目があります'
+      flash.now[:alert] = '入力されていない項目があります'
       @schedules = current_user.schedules
       render :index, status: :unprocessable_entity
       return
@@ -36,19 +51,6 @@ class SchedulesController < ApplicationController
       flash[:alert] = '予定の作成に失敗しました。'
       @schedules = current_user.schedules
       render :index, status: :unprocessable_entity
-    end
-  end
-
-  def edit
-    @schedule = Schedule.find(params[:id])
-    logs = @schedule.notification_logs.order(:send_time)
-    if logs.size > 2
-      total_days = (logs.last.send_time.to_date - logs.first.send_time.to_date).to_i
-      suggested = (total_days / (logs.size - 1)).to_i
-
-      if suggested != @schedule.notification_period && suggested >= 2
-        @suggested_period = suggested
-      end
     end
   end
 
@@ -107,17 +109,17 @@ class SchedulesController < ApplicationController
     end
 
     schedule.update!(
-      next_notification: Date.today + schedule.notification_period.days,
-      after_next_notification: Date.today + 2 * schedule.notification_period.days
+      next_notification: Time.zone.today + schedule.notification_period.days,
+      after_next_notification: Time.zone.today + (2 * schedule.notification_period.days)
     )
 
     NotificationLog.create!(
       schedule_id: schedule.id,
-      send_time: Date.today,
+      send_time: Time.zone.today,
       is_snooze: false
     )
 
-    flash[:notice] = "予定「#{schedule.title}」を完了しました。次回の予定日は#{schedule.next_notification.strftime("%Y/%m/%d")}です。"
+    flash[:notice] = "予定「#{schedule.title}」を完了しました。次回の予定日は#{schedule.next_notification.strftime('%Y/%m/%d')}です。"
     redirect_to root_path
   end
 

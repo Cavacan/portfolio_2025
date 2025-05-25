@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSharedLists < ActiveRecord::Migration[7.1]
   def change
     create_table :shared_lists do |t|

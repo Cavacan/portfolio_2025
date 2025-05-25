@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SorceryCore < ActiveRecord::Migration[7.1]
   def change
     add_column :users, :crypted_password, :string

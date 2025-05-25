@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Schedule < ApplicationRecord
   before_create :generate_token
   belongs_to :creator, polymorphic: true
@@ -11,7 +13,7 @@ class Schedule < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validate :next_notification_must_be_future
 
-  enum status: { disabled: 0, enabled: 1 }, _prefix: true
+  enum :status, { disabled: 0, enabled: 1 }, prefix: true
 
   private
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SharedUsersController < ApplicationController
   def show
     @shared_user = SharedUser.find(params[:id])
@@ -24,11 +26,10 @@ class SharedUsersController < ApplicationController
     if shared_user.save
       SharedUserMailer.access_link(shared_user).deliver_now
       flash[:notice] = '共有リンクを送信しました。'
-      redirect_to edit_shared_list_path(shared_list)
     else
       flash[:alert] = '追加に失敗しました。'
-      redirect_to edit_shared_list_path(shared_list)
     end
+    redirect_to edit_shared_list_path(shared_list)
   end
 
   def complete_schedule
@@ -37,15 +38,15 @@ class SharedUsersController < ApplicationController
     schedule =  shared_list.schedules.find_by(id: params[:schedule_id])
 
     schedule.update!(
-      next_notification: Date.today + schedule.notification_period.days,
-      after_next_notification: Date.today + 2 * schedule.notification_period.days
+      next_notification: Time.zone.today + schedule.notification_period.days,
+      after_next_notification: Time.zone.today + (2 * schedule.notification_period.days)
     )
 
     SharedUserMailer.complete_schedule(shared_user, schedule).deliver_later
     SharedUserMailer.complete_schedule_self(shared_user, schedule).deliver_later
     NotificationLog.create!(
       schedule_id: schedule.id,
-      send_time: Date.today,
+      send_time: Time.zone.today,
       is_snooze: false
     )
     flash[:notice] = '予定を完了させ、次回予定日を設定しました。'
@@ -65,8 +66,7 @@ class SharedUsersController < ApplicationController
     end
   end
 
-  def unshared
-  end
+  def unshared; end
 
   private
 

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 admin = User.find_by(admin: true)
 if admin.nil?
   user = User.find_by(email: 'admin@example.com')
 
   if user
     user.update!(admin: true)
-    puts "Admin arleady exist: #{admin.email},and add administrator."
+    Rails.logger.debug { "Admin arleady exist: #{admin.email},and add administrator." }
   else
     user = User.create!(
       email: 'admin@example.com',
@@ -12,10 +14,10 @@ if admin.nil?
       password_confirmation: 'admin',
       admin: true
     )
-    puts "Admin created: #{user.email}"
+    Rails.logger.debug { "Admin created: #{user.email}" }
   end
 else
-  puts "Admin already exists: #{admin.email}"
+  Rails.logger.debug { "Admin already exists: #{admin.email}" }
 end
 
 user = User.find_or_create_by!(email: 'user@example.com') do |u|
@@ -23,11 +25,11 @@ user = User.find_or_create_by!(email: 'user@example.com') do |u|
   u.password_confirmation = 'password'
 end
 
-puts "User created: #{user.email}"
+Rails.logger.debug { "User created: #{user.email}" }
 
 10.times do
   notification_period = rand(2..31)
-  next_notification = Date.today + notification_period
+  next_notification = Time.zone.today + notification_period
   after_next_notification = next_notification + notification_period
 
   Schedule.create!(
@@ -40,4 +42,4 @@ puts "User created: #{user.email}"
   )
 end
 
-puts "Schedules created: #{Schedule.count}"
+Rails.logger.debug { "Schedules created: #{Schedule.count}" }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SessionsController < ApplicationController
   def new
     set_meta_tags(
@@ -36,7 +38,7 @@ class SessionsController < ApplicationController
       redirect_to schedules_path
     else
       flash.now[:alert] = 'ログインに失敗しました。'
-      Rails.logger.debug "ログインに失敗しました: email=#{params[:email]}, password=#{params[:password]}"
+      Rails.logger.debug { "ログインに失敗しました: email=#{params[:email]}, password=#{params[:password]}" }
       render 'home/index', status: :unprocessable_entity
     end
   end

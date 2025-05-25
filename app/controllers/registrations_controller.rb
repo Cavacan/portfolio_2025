@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RegistrationsController < ApplicationController
   def new
     @user = User.new(email: session[:email])
@@ -21,7 +23,17 @@ class RegistrationsController < ApplicationController
     )
   end
 
-  def create #  パスワード入力用ページへのURLメール送信用（トークン付）
+  def edit
+    @user = User.find_by(email_change_token: params[:token])
+
+    return unless @user.nil? || @user.email_change_token_end_time < Time.current
+
+    flash[:error] = 'このリンクは無効です'
+    redirect_to root_path
+  end
+
+  #  パスワード入力用ページへのURLメール送信用（トークン付）
+  def create
     # 規約同意チェック
     unless user_params[:agree] == '1'
       flash[:alert] = '利用規約の同意が必要です。'
@@ -51,15 +63,6 @@ class RegistrationsController < ApplicationController
     # セキュリティ
     flash[:notice] = 'アカウント作成用のメールを送信しました。'
     redirect_to new_registration_path
-  end
-
-  def edit
-    @user = User.find_by(email_change_token: params[:token])
-
-    return unless @user.nil? || @user.email_change_token_end_time < Time.current
-
-    flash[:error] = 'このリンクは無効です'
-    redirect_to root_path
   end
 
   def update

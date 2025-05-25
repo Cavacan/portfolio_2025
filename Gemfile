@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '3.3.1'
@@ -48,11 +50,11 @@ gem 'sorcery'
 
 gem 'whenever', require: false
 
-gem "ransack", "~> 4.3"
 gem 'kaminari'
+gem 'ransack', '~> 4.3'
 
 gem 'chartkick'
-gem "groupdate"
+gem 'groupdate'
 
 gem 'prawn'
 gem 'prawn-table'
@@ -62,21 +64,21 @@ gem 'meta-tags'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]
-  gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'rspec-rails'
 
+  gem 'brakeman', require: false
+  gem 'bundler-audit', require: false
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
-  gem 'bundler-audit', require: false
-  gem 'brakeman', require: false
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem 'web-console'
   gem 'letter_opener_web'
+  gem 'web-console'
 end
 
 group :test do

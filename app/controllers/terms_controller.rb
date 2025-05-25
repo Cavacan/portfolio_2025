@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TermsController < ApplicationController
   def show
     if request.headers['X-Frame-Options'].present?
@@ -11,6 +13,5 @@ class TermsController < ApplicationController
     render partial: 'shared/terms', layout: false
   end
 
-  def policy
-  end
+  def policy; end
 end
