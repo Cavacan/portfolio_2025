@@ -26,16 +26,19 @@ Rails.application.routes.draw do
   resource :email, only: %i[edit update]
   get 'email/confirm' => 'emails#confirm', as: :email_confirm
 
-  get '/magic_link/portal' => 'magic_links#portal', as: :magic_link_portal
-  post '/magic_link/login' => 'magic_links#login', as: :magic_link_login
+  namespace :magic_link do
+    get 'portal' => 'portal#portal', as: :portal
+    delete 'magic_link_logout' => 'portal#magic_link_logout', as: :magic_link_logout
+    
+    post 'login' => 'sessions#login', as: :magic_link_login
+    post 'generate' => 'sessions#generate'
+    get 'authenticate' => 'sessions#authenticate', as: :magic_link_authenticate
 
-  post '/magic_link/generate' => 'magic_links#generate'
-  get '/magic_link/authenticate' => 'magic_links#authenticate', as: :magic_link_authenticate
-  get '/magic_link/index' => 'magic_links#index', as: :magic_links_index
-  post '/magic_link/create_schedule' => 'magic_links#create_schedule', as: :magic_link_create
-  get '/magic_link/edit_schedule/:id' => 'magic_links#edit_schedule', as: :edit_magic_link_schedule
-  patch '/magic_link/update_schedule/:id' => 'magic_links#update_schedule', as: :update_magic_link_schedule
-  delete '/magic_link/magic_link_logout' => 'magic_links#magic_link_logout', as: :magic_link_logout
+    get 'index' => 'schedules#index', as: :magic_links_index
+    post 'create_schedule' => 'schedules#create_schedule', as: :magic_link_create
+    get 'edit_schedule/:id' => 'schedules#edit_schedule', as: :edit_magic_link_schedule
+    patch 'update_schedule/:id' => 'schedules#update_schedule', as: :update_magic_link_schedule
+  end
 
   namespace :admin do
     get 'dashboard' => 'dashboard#index'
