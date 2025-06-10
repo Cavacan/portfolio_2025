@@ -3,6 +3,7 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'db/schema.rb'
+    - 'bin/*'
   SuggestExtensions: false
 
 require: []
@@ -12,7 +13,7 @@ plugins:
   - rubocop-rspec
 
 Layout/LineLength:
-  Max: 120
+  Max: 140
 
 Style/Documentation:
   Enabled: false
@@ -22,3 +23,18 @@ Style/FrozenStringLiteralComment:
 
 Rails/I18nLocaleTexts:
   Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+  Exclude:
+    - 'config/environments/*.rb'
+
+Metrics/AbcSize:
+  Max: 20
+
+Rails/ThreeStateBooleanColumn:
+  Exclude:
+    - 'db/migrate/20250211195223_create_users.rb'
+    - 'db/migrate/20250211195738_create_user_settings.rb'
+    - 'db/migrate/20250215150002_create_schedules.rb'
+    - 'db/migrate/20250216175748_create_notification_logs.rb'

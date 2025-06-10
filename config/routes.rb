@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   namespace :magic_link do
     get 'portal' => 'portal#portal', as: :portal
     delete 'magic_link_logout' => 'portal#magic_link_logout', as: :magic_link_logout
-    
+
     post 'login' => 'sessions#login', as: :magic_link_login
     post 'generate' => 'sessions#generate'
     get 'authenticate' => 'sessions#authenticate', as: :magic_link_authenticate
