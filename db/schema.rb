@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_11_220800) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_12_221231) do
   create_table "application_settings", force: :cascade do |t|
     t.integer "base_notification_hour"
     t.integer "base_notification_minute"
@@ -77,6 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_11_220800) do
     t.datetime "old_magic_link_token_end_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email", "shared_list_id"], name: "index_shared_users_on_email_and_shared_list_id", unique: true
     t.index ["host_user_id"], name: "index_shared_users_on_host_user_id"
     t.index ["shared_list_id"], name: "index_shared_users_on_shared_list_id"
   end

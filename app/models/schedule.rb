@@ -15,6 +15,13 @@ class Schedule < ApplicationRecord
 
   enum :status, { disabled: 0, enabled: 1 }, prefix: true
 
+  def reset_term
+    update!(
+      next_notification: Time.zone.today + notification_period.days,
+      after_next_notification: Time.zone.today + (2 * notification_period.days)
+    )
+  end
+
   private
 
   def next_notification_must_be_future
@@ -33,5 +40,11 @@ class Schedule < ApplicationRecord
         break
       end
     end
+  end
+
+  def set_after_next_notification
+    return if next_notification.blank? || notification_period.blank?
+
+    self.after_next_notification = next_notification + notification_period.days
   end
 end

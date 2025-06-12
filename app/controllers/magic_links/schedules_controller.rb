@@ -64,13 +64,14 @@ module MagicLinks
       schedule = Schedule.new(schedule_params)
       schedule.creator = @user
 
-      if schedule_params[:next_notification].present?
-        schedule.after_next_notification = begin
-          Time.zone.parse(schedule_params[:next_notification]) + schedule_params[:notification_period].to_i.days
-        rescue StandardError
-          nil
-        end
+      return if schedule_params[:next_notification].blank?
+
+      schedule.after_next_notification = begin
+        Time.zone.parse(schedule_params[:next_notification]) + schedule_params[:notification_period].to_i.days
+      rescue StandardError
+        nil
       end
+      schedule
     end
 
     def render_create_failure
@@ -81,10 +82,9 @@ module MagicLinks
     end
 
     def update_after_next_notification
-      if @schedule.update(
+      unless @schedule.update(
         after_next_notification: @schedule.next_notification + @schedule.notification_period.to_i.days
       )
-      else
         flash[:alert] = '通知日時の更新に失敗しました。'
       end
     end
