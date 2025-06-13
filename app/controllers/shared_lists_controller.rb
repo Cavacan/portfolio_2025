@@ -19,10 +19,7 @@ class SharedListsController < ApplicationController
   def create
     @shared_list = current_user.shared_lists.new(shared_list_params)
     if @shared_list.save
-      if params[:schedule_ids].present?
-        schedules = Schedule.where(id: params[:schedule_ids])
-        @shared_list.schedules << schedules
-      end
+      attach_schedules_to(@shared_list)
       flash[:notice] = '共有リストを作成しました。'
       redirect_to shared_lists_path
     else
@@ -35,16 +32,8 @@ class SharedListsController < ApplicationController
   def update
     @shared_list = SharedList.find(params[:id])
 
-    added_ids = params[:add_schedule_ids] || []
-    removed_ids = params[:remove_schedule_ids] || []
-
-    added_ids.each do |sid|
-      @shared_list.schedules << Schedule.find(sid) unless @shared_list.schedule_ids.include?(sid.to_i)
-    end
-
-    removed_ids.each do |sid|
-      @shared_list.schedules.destroy(Schedule.find(sid))
-    end
+    add_schedules(@shared_list, params[:add_schedule_ids])
+    remove_schedules(@shared_list, params[:remove_schedule_ids])
 
     redirect_to edit_shared_list_path(@shared_list)
   end
@@ -63,5 +52,25 @@ class SharedListsController < ApplicationController
 
   def shared_list_params
     params.require(:shared_list).permit(:list_title)
+  end
+
+  def attach_schedules_to(shared_list)
+    return if params[:schedule_ids].blank?
+
+    schedules = Schedule.where(id: params[:schedule_ids])
+    shared_list.schedules << schedules
+  end
+
+  def add_schedules(shared_list, ids)
+    Array(ids).each do |sid|
+      sid_int = sid.to_i
+      shared_list.schedules << Schedule.find(sid_int) unless shared_list.schedule_ids.include?(sid_int)
+    end
+  end
+
+  def remove_schedules(shared_list, ids)
+    Array(ids).each do |sid|
+      shared_list.schedules.destroy(Schedule.find(sid))
+    end
   end
 end

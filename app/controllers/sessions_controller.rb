@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:email])
 
-    if user && user.crypted_password.nil?
+    if complete_registration?(user)
       flash.now[:alert] = '登録を完了させて下さい。'
       render 'home/index', status: :unprocessable_entity
       return
@@ -33,19 +33,28 @@ class SessionsController < ApplicationController
 
     @user = login(params[:email], params[:password])
 
-    if @user
-      flash[:notice] = 'ログインに成功しました。'
-      redirect_to schedules_path
-    else
-      flash.now[:alert] = 'ログインに失敗しました。'
-      Rails.logger.debug { "ログインに失敗しました: email=#{params[:email]}, password=#{params[:password]}" }
-      render 'home/index', status: :unprocessable_entity
-    end
+    @user ? login_success : login_failure
   end
 
   def destroy
     logout
     flash[:notice] = 'ログアウトしました。'
     redirect_to root_path
+  end
+
+  private
+
+  def complete_registration?(user)
+    user && user.crypted_password.nil?
+  end
+
+  def login_success
+    flash[:notice] = 'ログインに成功しました。'
+    redirect_to schedules_path
+  end
+
+  def login_failure
+    flash.now[:alert] = 'ログインに失敗しました。'
+    render 'home/index', status: :unprocessable_entity
   end
 end
