@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations
+
 require 'rails_helper'
 
 RSpec.describe '一般ユーザーによる予定管理', type: :system do
@@ -71,3 +73,5 @@ RSpec.describe '一般ユーザーによる予定管理', type: :system do
     expect(schedule.reload).not_to be_status_enabled
   end
 end
+
+# rubocop:enable RSpec/ExampleLength, RSpec/MultipleExpectations
