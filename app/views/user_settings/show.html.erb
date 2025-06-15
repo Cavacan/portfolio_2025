@@ -56,5 +56,17 @@
         </div>
       </div>
     <% end %>
+
+    <h3 class="mt-4">LINE通知の受信設定</h3>
+    <p class="ms-3">このアプリからLINEで通知を受け取るには、以下から公式アカウントを友だち追加してください。</p>
+
+    <div class="ms-3 mt-3">
+      <%= link_to 'LINEで友だち追加する', ENV['LINE_FRIEND_URL'], target: '_blank', rel: 'noopener', class: 'btn btn-success mb-3' %>
+
+      <div>
+        <p class="mb-1">またはQRコードを読み取って追加：</p>
+        <%= image_tag 'https://qr-official.line.me/sid/L/850lkamt.png', width: 300, height: 300, alt: 'LINE QRコード' %>
+      </div>
+    </div>
   </div>
 </div>
