@@ -9,12 +9,12 @@ class LineNotificationService
   def self.notify_user(user, schedules)
     return if schedules.empty?
 
-    message = "本日の予定：\n" + schedules.map do |s|
+    message = "本日の予定：\n#{schedules.map do |s|
       date = s.next_notification.strftime('%-m/%-d')
       text = "・#{s.title}（#{date}）"
       text += " ¥#{s.price}" if s.price
       text
-    end.join("\n")
+    end.join("\n")}"
 
     headers = {
       'Content-Type' => 'application/json',

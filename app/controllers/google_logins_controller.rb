@@ -7,10 +7,10 @@ class GoogleLoginsController < ApplicationController
     state = SecureRandom.hex(64)
     session[:google_login_state] = state
 
-    base_url = "https://accounts.google.com/o/oauth2/v2/auth"
+    base_url = 'https://accounts.google.com/o/oauth2/v2/auth'
     query = {
-      client_id: ENV['GOOGLE_CLIENT_ID'],
-      redirect_uri: ENV['GOOGLE_REDIRECT_URI'],
+      client_id: ENV.fetch('GOOGLE_CLIENT_ID', nil),
+      redirect_uri: ENV.fetch('GOOGLE_REDIRECT_URI', nil),
       response_type: 'code',
       scope: 'openid email profile',
       state: state,
@@ -22,46 +22,53 @@ class GoogleLoginsController < ApplicationController
   end
 
   def callback
-    if params[:state] != session[:google_login_state]
-      Rails.logger.warn "[GoogleLogin] state mismatch"
-      session.delete(:google_login_state)
-      return redirect_to root_path, alert: '不正なアクセスです'
-    end
+    return handle_invalid_state if params[:state] != session[:google_login_state]
 
-    session.delete(:google_login_state)
+    user_info = fetch_google_user_info(params[:code])
+    return handle_google_login_failure if user_info.blank?
 
+    User.find_by(email: user_info['email'])
+
+    handle_user_login(user_info)
+  end
+
+  private
+
+  def handle_invalid_state
+    Rails.logger.warn '[GoogleLogin] state mismatch' unless Rails.env.production?
+    redirect_to root_path, alert: '不正なアクセスです'
+  end
+
+  def fetch_google_user_info(code)
     token_response = HTTParty.post('https://oauth2.googleapis.com/token', {
-      headers: { 'Content-Type' => 'application/x-www-form-urlencoded' },
-      body: {
-        code: params[:code],
-        client_id: ENV['GOOGLE_CLIENT_ID'],
-        client_secret: ENV['GOOGLE_CLIENT_SECRET'],
-        redirect_uri: ENV['GOOGLE_REDIRECT_URI'],
-        grant_type: 'authorization_code'
-      }
-    })
-
-    unless token_response.success?
-      Rails.logger.error "[GoogleLogin] Token API error: #{token_response.body}"
-      return redirect_to root_path, alert: 'Google認証に失敗しました。'
-    end
-
-    token_data = JSON.parse(token_response.body)
-    access_token = token_data['access_token']
+                                     headers: { 'Content-Type' => 'application/x-www-form-urlencoded' },
+                                     body: {
+                                       code: code,
+                                       client_id: ENV.fetch('GOOGLE_CLIENT_ID', nil),
+                                       client_secret: ENV.fetch('GOOGLE_CLIENT_SECRET', nil),
+                                       redirect_uri: ENV.fetch('GOOGLE_REDIRECT_URI', nil),
+                                       grant_type: 'authorization_code'
+                                     }
+                                   })
+    access_token = JSON.parse(token_response.body)['access_token']
+    return nil if access_token.blank?
 
     profile_response = HTTParty.get('https://www.googleapis.com/oauth2/v2/userinfo', {
-      headers: { 'Authorization' => "Bearer #{access_token}" }
-    })
+                                      headers: { 'Authorization' => "Bearer #{access_token}" }
+                                    })
+    JSON.parse(profile_response.body)
+  rescue StandardError => e
+    Rails.logger.error "[GoogleLogin] fetch error: #{e.message}"
+    nil
+  end
 
-    unless profile_response.success?
-      Rails.logger.error "[GoogleLogin] Profile API error: #{profile_response.body}"
-      return redirect_to root_path, alert: 'Googleプロフィール取得に失敗しました。'
-    end
+  def handle_google_login_failure
+    redirect_to root_path, alert: 'Google認証に失敗しました。'
+  end
 
-    profile_data = JSON.parse(profile_response.body)
-    email = profile_data['email']
-    google_user_id = profile_data['id']
-
+  def handle_user_login(user_info)
+    email = user_info['email']
+    google_user_id = user_info['id']
     user = User.find_by(email: email)
 
     if user
@@ -71,7 +78,7 @@ class GoogleLoginsController < ApplicationController
     else
       session[:temp_google_user_id] = google_user_id
       session[:email] = email
-      flash[:alert] = 'アプリのアカウントが存在しません。アカウントを作成してください。'
+      flash[:alert] = 'アカウントが存在しません。新しく作成してください。'
       redirect_to new_registration_path
     end
   end
