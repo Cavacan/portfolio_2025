@@ -3,6 +3,9 @@
 Rails.application.routes.draw do
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
+  get '/google_login', to: 'google_logins#new'
+  get '/google_login/callback', to: 'google_logins#callback'
+
   get '/line_login', to: 'line_logins#new'
   get '/line_login/callback', to: 'line_logins#callback'
 

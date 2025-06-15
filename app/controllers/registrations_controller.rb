@@ -105,11 +105,13 @@ class RegistrationsController < ApplicationController
 
   def complete_user_registration
     line_user_id = session.delete(:temp_line_user_id)
+    google_user_id = session.delete(:temp_google_user_id)
 
     @user.complete_registration!(
       params[:user][:password],
       params[:user][:password_confirmation],
-      line_user_id
+      line_user_id,
+      google_user_id
     )
   end
 

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'line_notification_service'
-
 module ScheduleMailer
   module_function
 
