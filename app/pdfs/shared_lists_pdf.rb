@@ -16,6 +16,12 @@ class SharedListsPdf < Prawn::Document
 
     move_down 20
 
+    build_table(schedules)
+  end
+
+  private
+
+  def build_table(schedules)
     table_data = [%w[予定名 周期 次回予定日 次々回予定日 予算]] +
                  schedules.map do |s|
                    [s.title,

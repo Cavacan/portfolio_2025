@@ -17,21 +17,29 @@ class PasswordResetsController < ApplicationController
 
   def update
     @user = User.load_from_reset_password_token(params[:id])
-    if @user
-      @user.password = params[:user][:password]
-      @user.password_confirmation = params[:user][:password_confirmation]
+    return invalid_token unless @user
 
-      if @user.save
-        UserMailer.reset_password_completed(@user).deliver_later
-        flash[:notice] = 'パスワードを更新しました。'
-        redirect_to root_path
-      else
-        flash.now[:alert] = '再入力のパスワードが一致しません。'
-        render :edit
-      end
+    assign_passwords
+
+    if @user.save
+      UserMailer.reset_password_completed(@user).deliver_later
+      flash[:notice] = 'パスワードを更新しました。'
+      redirect_to root_path
     else
-      flash[:alert] = '無効なトークンです。再度メール送信からやり直して下さい。'
-      render :new
+      flash.now[:alert] = '再入力のパスワードが一致しません。'
+      render :edit
     end
+  end
+
+  private
+
+  def invalid_token
+    flash.now[:alert] = '無効なトークンです。再度メール送信からやり直して下さい。'
+    render :new
+  end
+
+  def assign_passwords
+    @user.password = params[:user][:password]
+    @user.password_confirmation = params[:user][:password_confirmation]
   end
 end

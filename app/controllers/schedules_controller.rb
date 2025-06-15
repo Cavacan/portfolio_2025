@@ -1,26 +1,23 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
+
+before_action :set_schedule, except: %i[index notification complete]
+
 class SchedulesController < ApplicationController
   def index
     schedules = current_user.schedules
-    @schedules = schedules.where(status: [1, 2])
+    @schedules = schedules.where(status: [1, 2]).order(:next_notification)
     @schedules_archived = schedules.where(status: 0)
     @schedule = Schedule.new
 
     respond_to do |format|
       format.html
-      format.pdf do
-        pdf = SchedulesPdf.new(@schedules.order(:next_notification))
-        send_data pdf.render,
-                  filename: "schedules_#{Time.current.strftime('%Y%m%d%H%M%S')}.pdf",
-                  type: 'application/pdf',
-                  disposition: 'attachment'
-      end
+      format.pdf { export_pdf(@schedules) }
     end
   end
 
   def edit
-    @schedule = Schedule.find(params[:id])
     logs = @schedule.notification_logs.order(:send_time)
     return unless logs.size > 2
 
@@ -32,17 +29,17 @@ class SchedulesController < ApplicationController
     @suggested_period = suggested
   end
 
+  # rubocop:disable Metrics/AbcSize
   def create
-    @schedule = Schedule.new(schedule_params)
-    @schedule.creator = current_user
-    if schedule_params[:title].blank? || schedule_params[:notification_period].blank? || schedule_params[:next_notification].blank?
+    @schedule = Schedule.new(schedule_params.merge(creator: current_user))
+
+    if @schedule.valid?
       flash.now[:alert] = '入力されていない項目があります'
       @schedules = current_user.schedules
-      render :index, status: :unprocessable_entity
-      return
-    elsif schedule_params[:next_notification].present?
-      @schedule.after_next_notification = Time.zone.parse(schedule_params[:next_notification]) + schedule_params[:notification_period].to_i.days
+      return render :index, status: :unprocessable_entity
     end
+
+    @schedule.set_after_next_notification
 
     if @schedule.save
       flash[:notice] = '予定を作成しました。'
@@ -53,11 +50,11 @@ class SchedulesController < ApplicationController
       render :index, status: :unprocessable_entity
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def update
-    @schedule = Schedule.find(params[:id])
     if @schedule.update(schedule_params)
-      @schedule.update_columns(after_next_notification: @schedule.next_notification + @schedule.notification_period.to_i.days)
+      @schedule.force_update_after_notification!
       UserMailer.send_schedule_change_notification(current_user, @schedule).deliver_now
       flash[:notice] = '予定を変更しました。'
       if current_user.admin?
@@ -71,12 +68,9 @@ class SchedulesController < ApplicationController
     end
   end
 
-  def archive
-    @schedule = Schedule.find(params[:id])
-  end
+  def archive; end
 
   def archive_complete
-    @schedule = Schedule.find(params[:id])
     if @schedule.update(
       next_notification: @schedule.next_notification + 100.years,
       after_next_notification: @schedule.after_next_notification + 100.years,
@@ -108,16 +102,8 @@ class SchedulesController < ApplicationController
       return redirect_to root_path
     end
 
-    schedule.update!(
-      next_notification: Time.zone.today + schedule.notification_period.days,
-      after_next_notification: Time.zone.today + (2 * schedule.notification_period.days)
-    )
-
-    NotificationLog.create!(
-      schedule_id: schedule.id,
-      send_time: Time.zone.today,
-      is_snooze: false
-    )
+    schedule.reset_term
+    create_notification_log(schedule)
 
     flash[:notice] = "予定「#{schedule.title}」を完了しました。次回の予定日は#{schedule.next_notification.strftime('%Y/%m/%d')}です。"
     redirect_to root_path
@@ -125,7 +111,35 @@ class SchedulesController < ApplicationController
 
   private
 
+  def set_schedule
+    @schedule = Schedule.find(params[:id])
+  end
+
   def schedule_params
     params.require(:schedule).permit(:title, :notification_period, :next_notification, :price)
   end
+
+  # rubocop:disable Rails/SkipsModelValidations
+  def force_update_after_notification!
+    update_columns(after_next_notification: next_notification + notification_period.days)
+  end
+  # rubocop:enable Rails/SkipsModelValidations
+
+  def create_notification_log(schedule)
+    NotificationLog.create!(
+      schedule_id: schedule.id,
+      send_time: Time.zone.today,
+      is_snooze: false
+    )
+  end
+
+  def export_pdf(schedules)
+    pdf = SchedulesPdf.new(schedules)
+    send_data pdf.render,
+              filename: "schedules_#{Time.current.strftime('%Y%m%d%H%M%S')}.pdf",
+              type: 'application/pdf',
+              disposition: 'attachment'
+  end
 end
+
+# rubocop:enable Metrics/ClassLength
