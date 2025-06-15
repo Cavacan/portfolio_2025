@@ -18,12 +18,13 @@ class User < ApplicationRecord
   validates :reset_password_token, uniqueness: true, allow_nil: true
   validates :line_user_id, uniqueness: true, allow_nil: true
 
-  def complete_registration!(new_password, password_confirmation, line_user_id = nil)
+  def complete_registration!(new_password, password_confirmation, line_user_id = nil, google_user_id = nil)
     self.password = new_password
     self.password_confirmation = password_confirmation
     self.email_change_token = nil
     self.email_change_token_end_time = nil
     self.line_user_id = line_user_id if line_user_id.present?
+    self.google_user_id = google_user_id if google_user_id.present?
     save
   end
 
