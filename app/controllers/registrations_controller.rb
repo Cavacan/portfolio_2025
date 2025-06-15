@@ -106,12 +106,11 @@ class RegistrationsController < ApplicationController
   def complete_user_registration
     line_user_id = session.delete(:temp_line_user_id)
 
-    result = @user.complete_registration!(
+    @user.complete_registration!(
       params[:user][:password],
       params[:user][:password_confirmation],
       line_user_id
     )
-    result
   end
 
   def registration_failure_message

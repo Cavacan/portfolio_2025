@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'httparty'
 
 class LineNotificationService
@@ -16,7 +18,7 @@ class LineNotificationService
 
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{ENV['LINE_CHANNEL_ACCESS_TOKEN']}"
+      'Authorization' => "Bearer #{ENV.fetch('LINE_CHANNEL_ACCESS_TOKEN', nil)}"
     }
 
     body = {

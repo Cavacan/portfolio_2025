@@ -19,7 +19,7 @@ module ScheduleMailer
       UserMailer.send_schedule_notifications(user, schedules).deliver_later
 
       LineNotificationService.notify_user(user, schedules) if user.line_user_id.present?
-      
+
       schedules.each do |schedule|
         log_and_update_schedule(schedule, user)
       end
