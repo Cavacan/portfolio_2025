@@ -55,7 +55,7 @@ class RegistrationsController < ApplicationController
   def update
     @user = User.find_by(email_change_token: params[:token])
 
-    return invalid_token unless valid_token?(user)
+    return invalid_token unless valid_token?(@user)
 
     if complete_user_registration
       flash[:notice] = 'パスワードが設定されました'
@@ -87,6 +87,7 @@ class RegistrationsController < ApplicationController
     @user = User.new(user_params)
     @user.email_change_token = SecureRandom.urlsafe_base64
     @user.email_change_token_end_time = 1.hour.from_now
+    session[:temp_line_user_id] = session.delete(:line_user_id)
 
     return unless @user.save(validate: false)
 
@@ -103,10 +104,14 @@ class RegistrationsController < ApplicationController
   end
 
   def complete_user_registration
-    @user.complete_registration!(
+    line_user_id = session.delete(:temp_line_user_id)
+
+    result = @user.complete_registration!(
       params[:user][:password],
-      params[:user][:password_confirmation]
+      params[:user][:password_confirmation],
+      line_user_id
     )
+    result
   end
 
   def registration_failure_message
