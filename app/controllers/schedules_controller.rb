@@ -2,9 +2,8 @@
 
 # rubocop:disable Metrics/ClassLength
 
-before_action :set_schedule, except: %i[index notification complete]
-
 class SchedulesController < ApplicationController
+  before_action :set_schedule, except: %i[index notification complete]
   def index
     schedules = current_user.schedules
     @schedules = schedules.where(status: [1, 2]).order(:next_notification)
