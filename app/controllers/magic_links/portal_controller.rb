@@ -1,3 +1,5 @@
+# マジックリンクの動作確認用ページです。
+
 # frozen_string_literal: true
 
 module MagicLinks
@@ -15,7 +17,7 @@ module MagicLinks
     def magic_link_logout
       logout
       flash[:notice] = 'ログアウトしました。'
-      redirect_to magic_link_portal_path
+      redirect_to root_path
     end
   end
 end

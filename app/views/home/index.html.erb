@@ -8,12 +8,12 @@
       <%= form_with url: login_path, local: true do |f| %>
         <div class="m-3">
           <%= f.label :email, 'メールアドレス' %>
-          <%= f.text_field :email, size: "30",  value: "user@example.com" %>
+          <%= f.text_field :email, size: "30" %>
         </div>
         
         <div class="m-3">
           <%= f.label :password, 'パスワード' %>
-          <%= f.password_field :password, value: "password" %>
+          <%= f.password_field :password %>
         </div>
         <div class="m-3">
           <%= f.submit 'ログイン', class: 'btn btn-success show-loading' %>

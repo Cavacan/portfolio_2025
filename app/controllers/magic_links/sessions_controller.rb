@@ -11,7 +11,7 @@ module MagicLinks
       else
         flash[:alert] = '指定されたアドレスのアカウントが存在しません。'
       end
-      redirect_to magic_link_portal_path
+      redirect_to root_path
     end
 
     def generate
@@ -24,7 +24,7 @@ module MagicLinks
       else
         flash[:alert] = '指定されたアドレスのアカウントが存在しません。'
       end
-      redirect_to magic_link_portal_path
+      redirect_to root_path
     end
 
     def authenticate

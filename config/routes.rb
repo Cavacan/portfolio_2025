@@ -33,8 +33,8 @@ Rails.application.routes.draw do
   get 'email/confirm' => 'emails#confirm', as: :email_confirm
 
   namespace :magic_link do
-    get 'portal' => 'portal#portal', as: :portal
-    delete 'magic_link_logout' => 'portal#magic_link_logout', as: :magic_link_logout
+    # get 'portal' => 'portal#portal', as: :portal
+    # delete 'magic_link_logout' => 'portal#magic_link_logout', as: :magic_link_logout
 
     post 'login' => 'sessions#login', as: :magic_link_login
     post 'generate' => 'sessions#generate'
@@ -66,8 +66,6 @@ Rails.application.routes.draw do
   get 'schedule/:id/archive' => 'schedules#archive', as: :archive_schedule
   patch 'schedule/:id/archive' => 'schedules#archive_complete', as: :archive_complete_schedule
   get 'schedules/:id/notification' => 'schedules#notification', as: :notification_schedule
-
-  get 'temp' => 'temp#index'
 
   resources :registrations, only: %i[new create]
   get 'registrations/edit' => 'registrations#edit', as: :edit_registration

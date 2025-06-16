@@ -1,4 +1,4 @@
-<h2>スケジュール一覧(未ログイン状態)</h2>
+<h2>スケジュール一覧</h2>
 <h2><%= @user.name.present? ? @user.name : @user.email %></h2>
 
 <div class="schedule_form">
@@ -6,17 +6,17 @@
   <%= form_with model: @schedule, url: magic_link_create_path, local: true do |f| %>
     <div class="form-item">
       <%= f.label :title, "予定名" %>
-      <%= f.text_field :title, value: "test created by magic_link's" %>
+      <%= f.text_field :title %>
     </div>
   
     <div class="form-item">
       <%= f.label :notification_period, '周期' %>
-      <%= f.number_field :notification_period, value: 7 %> 日毎
+      <%= f.number_field :notification_period %> 日毎
     </div>
     
     <div class="form-item">
       <%= f.label :next_notification, '次回予定日' %>
-      <%= f.datetime_local_field :next_notification, value: (Time.current + 1.day ).strftime('%Y-%m-%dT%H:%M') %>
+      <%= f.datetime_local_field :next_notification %>
     </div>
   
     <%= f.submit '作成' %>
@@ -56,6 +56,5 @@
 </table>
 
 <br>
-<%= link_to 'マジックリンク確認用ポータルに戻る', magic_link_portal_path %>
 
 <br><br><br><br><br>

@@ -10,7 +10,7 @@ module MagicLinks
         @schedule = Schedule.new
       else
         flash[:alert] = 'ログインが必要です。'
-        redirect_to magic_link_portal_path
+        redirect_to root_path
       end
     end
 
@@ -19,7 +19,7 @@ module MagicLinks
 
       if @schedule.save
         UserMailer.send_magic_link_schedule(@user, @schedule).deliver_later
-        flash[:notice] = 'マジックリンクで新規予定を作成しました。'
+        flash[:notice] = '新規予定を作成しました。'
         redirect_to magic_links_index_path
       else
         @schedules = @user.schedules
@@ -42,7 +42,7 @@ module MagicLinks
       if @schedule.update(schedule_params)
         update_after_next_notification
         send_update_mail
-        flash[:notice] = 'マジックリンクで予定を変更しました。'
+        flash[:notice] = '予定を変更しました。'
         redirect_to magic_links_index_path
       else
         flash[:alert] = '編集に失敗しました。'
