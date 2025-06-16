@@ -6,7 +6,7 @@
         <%= link_to 'PDFダウンロード', schedules_path(format: :pdf), class: 'btn btn-success' %>
       <% end %>
     </div>
-    <table class="table">
+    <table class="table schedule-table">
       <thead>
         <tr>
           <th>予定名</th>
@@ -45,7 +45,7 @@
 <% elsif type == :archived %>
   <div class="container">
     <h2>アーカイブ済み予定</h2>
-    <table class="schedule-archived-table">
+    <table class="table schedule-archived-table">
       <thead>
         <tr>
           <th>予定名</th>

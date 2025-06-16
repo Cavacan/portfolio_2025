@@ -70,6 +70,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails'
+  gem 'webmock'
 
   gem 'brakeman', require: false
   gem 'bundler-audit', require: false

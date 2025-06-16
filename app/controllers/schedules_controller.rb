@@ -3,7 +3,9 @@
 # rubocop:disable Metrics/ClassLength
 
 class SchedulesController < ApplicationController
-  before_action :set_schedule, except: %i[index notification complete]
+  before_action :require_login
+  before_action :set_schedule, except: %i[index create notification complete]
+
   def index
     schedules = current_user.schedules
     @schedules = schedules.where(status: [1, 2]).order(:next_notification)
@@ -17,28 +19,19 @@ class SchedulesController < ApplicationController
   end
 
   def edit
-    logs = @schedule.notification_logs.order(:send_time)
-    return unless logs.size > 2
-
-    total_days = (logs.last.send_time.to_date - logs.first.send_time.to_date).to_i
-    suggested = (total_days / (logs.size - 1)).to_i
-
-    return unless suggested != @schedule.notification_period && suggested >= 2
-
-    @suggested_period = suggested
+    @suggested_period = @schedule.suggested_period
   end
 
   # rubocop:disable Metrics/AbcSize
   def create
     @schedule = Schedule.new(schedule_params.merge(creator: current_user))
+    @schedule.set_after_next_notification
 
-    if @schedule.valid?
+    unless @schedule.valid?
       flash.now[:alert] = '入力されていない項目があります'
       @schedules = current_user.schedules
       return render :index, status: :unprocessable_entity
     end
-
-    @schedule.set_after_next_notification
 
     if @schedule.save
       flash[:notice] = '予定を作成しました。'
@@ -55,19 +48,16 @@ class SchedulesController < ApplicationController
     if @schedule.update(schedule_params)
       @schedule.force_update_after_notification!
       UserMailer.send_schedule_change_notification(current_user, @schedule).deliver_now
-      flash[:notice] = '予定を変更しました。'
-      if current_user.admin?
-        redirect_to admin_dashboard_path
-      else
-        redirect_to schedules_path
-      end
+      redirect_after_action('予定を変更しました。')
     else
       flash[:alert] = '編集に失敗しました。'
       render :edit
     end
   end
 
-  def archive; end
+  def archive
+    # 表示用ビュー
+  end
 
   def archive_complete
     if @schedule.update(
@@ -75,12 +65,7 @@ class SchedulesController < ApplicationController
       after_next_notification: @schedule.after_next_notification + 100.years,
       status: 0
     )
-      flash[:notice] = '予定をアーカイブ化しました。'
-      if current_user.admin?
-        redirect_to admin_dashboard_path
-      else
-        redirect_to schedules_path
-      end
+      redirect_after_action('予定をアーカイブ化しました。')
     else
       flash[:alert] = '予定のアーカイブ化に失敗しました。'
       render :archive
@@ -89,9 +74,7 @@ class SchedulesController < ApplicationController
 
   def notification
     @schedule = current_user.schedules.find(params[:id])
-    return unless @schedule
-
-    UserMailer.send_schedule_notifications(current_user, [@schedule]).deliver_now
+    UserMailer.send_schedule_notifications(current_user, [@schedule]).deliver_now if @schedule
   end
 
   def complete
@@ -118,12 +101,6 @@ class SchedulesController < ApplicationController
     params.require(:schedule).permit(:title, :notification_period, :next_notification, :price)
   end
 
-  # rubocop:disable Rails/SkipsModelValidations
-  def force_update_after_notification!
-    update_columns(after_next_notification: next_notification + notification_period.days)
-  end
-  # rubocop:enable Rails/SkipsModelValidations
-
   def create_notification_log(schedule)
     NotificationLog.create!(
       schedule_id: schedule.id,
@@ -138,6 +115,11 @@ class SchedulesController < ApplicationController
               filename: "schedules_#{Time.current.strftime('%Y%m%d%H%M%S')}.pdf",
               type: 'application/pdf',
               disposition: 'attachment'
+  end
+
+  def redirect_after_action(message)
+    flash[:notice] = message
+    redirect_to current_user.admin? ? admin_dashboard_path : schedules_path
   end
 end
 
