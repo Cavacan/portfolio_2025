@@ -3,12 +3,12 @@
   <%= form_with url: admin_sessions_path, method: :post, local: true do |f| %>
     <div>
       <%= f.label :email, 'メールアドレス' %>
-      <%= f.text_field :email, value: 'admin@example.com' %>
+      <%= f.text_field :email %>
     </div>
     
     <div>
       <%= f.label :password, 'パスワード' %>
-      <%= f.password_field :password, value: 'admin' %>
+      <%= f.password_field :password %>
     </div>
     <div>
       <%= f.submit 'ログイン' %>
