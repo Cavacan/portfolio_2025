@@ -22,6 +22,28 @@ class Schedule < ApplicationRecord
     )
   end
 
+  # rubocop:disable Rails/SkipsModelValidations
+  def force_update_after_notification!
+    update_columns(after_next_notification: next_notification + notification_period.days)
+  end
+  # rubocop:enable Rails/SkipsModelValidations
+
+  def suggested_period
+    logs = notification_logs.order(:send_time)
+    return nil unless logs.size > 2
+
+    total_days = (logs.last.send_time.to_date - logs.first.send_time.to_date).to_i
+    suggested = (total_days / (logs.size - 1)).to_i
+
+    suggested if suggested != notification_period && suggested >= 2
+  end
+
+  def set_after_next_notification
+    return if next_notification.blank? || notification_period.blank?
+
+    self.after_next_notification = next_notification + notification_period.days
+  end
+
   private
 
   def next_notification_must_be_future
@@ -40,11 +62,5 @@ class Schedule < ApplicationRecord
         break
       end
     end
-  end
-
-  def set_after_next_notification
-    return if next_notification.blank? || notification_period.blank?
-
-    self.after_next_notification = next_notification + notification_period.days
   end
 end
