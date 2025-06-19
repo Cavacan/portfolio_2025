@@ -50,32 +50,54 @@ class LineLoginsController < ApplicationController
 
   def fetch_line_user_id_email(code)
     token_response = HTTParty.post('https://api.line.me/oauth2/v2.1/token', {
-                                    headers: { 'Content-Type' => 'application/x-www-form-urlencoded' },
-                                    body: {
-                                      grant_type: 'authorization_code',
-                                      code: code,
-                                      redirect_uri: ENV.fetch('LINE_REDIRECT_URI', nil),
-                                      client_id: ENV.fetch('LINE_CHANNEL_ID', nil),
-                                      client_secret: ENV.fetch('LINE_CHANNEL_SECRET', nil)
-                                    }
-                                  })
+      headers: { 'Content-Type' => 'application/x-www-form-urlencoded' },
+      body: {
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: ENV.fetch('LINE_REDIRECT_URI', nil),
+        client_id: ENV.fetch('LINE_CHANNEL_ID', nil),
+        client_secret: ENV.fetch('LINE_CHANNEL_SECRET', nil)
+      }
+    })
 
     body = JSON.parse(token_response.body)
     access_token = body['access_token']
     id_token = body['id_token']
     return [nil, nil] unless access_token && id_token
 
+    jwks_response = HTTParty.get('https://api.line.me/oauth2/v2.1/certs')
+    jwks = JSON.parse(jwks_response.body)
+
+    headers = JWT.decode(id_token, nil, false).last
+    jwk = jwks['keys'].find { |key| key['kid'] == headers['kid'] }
+    return [nil, nil] unless jwk
+
+    public_key = OpenSSL::PKey::RSA.new(
+      JWT::JWK.import(jwk).public_key.to_pem
+    )
+
+    decoded_token = JWT.decode(id_token, public_key, true, {
+      algorithm: 'RS256',
+      iss: 'https://access.line.me',
+      verify_iss: true,
+      aud: ENV.fetch('LINE_CHANNEL_ID'),
+      verify_aud: true
+    })
+
+    line_user_email = decoded_token.first['email']
+
     profile_response = HTTParty.get('https://api.line.me/v2/profile', {
-                                      headers: { 'Authorization' => "Bearer #{access_token}" }
-                                    })
+      headers: { 'Authorization' => "Bearer #{access_token}" }
+    })
 
     line_user_id = JSON.parse(profile_response.body)['userId']
-    line_user_email = JWT.decode(id_token, nil, false).first['email']
     [line_user_id, line_user_email]
+
   rescue StandardError => e
     Rails.logger.warn("LINE認証エラー: #{e.message}")
     [nil, nil]
   end
+
 
 
   def line_email_login(line_user_email, line_user_id)
