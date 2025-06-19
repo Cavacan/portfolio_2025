@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+  if Rails.env.development? && defined?(LetterOpenerWeb)
+    mount LetterOpenerWeb::Engine, at: '/letter_opener'
+  end
 
   get '/google_login', to: 'google_logins#new', as: :google_login
   get '/google_login/callback', to: 'google_logins#callback', as: :google_login_callback
