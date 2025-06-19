@@ -19,6 +19,7 @@ module ApplicationHelper
     return false if controller_name == 'password_resets'
     return false if controller_name == 'magic_links'
     return false if controller_name == 'home' && 'index'
+    return false if controller_name == 'terms' && 'show'
 
     true
   end
